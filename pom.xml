@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>se.giron.movie-center</groupId>
+    <groupId>se.giron.moviecenter</groupId>
     <artifactId>movie-center-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -36,12 +36,12 @@
 				<version>${project.version}</version>
 			</dependency-->
 			<dependency>
-		    	<groupId>se.giron.movie-center</groupId>
+		    	<groupId>se.giron.moviecenter</groupId>
 				<artifactId>movie-center-model</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 	 		<dependency>
-		    	<groupId>se.giron.movie-center</groupId>
+		    	<groupId>se.giron.moviecenter</groupId>
 				<artifactId>movie-center-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>

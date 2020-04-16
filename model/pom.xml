@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 
 	<parent>
-	    <groupId>se.giron.movie-center</groupId>
+	    <groupId>se.giron.moviecenter</groupId>
 	    <artifactId>movie-center-parent</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -15,7 +15,7 @@
 	<dependencies>
 	
 		<!--dependency>
-			<groupId>se.giron.movie-center</groupId>
+			<groupId>se.giron.moviecenter</groupId>
 			<artifactId>movie-center-schemas</artifactId>
 		</dependency-->
 		
@@ -51,11 +51,11 @@
 			<version>5.4.3.Final</version>
 		</dependency>
 
-		<dependency>
+		<!--dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-envers</artifactId>
 			<version>5.3.7.Final</version>
-		</dependency>
+		</dependency-->
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>

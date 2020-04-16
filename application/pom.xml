@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
 
     <parent>
-	    <groupId>se.giron.movie-center</groupId>
+	    <groupId>se.giron.moviecenter</groupId>
 	    <artifactId>movie-center-parent</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -26,16 +26,16 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
-            <groupId>se.giron.movie-center</groupId>
+            <groupId>se.giron.moviecenter</groupId>
             <artifactId>movie-center-core</artifactId>
         </dependency>
 		<dependency>
-            <groupId>se.giron.movie-center</groupId>
+            <groupId>se.giron.moviecenter</groupId>
             <artifactId>movie-center-model</artifactId>
         </dependency>
 
         <!--dependency>
-            <groupId>se.giron.movie-center</groupId>
+            <groupId>se.giron.moviecenter</groupId>
             <artifactId>movie-center-eopapi</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency-->
@@ -125,7 +125,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>se.giron.movie-center.application.MovieCenterApplication</mainClass>
+                    <mainClass>se.giron.moviecenter.application.MovieCenterApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<parent>
-	    <groupId>se.giron.movie-center</groupId>
+	    <groupId>se.giron.moviecenter</groupId>
 	    <artifactId>movie-center-parent</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -16,11 +16,11 @@
 	<dependencies>
 
 		<!--dependency>
-			<groupId>se.giron.movie-center</groupId>
+			<groupId>se.giron.moviecenter</groupId>
 			<artifactId>movie-center-schemas</artifactId>
 		</dependency-->
 		<dependency>
-            <groupId>se.giron.movie-center</groupId>
+            <groupId>se.giron.moviecenter</groupId>
             <artifactId>movie-center-model</artifactId>
         </dependency>        
 		<dependency>

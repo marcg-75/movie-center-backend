@@ -1,0 +1,79 @@
+package se.giron.moviecenter.model.entity;
+
+import javax.persistence.*;
+
+@Entity
+public class Cover {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "movie_format_id")
+    private MovieFormatInfo movieFormatInfo;
+
+    @Lob
+    @Column(name = "foreground", columnDefinition = "BLOB")
+    private byte[] foreground;
+
+    @Lob
+    @Column(name = "background", columnDefinition = "BLOB")
+    private byte[] background;
+
+    private String foregroundUrl;
+
+    private String backgroundUrl;
+
+    public Long getId() {
+        return id;
+    }
+
+    public Cover setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public MovieFormatInfo getMovieFormatInfo() {
+        return movieFormatInfo;
+    }
+
+    public Cover setMovieFormatInfo(MovieFormatInfo movieFormatInfo) {
+        this.movieFormatInfo = movieFormatInfo;
+        return this;
+    }
+
+    public byte[] getForeground() {
+        return foreground;
+    }
+
+    public Cover setForeground(byte[] foreground) {
+        this.foreground = foreground;
+        return this;
+    }
+
+    public byte[] getBackground() {
+        return background;
+    }
+
+    public Cover setBackground(byte[] background) {
+        this.background = background;
+        return this;
+    }
+
+    public String getForegroundUrl() {
+        return foregroundUrl;
+    }
+
+    public void setForegroundUrl(String foregroundUrl) {
+        this.foregroundUrl = foregroundUrl;
+    }
+
+    public String getBackgroundUrl() {
+        return backgroundUrl;
+    }
+
+    public void setBackgroundUrl(String backgroundUrl) {
+        this.backgroundUrl = backgroundUrl;
+    }
+}

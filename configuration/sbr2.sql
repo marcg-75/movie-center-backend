@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: sbr2
+-- Host: localhost    Database: moviecenter
 -- ------------------------------------------------------
 -- Server version	5.7.9-log
 

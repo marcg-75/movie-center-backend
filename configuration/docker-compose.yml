@@ -25,8 +25,8 @@ services:
      - --max_allowed_packet=900M
    environment:
      MYSQL_ROOT_PASSWORD: root
-     MYSQL_DATABASE: sbr2
-     MYSQL_USER: sbr2
+     MYSQL_DATABASE: moviecenter
+     MYSQL_USER: moviecenter
      MYSQL_PASSWORD: secret
      MYSQL_ROOT_HOST: 172.18.0.1
      TZ: "Europe/Stockholm"
