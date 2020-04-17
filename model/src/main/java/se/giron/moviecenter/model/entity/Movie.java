@@ -1,7 +1,6 @@
 package se.giron.moviecenter.model.entity;
 
 import org.hibernate.annotations.WhereJoinTable;
-import se.giron.moviecenter.model.enums.RoleEnum;
 
 import javax.persistence.*;
 import java.util.Date;
