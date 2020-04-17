@@ -8,6 +8,10 @@ import java.util.Set;
 @Entity
 public class MovieFormatInfo {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @OneToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
@@ -19,11 +23,12 @@ public class MovieFormatInfo {
     @JoinColumn(name="format_cd")
     private Format format;
 
-    @Column(name="region_cd")
+    @Column(name="region_cd", columnDefinition = "TINYINT")
     private Integer region;
 
     private String upcId;
 
+    @Column(name = "discs", columnDefinition = "TINYINT")
     private Integer discs;
 
     private String pictureFormat;
@@ -36,6 +41,15 @@ public class MovieFormatInfo {
 
     @OneToMany(mappedBy="movieFormatInfo", fetch = FetchType.LAZY)
     private Set<Subtitle> subtitles;
+
+    public Long getId() {
+        return id;
+    }
+
+    public MovieFormatInfo setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public Movie getMovie() {
         return movie;

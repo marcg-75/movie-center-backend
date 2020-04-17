@@ -3,20 +3,30 @@ package se.giron.moviecenter.model.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "movie_person_role")
-@IdClass(MoviePersonRoleId.class)
+//@Table(name = "movie_person_role")
+//@IdClass(MoviePersonRoleId.class)
 public class MoviePersonRole {
 
     @Id
-    @Column(name = "movie_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    //@Id
+    //@Column(name = "movie_id")
+    @ManyToOne
+    @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
-    @Id
-    @Column(name = "person_id")
+    //@Id
+    //@Column(name = "person_id")
+    @ManyToOne
+    @JoinColumn(name = "person_id", nullable = false)
     private Person person;
 
-    @Id
-    @Column(name = "role_cd")
+    //@Id
+    //@Column(name = "role_cd")
+    @ManyToOne
+    @JoinColumn(name = "role_cd", nullable = false)
     private Role role;
 
     public Movie getMovie() {

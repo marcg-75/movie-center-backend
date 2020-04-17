@@ -50,8 +50,7 @@ public class Movie {
     )
     private Set<Studio> studios;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")
+    @OneToMany(mappedBy="movie", fetch = FetchType.LAZY)
     private Set<MoviePersonRole> castAndCrew;
 
     @ManyToMany(fetch = FetchType.LAZY)
