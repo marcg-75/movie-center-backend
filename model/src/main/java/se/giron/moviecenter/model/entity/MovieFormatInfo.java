@@ -3,6 +3,7 @@ package se.giron.moviecenter.model.entity;
 import se.giron.moviecenter.model.enums.SystemEnum;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -37,10 +38,10 @@ public class MovieFormatInfo {
     private SystemEnum system;
 
     @OneToMany(mappedBy="movieFormatInfo", fetch = FetchType.LAZY)
-    private Set<AudioLanguage> audioLanguages;
+    private Set<AudioLanguage> audioLanguages = new HashSet<>();
 
     @OneToMany(mappedBy="movieFormatInfo", fetch = FetchType.LAZY)
-    private Set<Subtitle> subtitles;
+    private Set<Subtitle> subtitles = new HashSet<>();
 
     public Long getId() {
         return id;

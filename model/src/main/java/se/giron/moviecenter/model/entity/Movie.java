@@ -50,7 +50,7 @@ public class Movie {
     private Set<Studio> studios;
 
     @OneToMany(mappedBy="movie", fetch = FetchType.LAZY)
-    private Set<MoviePersonRole> castAndCrew;
+    private Set<MoviePersonRole> castAndCrew = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -59,7 +59,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'ACTOR'")
-    private Set<Person> actors;
+    private Set<Person> actors = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -68,7 +68,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'DIRECTOR'")
-    private Set<Person> directors;
+    private Set<Person> directors = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -77,7 +77,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'PRODUCER'")
-    private Set<Person> producers;
+    private Set<Person> producers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -86,7 +86,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'MUSIC'")
-    private Set<Person> music;
+    private Set<Person> music = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -95,7 +95,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'WRITER'")
-    private Set<Person> writers;
+    private Set<Person> writers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -104,7 +104,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'CASTING'")
-    private Set<Person> casters;
+    private Set<Person> casters = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -113,7 +113,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'EDITOR'")
-    private Set<Person> editors;
+    private Set<Person> editors = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -122,7 +122,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'CINEMATOGRAPHY'")
-    private Set<Person> cinematography;
+    private Set<Person> cinematography = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -131,7 +131,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'SOUND'")
-    private Set<Person> sound;
+    private Set<Person> sound = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -140,7 +140,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'ART'")
-    private Set<Person> art;
+    private Set<Person> art = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -149,7 +149,7 @@ public class Movie {
             inverseJoinColumns = { @JoinColumn(name = "person_id")}
     )
     @WhereJoinTable(clause = "role_cd = 'MISC'")
-    private Set<Person> otherRoles;
+    private Set<Person> otherRoles = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "movie")
     private MovieFormatInfo movieFormatInfo;

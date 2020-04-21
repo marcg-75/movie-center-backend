@@ -65,15 +65,17 @@ public class Cover {
         return foregroundUrl;
     }
 
-    public void setForegroundUrl(String foregroundUrl) {
+    public Cover setForegroundUrl(String foregroundUrl) {
         this.foregroundUrl = foregroundUrl;
+        return this;
     }
 
     public String getBackgroundUrl() {
         return backgroundUrl;
     }
 
-    public void setBackgroundUrl(String backgroundUrl) {
+    public Cover setBackgroundUrl(String backgroundUrl) {
         this.backgroundUrl = backgroundUrl;
+        return this;
     }
 }
