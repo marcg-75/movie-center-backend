@@ -7,6 +7,8 @@ import se.giron.moviecenter.model.entity.Genre;
 import se.giron.moviecenter.model.entity.MoviePersonRole;
 import se.giron.moviecenter.model.entity.Studio;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Time;
 import java.util.*;
 
@@ -17,10 +19,13 @@ public class MovieResource {
     @ApiModelProperty(notes = "Movie entity ID", dataType = "java.lang.Long")
     private Long id;
 
+    @NotBlank(message = "{movie.title.notnull}")
     private String title;
 
+    @NotBlank(message = "{movie.description.notnull}")
     private String description;
 
+    @NotNull
     private Genre mainGenre;
 
     private List<Genre> additionalGenres = new ArrayList<>();
