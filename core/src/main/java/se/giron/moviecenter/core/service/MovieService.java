@@ -108,6 +108,7 @@ public class MovieService {
             movieResource.setMainGenre(genre.get());
         } else {
             throw new ValidationException("movie.genre.unknown", movieResource.getMainGenre().getCode());
+            // TODO: Add new genre if unknown?
         }
     }
 }
