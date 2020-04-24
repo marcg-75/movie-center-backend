@@ -1,8 +1,10 @@
 package se.giron.moviecenter;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
@@ -23,11 +25,14 @@ import java.util.TimeZone;
 /**
  * Created by marc on 2020-04-15.
  */
-@SpringBootApplication(scanBasePackages = "se.giron.moviecenter", exclude = UserDetailsServiceAutoConfiguration.class)
+@SpringBootApplication(scanBasePackages = "se.giron.moviecenter", exclude = {
+        UserDetailsServiceAutoConfiguration.class,
+        SecurityAutoConfiguration.class,
+        ManagementWebSecurityAutoConfiguration.class
+})
 @EnableJpaRepositories("se.giron.moviecenter.core.repository")
 @EntityScan(basePackages = {"se.giron.moviecenter.model.entity", "se.giron.moviecenter.model.entity.*", "se.giron.moviecenter.model.enums", "se.giron.moviecenter.core.configuration"})
 @Import({WebConfig.class})
-@EnableJpaAuditing
 @EnableScheduling
 @EnableAsync
 @EnableConfigurationProperties
