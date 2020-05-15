@@ -15,15 +15,17 @@ public class Cover {
 
     @Lob
     @Column(name = "foreground", columnDefinition = "BLOB")
+    @Deprecated
     private byte[] foreground;
 
     @Lob
     @Column(name = "background", columnDefinition = "BLOB")
+    @Deprecated
     private byte[] background;
 
-    private String foregroundUrl;
+    private String foregroundUrl;  // TODO: Dessa ska även innehålla hela filen (se SBR2-backend)
 
-    private String backgroundUrl;
+    private String backgroundUrl;  // TODO: - '' -
 
     public Long getId() {
         return id;

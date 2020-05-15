@@ -16,9 +16,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecific
 
     @EntityGraph(value = "Movie", type = EntityGraph.EntityGraphType.LOAD)
     Optional<Movie> findById(Long movieId);
-
-    @EntityGraph(value = "Movie", type = EntityGraph.EntityGraphType.LOAD)
-    Movie save(Movie movie);
+//
+//    @EntityGraph(value = "Movie", type = EntityGraph.EntityGraphType.LOAD)
+//    Movie save(Movie movie);
 
     @Query("SELECT COUNT(m) FROM Movie m")
     Integer totalCount();

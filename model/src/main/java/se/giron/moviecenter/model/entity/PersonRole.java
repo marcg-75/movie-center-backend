@@ -3,38 +3,26 @@ package se.giron.moviecenter.model.entity;
 import javax.persistence.*;
 
 @Entity
-//@Table(name = "movie_person_role")
-//@IdClass(MoviePersonRoleId.class)
-public class MoviePersonRole {
+public class PersonRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@Id
-    //@Column(name = "movie_id")
-    @ManyToOne
-    @JoinColumn(name = "movie_id", nullable = false)
-    private Movie movie;
-
-    //@Id
-    //@Column(name = "person_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
 
-    //@Id
-    //@Column(name = "role_cd")
     @ManyToOne
     @JoinColumn(name = "role_cd", nullable = false)
     private Role role;
 
-    public Movie getMovie() {
-        return movie;
+    public Long getId() {
+        return id;
     }
 
-    public MoviePersonRole setMovie(Movie movie) {
-        this.movie = movie;
+    public PersonRole setId(Long id) {
+        this.id = id;
         return this;
     }
 
@@ -42,7 +30,7 @@ public class MoviePersonRole {
         return person;
     }
 
-    public MoviePersonRole setPerson(Person person) {
+    public PersonRole setPerson(Person person) {
         this.person = person;
         return this;
     }
@@ -51,7 +39,7 @@ public class MoviePersonRole {
         return role;
     }
 
-    public MoviePersonRole setRole(Role role) {
+    public PersonRole setRole(Role role) {
         this.role = role;
         return this;
     }

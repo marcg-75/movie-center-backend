@@ -12,6 +12,9 @@ public class MovieFilter {
     @ApiModelProperty(notes = "Main genre")
     private String mainGenre;
 
+    @ApiModelProperty(notes = "Format")
+    private String format;
+
     @ApiModelProperty(notes = "My grade", dataType = "java.lang.Integer")
     private Integer grade;
 
@@ -34,6 +37,15 @@ public class MovieFilter {
 
     public MovieFilter setMainGenre(String mainGenre) {
         this.mainGenre = mainGenre;
+        return this;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public MovieFilter setFormat(String format) {
+        this.format = format;
         return this;
     }
 

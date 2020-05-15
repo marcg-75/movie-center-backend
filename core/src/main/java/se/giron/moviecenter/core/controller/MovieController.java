@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,7 @@ import se.giron.moviecenter.model.resource.MovieInfoResource;
 import se.giron.moviecenter.model.resource.MovieResource;
 import se.giron.moviecenter.model.resource.error.ErrorResponse;
 import se.giron.moviecenter.model.resource.filter.MovieFilter;
+import org.springframework.data.web.SortDefault;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,8 +40,8 @@ public class MovieController {
     })
     @GetMapping(produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<MovieInfoResource> getAllMovies(MovieFilter filter) {
-        return movieService.getAllMovies(filter);
+    public List<MovieInfoResource> getAllMovies(Sort sort, MovieFilter filter) {
+        return movieService.getAllMovies(filter, sort);
     }
 
     @ApiOperation(value = "Fetch single movie by ID")

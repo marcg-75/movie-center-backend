@@ -2,6 +2,7 @@ package se.giron.moviecenter.core.repository;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
+import se.giron.moviecenter.model.entity.Format;
 import se.giron.moviecenter.model.entity.Genre;
 import se.giron.moviecenter.model.entity.Movie;
 import se.giron.moviecenter.model.resource.filter.MovieFilter;
@@ -31,8 +32,13 @@ public class MovieFilterSpecification extends AbstractFilterSpecification<Movie>
             predicate = criteriaBuilder.and(predicate, mainGenrePredicate);
         }
 
+        if (!StringUtils.isEmpty(filter.getFormat())) {
+            Predicate formatPredicate = criteriaBuilder.equal(root.<Movie>get("movieFormatInfo").<Format>get("format"), new Format().setCode(filter.getFormat()));
+            predicate = criteriaBuilder.and(predicate, formatPredicate);
+        }
+
         if (!StringUtils.isEmpty(filter.getGrade())) {
-            Predicate gradePredicate = criteriaBuilder.equal(root.<Movie>get("moviePersonalInfo").<Long>get("grade"), filter.getGrade());
+            Predicate gradePredicate = criteriaBuilder.equal(root.<Movie>get("moviePersonalInfo").<Integer>get("grade"), filter.getGrade());
             predicate = criteriaBuilder.and(predicate, gradePredicate);
         }
 

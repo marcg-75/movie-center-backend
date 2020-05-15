@@ -1,19 +1,18 @@
 package se.giron.moviecenter.model.map;
 
 import se.giron.moviecenter.model.entity.*;
+import se.giron.moviecenter.model.enums.RoleEnum;
 import se.giron.moviecenter.model.enums.SystemEnum;
 import se.giron.moviecenter.model.resource.*;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MovieMapper {
 
     public static MovieResource entity2resource(Movie movie) {
-        return new MovieResource()
+        MovieResource resource = new MovieResource()
                 .setId(movie.getId())
                 .setTitle(movie.getTitle())
                 .setMainGenre(movie.getMainGenre())
@@ -24,20 +23,58 @@ public class MovieMapper {
                 .setCountry(movie.getCountry())
                 .setAgeRestriction(movie.getAgeRestriction())
                 .setStudios(movie.getStudios())
-                .setCastAndCrew(movie.getCastAndCrew())
-                .setActors(entities2PersonResources(movie.getActors()))
-                .setDirectors(entities2PersonResources(movie.getDirectors()))
-                .setProducers(entities2PersonResources(movie.getProducers()))
-                .setMusic(entities2PersonResources(movie.getMusic()))
-                .setWriters(entities2PersonResources(movie.getWriters()))
-                .setCasters(entities2PersonResources(movie.getCasters()))
-                .setEditors(entities2PersonResources(movie.getEditors()))
-                .setCinematography(entities2PersonResources(movie.getCinematography()))
-                .setSound(entities2PersonResources(movie.getSound()))
-                .setArt(entities2PersonResources(movie.getArt()))
-                .setOtherRoles(entities2PersonResources(movie.getOtherRoles()))
                 .setMovieFormatInfo(entity2MovieFormatInfoResource(movie.getMovieFormatInfo()))
                 .setMoviePersonalInfo(entity2PersonalInfoResource(movie.getMoviePersonalInfo()));
+
+        addCastAndCrewToResource(resource, movie.getCastAndCrew());
+
+        return resource;
+    }
+
+    private static void addCastAndCrewToResource(MovieResource resource, Set<CastAndCrew> allCac) {
+        List<CastAndCrewResource> allCacResourcesSorted = entities2CastAndCrewResources(allCac);
+
+        if (allCacResourcesSorted == null) {
+            return;
+        }
+
+        allCacResourcesSorted.stream().forEach(cac -> {
+           switch (RoleEnum.valueOf(cac.getPersonRole().getRole().getCode())) {
+               case ACTOR:
+                   resource.getActors().add(cac);
+                   break;
+               case DIRECTOR:
+                   resource.getDirectors().add(cac);
+                   break;
+               case PRODUCER:
+                   resource.getProducers().add(cac);
+                   break;
+               case MUSIC:
+                   resource.getMusic().add(cac);
+                   break;
+               case WRITER:
+                   resource.getWriters().add(cac);
+                   break;
+               case CASTING:
+                   resource.getCasters().add(cac);
+                   break;
+               case EDITOR:
+                   resource.getEditors().add(cac);
+                   break;
+               case CINEMATOGRAPHY:
+                   resource.getCinematography().add(cac);
+                   break;
+               case SOUND:
+                   resource.getSound().add(cac);
+                   break;
+               case ART:
+                   resource.getArt().add(cac);
+                   break;
+               case MISC:
+                   resource.getOtherRoles().add(cac);
+                   break;
+           }
+        });
     }
 
     public static Movie resource2entity(MovieResource movieResource, Movie movie) {
@@ -51,23 +88,38 @@ public class MovieMapper {
                 .setAgeRestriction(movieResource.getAgeRestriction())
                 .setStudios(movieResource.getStudios())
                 // TODO: Change to add + update additional genres, to prevent unnecessary db updates.
-                .setCastAndCrew(movieResource.getCastAndCrew())
-                .setActors(resources2PersonEntities(movieResource.getActors(), movie.getActors()))
-                .setDirectors(resources2PersonEntities(movieResource.getDirectors(), movie.getDirectors()))
-                .setProducers(resources2PersonEntities(movieResource.getProducers(), movie.getProducers()))
-                .setMusic(resources2PersonEntities(movieResource.getMusic(), movie.getMusic()))
-                .setWriters(resources2PersonEntities(movieResource.getWriters(), movie.getWriters()))
-                .setCasters(resources2PersonEntities(movieResource.getCasters(), movie.getCasters()))
-                .setEditors(resources2PersonEntities(movieResource.getEditors(), movie.getEditors()))
-                .setCinematography(resources2PersonEntities(movieResource.getCinematography(), movie.getCinematography()))
-                .setSound(resources2PersonEntities(movieResource.getSound(), movie.getSound()))
-                .setArt(resources2PersonEntities(movieResource.getArt(), movie.getArt()))
-                .setOtherRoles(resources2PersonEntities(movieResource.getOtherRoles(), movie.getOtherRoles()))
 
                 .setMovieFormatInfo(resource2MovieFormatInfo(movieResource.getMovieFormatInfo(), movie.getMovieFormatInfo()))
                 .setMoviePersonalInfo(resource2MoviePersonalInfo(movieResource.getMoviePersonalInfo(), movie.getMoviePersonalInfo()));
 
+        mergeCastAndCrewToEntity(movie, movieResource);
+
         return movie;
+    }
+
+    private static void mergeCastAndCrewToEntity(Movie movie, MovieResource resource) {
+        movie.getCastAndCrew().clear();
+
+        resources2CastAndCrewEntities(resource.getActors(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getDirectors(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getProducers(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getMusic(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getWriters(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getCasters(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getEditors(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getCinematography(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getSound(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getArt(), movie.getCastAndCrew(), movie);
+        resources2CastAndCrewEntities(resource.getOtherRoles(), movie.getCastAndCrew(), movie);
+
+        // Remove deleted cacs
+        Set<CastAndCrew> deletedCacs =
+                movie.getCastAndCrew().stream().filter(CastAndCrew::isDeleted).collect(Collectors.toSet());
+        deletedCacs.stream().forEach(cac -> {
+            if (cac.isDeleted()) {
+                movie.getCastAndCrew().remove(cac);
+            }
+        });
     }
 
     public static MovieInfoResource entity2infoResource(Movie movie) {
@@ -78,55 +130,89 @@ public class MovieMapper {
                 .setMoviePersonalInfo(entity2PersonalInfoResource(movie.getMoviePersonalInfo()));
     }
 
-    private static PersonResource entity2PersonResource(Person person) {
-        return new PersonResource()
-                .setId(person.getId())
-                .setName(person.getName());
+    private static CastAndCrewResource entity2CastAndCrewResource(CastAndCrew cac) {
+        return new CastAndCrewResource()
+                .setId(cac.getId())
+                .setMovieTitle(cac.getMovie().getTitle())
+                .setPersonRole(PersonMapper.entity2PersonRoleResource(cac.getPersonRole()))
+                .setCharacterName(cac.getCharacterName());
     }
 
-    private static List<PersonResource> entities2PersonResources(Set<Person> persons) {
-        if (persons == null || persons.size() == 0) {
+    private static List<CastAndCrewResource> entities2CastAndCrewResources(Set<CastAndCrew> cacs) {
+        if (cacs == null || cacs.size() == 0) {
             return null;
         }
 
-        return persons.stream().map(MovieMapper::entity2PersonResource).collect(Collectors.toList());
+        return cacs.stream().map(MovieMapper::entity2CastAndCrewResource)
+                .sorted(new Comparator<CastAndCrewResource>() {
+                    @Override
+                    public int compare(CastAndCrewResource a, CastAndCrewResource b) {
+                        return a.getPersonRole().getPerson().getName()
+                                .compareTo(b.getPersonRole().getPerson().getName());
+                    }
+                })
+                .collect(Collectors.toList());
     }
 
-    private static Person resource2PersonEntity(PersonResource resource) {
-        return new Person()
+    private static CastAndCrew resource2CastAndCrewEntity(CastAndCrewResource resource, Movie movie) {
+        return new CastAndCrew()
                 .setId(resource.getId())
-                .setName(resource.getName());
+                .setMovie(movie)
+                .setPersonRole(PersonMapper.resource2PersonRoleEntity(resource.getPersonRole()))
+                .setCharacterName(resource.getCharacterName())
+                .setDeleted(resource.isDeleted());
     }
 
-    private static Set<Person> resources2PersonEntities(List<PersonResource> resources, final Set<Person> persons) {
+    private static Set<CastAndCrew> resources2CastAndCrewEntities(List<CastAndCrewResource> resources, final Set<CastAndCrew> cacs, Movie movie) {
         if (resources == null) {
-            return persons;
+            return cacs;
         }
+
+        // Given resources are always all the valid cacs.
+        //cacs.clear();
+
+        cacs.addAll(resources.stream()
+                .map(mvp -> resource2CastAndCrewEntity(mvp, movie))
+                .collect(Collectors.toSet()));
+
+
+//        return resources.stream()
+//                .map(mvp -> resource2CastAndCrewEntity(mvp, movie))
+//                .collect(Collectors.toSet());
 
         // All new.
-        if (persons.isEmpty()) {
-            return resources.stream()
-                    .map(MovieMapper::resource2PersonEntity)
-                    .collect(Collectors.toSet());
-        }
+//        if (cacs.isEmpty()) {
+//            cacs.addAll(resources.stream()
+//                    .map(mvp -> resource2CastAndCrewEntity(mvp, movie))
+//                    .collect(Collectors.toSet()));
+//        }
+//
+//        // Update existing cacs.
+//        for (CastAndCrew cac : cacs) {
+//            Long id = cac.getId();
+//            Optional<CastAndCrewResource> cacr = resources.stream().filter(_cac -> id.equals(_cac.getId())).findFirst();
+//            if (cacr.isPresent()) {
+//                CastAndCrew newCac = resource2CastAndCrewEntity(cacr.get(), movie);
+//                if (!newCac.equals(cac)) {
+//                    cac.setPersonRole(newCac.getPersonRole());
+//                    cac.setCharacterName(newCac.getCharacterName());
+//                }
+//            }
+//        }
+//
+//        // Add new cacs.
+//        cacs.addAll(
+//                resources.stream().filter(pr -> pr.getId() == null || pr.getId() < 0)
+//                        .map(mvp -> resource2CastAndCrewEntity(mvp, movie)).collect(Collectors.toSet()));
+//
+//        // TODO: Remove deleted cacs.
+//        //cacs = cacs.stream().filter(_cac -> _cac.getId())
+//        for (CastAndCrewResource cacr : resources) {
+//
+//        }
 
-        // Update existing persons.
-        for (Person person : persons) {
-            Long id = person.getId();
-            Optional<PersonResource> pr = resources.stream().filter(_person -> id.equals(_person.getId())).findFirst();
-            if (pr.isPresent()) {
-                Person newPerson = resource2PersonEntity(pr.get());
-                if (!newPerson.equals(person)) {
-                    person.setName(pr.get().getName());
-                }
-            }
-        }
 
-        // Add new persons.
-        persons.addAll(
-                resources.stream().filter(pr -> pr.getId() == null || pr.getId() < 0)
-                        .map(MovieMapper::resource2PersonEntity).collect(Collectors.toList()));
-        return persons;
+        return cacs;
     }
 
     private static CoverResource entity2CoverResource(Cover cover) {
@@ -157,6 +243,9 @@ public class MovieMapper {
     }
 
     private static MovieFormatInfoResource entity2MovieFormatInfoResource(MovieFormatInfo info) {
+        if (info == null) {
+            return null;
+        }
         return new MovieFormatInfoResource()
                 .setCover(entity2CoverResource(info.getCover()))
                 .setFormat(info.getFormat())
@@ -194,6 +283,9 @@ public class MovieMapper {
     }
 
     private static MoviePersonalInfoResource entity2PersonalInfoResource(MoviePersonalInfo moviePersonalInfo) {
+        if (moviePersonalInfo == null) {
+            return null;
+        }
         return new MoviePersonalInfoResource()
                 .setGrade(moviePersonalInfo.getGrade())
                 .setObtainDate(moviePersonalInfo.getObtainDate())
@@ -222,5 +314,13 @@ public class MovieMapper {
                 .setNotes(resource.getNotes());
 
         return info;
+    }
+
+    class SortCastCrew implements Comparator<CastAndCrewResource> {
+
+        public int compare(CastAndCrewResource a, CastAndCrewResource b) {
+            return a.getPersonRole().getPerson().getName()
+                    .compareTo(b.getPersonRole().getPerson().getName());
+        }
     }
 }

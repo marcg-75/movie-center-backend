@@ -2,6 +2,7 @@ package se.giron.moviecenter.core.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -32,12 +33,12 @@ public class MovieService {
     private GenreRepository genreRepository;
 
     @Transactional(readOnly = true)
-    public List<MovieInfoResource> getAllMovies(MovieFilter filter) {
-        return getFilteredMovies(filter).stream().map(MovieMapper::entity2infoResource).collect(Collectors.toList());
+    public List<MovieInfoResource> getAllMovies(MovieFilter filter, Sort sort) {
+        return getFilteredMovies(filter, sort).stream().map(MovieMapper::entity2infoResource).collect(Collectors.toList());
     }
 
-    private List<Movie> getFilteredMovies(MovieFilter filter) {
-        return movieRepository.findAll(new MovieFilterSpecification(filter));
+    private List<Movie> getFilteredMovies(MovieFilter filter, Sort sort) {
+        return movieRepository.findAll(new MovieFilterSpecification(filter), sort);
     }
 
     @Transactional(readOnly = true)
@@ -53,6 +54,9 @@ public class MovieService {
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public MovieResource createMovie(MovieResource movieResource) {
+        // TODO: Save new studios first.
+        // TODO: Save new persons first.
+
         Movie movie = persist(movieResource, new Movie());
 
         MovieResource createdMovie = MovieMapper.entity2resource(movie);
@@ -61,10 +65,17 @@ public class MovieService {
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public Optional<MovieResource> updateMovie(MovieResource movieResource) {
-        Optional<Movie> movie = movieRepository.findById(movieResource.getId());
+        Optional<Movie> oMovie = movieRepository.findById(movieResource.getId());
 
-        if (movie.isPresent()) {
-            final Movie updatedMovie = persist(movieResource, movie.get());
+        if (oMovie.isPresent()) {
+            Movie movie = oMovie.get();
+            // TODO: FLytta till egen funktion (ev).
+            // Innan mappern: Jämför befintliga cac med angivna. Gör delete/(remove från set) på alla cac som inte är med i resources.
+//            movie.getCastAndCrew().stream().forEach(cac -> {
+//
+//            });
+
+            final Movie updatedMovie = persist(movieResource, movie);
             MovieResource movieResourceUpd = MovieMapper.entity2resource(updatedMovie);
             return Optional.ofNullable(movieResourceUpd);
         }

@@ -4,13 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import se.giron.moviecenter.model.entity.Genre;
-import se.giron.moviecenter.model.entity.MoviePersonRole;
 import se.giron.moviecenter.model.entity.Studio;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Time;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @ApiModel(value = "MovieResource")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,7 +28,8 @@ public class MovieResource {
     @NotBlank(message = "{movie.description.notnull}")
     private String description;
 
-    @NotNull
+    @NotNull(message = "{movie.mainGenre.notnull}")
+    @Valid
     private Genre mainGenre;
 
     private List<Genre> additionalGenres = new ArrayList<>();
@@ -40,29 +44,27 @@ public class MovieResource {
 
     private Set<Studio> studios;
 
-    private Set<MoviePersonRole> castAndCrew;
+    private List<CastAndCrewResource> actors = new ArrayList<>();
 
-    private List<PersonResource> actors;
+    private List<CastAndCrewResource> directors = new ArrayList<>();
 
-    private List<PersonResource> directors;
+    private List<CastAndCrewResource> producers = new ArrayList<>();
 
-    private List<PersonResource> producers;
+    private List<CastAndCrewResource> music = new ArrayList<>();
 
-    private List<PersonResource> music;
+    private List<CastAndCrewResource> writers = new ArrayList<>();
 
-    private List<PersonResource> writers;
+    private List<CastAndCrewResource> casters = new ArrayList<>();
 
-    private List<PersonResource> casters;
+    private List<CastAndCrewResource> editors = new ArrayList<>();
 
-    private List<PersonResource> editors;
+    private List<CastAndCrewResource> cinematography = new ArrayList<>();
 
-    private List<PersonResource> cinematography;
+    private List<CastAndCrewResource> sound = new ArrayList<>();
 
-    private List<PersonResource> sound;
+    private List<CastAndCrewResource> art = new ArrayList<>();
 
-    private List<PersonResource> art;
-
-    private List<PersonResource> otherRoles;
+    private List<CastAndCrewResource> otherRoles = new ArrayList<>();
 
     private MovieFormatInfoResource movieFormatInfo;
 
@@ -158,110 +160,134 @@ public class MovieResource {
         return this;
     }
 
-    public Set<MoviePersonRole> getCastAndCrew() {
-        return castAndCrew;
-    }
-
-    public MovieResource setCastAndCrew(Set<MoviePersonRole> castAndCrew) {
-        this.castAndCrew = castAndCrew;
-        return this;
-    }
-
-    public List<PersonResource> getActors() {
+    public List<CastAndCrewResource> getActors() {
+        if (actors == null) {
+            actors = new ArrayList<>();
+        }
         return actors;
     }
 
-    public MovieResource setActors(List<PersonResource> actors) {
+    public MovieResource setActors(List<CastAndCrewResource> actors) {
         this.actors = actors;
         return this;
     }
 
-    public List<PersonResource> getDirectors() {
+    public List<CastAndCrewResource> getDirectors() {
+        if (directors == null) {
+            directors = new ArrayList<>();
+        }
         return directors;
     }
 
-    public MovieResource setDirectors(List<PersonResource> directors) {
+    public MovieResource setDirectors(List<CastAndCrewResource> directors) {
         this.directors = directors;
         return this;
     }
 
-    public List<PersonResource> getProducers() {
+    public List<CastAndCrewResource> getProducers() {
+        if (producers == null) {
+            producers = new ArrayList<>();
+        }
         return producers;
     }
 
-    public MovieResource setProducers(List<PersonResource> producers) {
+    public MovieResource setProducers(List<CastAndCrewResource> producers) {
         this.producers = producers;
         return this;
     }
 
-    public List<PersonResource> getMusic() {
+    public List<CastAndCrewResource> getMusic() {
+        if (music == null) {
+            music = new ArrayList<>();
+        }
         return music;
     }
 
-    public MovieResource setMusic(List<PersonResource> music) {
+    public MovieResource setMusic(List<CastAndCrewResource> music) {
         this.music = music;
         return this;
     }
 
-    public List<PersonResource> getWriters() {
+    public List<CastAndCrewResource> getWriters() {
+        if (writers == null) {
+            writers = new ArrayList<>();
+        }
         return writers;
     }
 
-    public MovieResource setWriters(List<PersonResource> writers) {
+    public MovieResource setWriters(List<CastAndCrewResource> writers) {
         this.writers = writers;
         return this;
     }
 
-    public List<PersonResource> getCasters() {
+    public List<CastAndCrewResource> getCasters() {
+        if (casters == null) {
+            casters = new ArrayList<>();
+        }
         return casters;
     }
 
-    public MovieResource setCasters(List<PersonResource> casters) {
+    public MovieResource setCasters(List<CastAndCrewResource> casters) {
         this.casters = casters;
         return this;
     }
 
-    public List<PersonResource> getEditors() {
+    public List<CastAndCrewResource> getEditors() {
+        if (editors == null) {
+            editors = new ArrayList<>();
+        }
         return editors;
     }
 
-    public MovieResource setEditors(List<PersonResource> editors) {
+    public MovieResource setEditors(List<CastAndCrewResource> editors) {
         this.editors = editors;
         return this;
     }
 
-    public List<PersonResource> getCinematography() {
+    public List<CastAndCrewResource> getCinematography() {
+        if (cinematography == null) {
+            cinematography = new ArrayList<>();
+        }
         return cinematography;
     }
 
-    public MovieResource setCinematography(List<PersonResource> cinematography) {
+    public MovieResource setCinematography(List<CastAndCrewResource> cinematography) {
         this.cinematography = cinematography;
         return this;
     }
 
-    public List<PersonResource> getSound() {
+    public List<CastAndCrewResource> getSound() {
+        if (sound == null) {
+            sound = new ArrayList<>();
+        }
         return sound;
     }
 
-    public MovieResource setSound(List<PersonResource> sound) {
+    public MovieResource setSound(List<CastAndCrewResource> sound) {
         this.sound = sound;
         return this;
     }
 
-    public List<PersonResource> getArt() {
+    public List<CastAndCrewResource> getArt() {
+        if (art == null) {
+            art = new ArrayList<>();
+        }
         return art;
     }
 
-    public MovieResource setArt(List<PersonResource> art) {
+    public MovieResource setArt(List<CastAndCrewResource> art) {
         this.art = art;
         return this;
     }
 
-    public List<PersonResource> getOtherRoles() {
+    public List<CastAndCrewResource> getOtherRoles() {
+        if (otherRoles == null) {
+            otherRoles = new ArrayList<>();
+        }
         return otherRoles;
     }
 
-    public MovieResource setOtherRoles(List<PersonResource> otherRoles) {
+    public MovieResource setOtherRoles(List<CastAndCrewResource> otherRoles) {
         this.otherRoles = otherRoles;
         return this;
     }
