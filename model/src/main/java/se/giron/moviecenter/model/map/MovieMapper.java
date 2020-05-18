@@ -92,12 +92,12 @@ public class MovieMapper {
                 .setMovieFormatInfo(resource2MovieFormatInfo(movieResource.getMovieFormatInfo(), movie.getMovieFormatInfo()))
                 .setMoviePersonalInfo(resource2MoviePersonalInfo(movieResource.getMoviePersonalInfo(), movie.getMoviePersonalInfo()));
 
-        mergeCastAndCrewToEntity(movie, movieResource);
+        mergeCastAndCrewToEntity(movieResource, movie);
 
         return movie;
     }
 
-    private static void mergeCastAndCrewToEntity(Movie movie, MovieResource resource) {
+    private static void mergeCastAndCrewToEntity(MovieResource resource, Movie movie) {
         movie.getCastAndCrew().clear();
 
         resources2CastAndCrewEntities(resource.getActors(), movie.getCastAndCrew(), movie);

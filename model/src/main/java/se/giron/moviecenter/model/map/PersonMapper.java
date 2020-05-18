@@ -18,6 +18,7 @@ public class PersonMapper {
                 .setName(person.getName());
     }
 
+    @Deprecated
     public static List<PersonResource> entities2PersonResources(Set<Person> persons) {
         if (persons == null || persons.size() == 0) {
             return null;
@@ -32,6 +33,7 @@ public class PersonMapper {
                 .setName(resource.getName());
     }
 
+    @Deprecated
     public static Set<Person> resources2PersonEntities(List<PersonResource> resources, final Set<Person> persons) {
         if (resources == null) {
             return persons;
@@ -61,8 +63,6 @@ public class PersonMapper {
                 resources.stream().filter(pr -> pr.getId() == null || pr.getId() < 0)
                         .map(PersonMapper::resource2PersonEntity).collect(Collectors.toList()));
 
-        // TODO: Remove deleted persons.
-
         return persons;
     }
 
@@ -73,6 +73,7 @@ public class PersonMapper {
                 .setRole(personRole.getRole());
     }
 
+    @Deprecated
     public static List<PersonRoleResource> entities2PersonRoleResources(Set<PersonRole> personRoles) {
         if (personRoles == null || personRoles.size() == 0) {
             return null;
@@ -88,6 +89,7 @@ public class PersonMapper {
                 .setRole(resource.getRole());
     }
 
+    @Deprecated
     public static Set<PersonRole> resources2PersonRoleEntities(List<PersonRoleResource> resources, final Set<PersonRole> personRoles) {
         if (resources == null) {
             return personRoles;
@@ -118,8 +120,6 @@ public class PersonMapper {
                 resources.stream().filter(pr -> pr.getId() == null || pr.getId() < 0)
                         .map(PersonMapper::resource2PersonRoleEntity)
                         .collect(Collectors.toSet()));
-
-        // TODO: Remove deleted personRoles.
 
         return personRoles;
     }

@@ -25,83 +25,85 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public List<PersonResource> getAllPersons() {
-        return personRepository.findAll().stream().map(PersonMapper::entity2PersonResource).collect(Collectors.toList());
+        return personRepository.findAll().stream()
+                .map(PersonMapper::entity2PersonResource)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllActors() {
+    public List<PersonRoleResource> getAllActors() {
         return personRoleRepository.findByRole(RoleEnum.ACTOR.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllDirectors() {
+    public List<PersonRoleResource> getAllDirectors() {
         return personRoleRepository.findByRole(RoleEnum.DIRECTOR.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllProducers() {
+    public List<PersonRoleResource> getAllProducers() {
         return personRoleRepository.findByRole(RoleEnum.PRODUCER.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllComposers() {
+    public List<PersonRoleResource> getAllComposers() {
         return personRoleRepository.findByRole(RoleEnum.MUSIC.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllWriters() {
+    public List<PersonRoleResource> getAllWriters() {
         return personRoleRepository.findByRole(RoleEnum.WRITER.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllCasters() {
+    public List<PersonRoleResource> getAllCasters() {
         return personRoleRepository.findByRole(RoleEnum.CASTING.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllEditors() {
+    public List<PersonRoleResource> getAllEditors() {
         return personRoleRepository.findByRole(RoleEnum.EDITOR.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllCinematoraphors() {
+    public List<PersonRoleResource> getAllCinematoraphors() {
         return personRoleRepository.findByRole(RoleEnum.CINEMATOGRAPHY.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllSoundMakers() {
+    public List<PersonRoleResource> getAllSoundMakers() {
         return personRoleRepository.findByRole(RoleEnum.SOUND.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllArtPeople() {
+    public List<PersonRoleResource> getAllArtPeople() {
         return personRoleRepository.findByRole(RoleEnum.ART.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<PersonResource> getAllMiscPersons() {
+    public List<PersonRoleResource> getAllMiscPersons() {
         return personRoleRepository.findByRole(RoleEnum.MISC.name()).stream()
-                .map(pr -> PersonMapper.entity2PersonResource(pr.getPerson()))
+                .map(PersonMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 

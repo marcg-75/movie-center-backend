@@ -46,7 +46,7 @@ public class PersonController {
     })
     @GetMapping(value = "/actors", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllActors() {
+    public List<PersonRoleResource> getAllActors() {
         return personService.getAllActors();
     }
 
@@ -57,7 +57,7 @@ public class PersonController {
     })
     @GetMapping(value = "/directors", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllDirectors() {
+    public List<PersonRoleResource> getAllDirectors() {
         return personService.getAllDirectors();
     }
 
@@ -68,7 +68,7 @@ public class PersonController {
     })
     @GetMapping(value = "/producers", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllProducers() {
+    public List<PersonRoleResource> getAllProducers() {
         return personService.getAllProducers();
     }
 
@@ -79,7 +79,7 @@ public class PersonController {
     })
     @GetMapping(value = "/music", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllComposers() {
+    public List<PersonRoleResource> getAllComposers() {
         return personService.getAllComposers();
     }
 
@@ -90,7 +90,7 @@ public class PersonController {
     })
     @GetMapping(value = "/writers", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllWriters() {
+    public List<PersonRoleResource> getAllWriters() {
         return personService.getAllWriters();
     }
 
@@ -101,7 +101,7 @@ public class PersonController {
     })
     @GetMapping(value = "/casters", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllCasters() {
+    public List<PersonRoleResource> getAllCasters() {
         return personService.getAllCasters();
     }
 
@@ -112,7 +112,7 @@ public class PersonController {
     })
     @GetMapping(value = "/editors", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllEditors() {
+    public List<PersonRoleResource> getAllEditors() {
         return personService.getAllEditors();
     }
 
@@ -123,7 +123,7 @@ public class PersonController {
     })
     @GetMapping(value = "/cinematoraphors", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllCinematoraphors() {
+    public List<PersonRoleResource> getAllCinematoraphors() {
         return personService.getAllCinematoraphors();
     }
 
@@ -134,7 +134,7 @@ public class PersonController {
     })
     @GetMapping(value = "/sound", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllSoundMakers() {
+    public List<PersonRoleResource> getAllSoundMakers() {
         return personService.getAllSoundMakers();
     }
 
@@ -145,7 +145,7 @@ public class PersonController {
     })
     @GetMapping(value = "/art", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllArtPeople() {
+    public List<PersonRoleResource> getAllArtPeople() {
         return personService.getAllArtPeople();
     }
 
@@ -156,7 +156,7 @@ public class PersonController {
     })
     @GetMapping(value = "/other", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResource> getAllMiscPersons() {
+    public List<PersonRoleResource> getAllMiscPersons() {
         return personService.getAllMiscPersons();
     }
 
