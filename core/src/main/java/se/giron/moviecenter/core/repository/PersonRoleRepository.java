@@ -13,6 +13,9 @@ public interface PersonRoleRepository extends JpaRepository<PersonRole, Long> {
     @Query("SELECT pr FROM PersonRole pr WHERE pr.role.code = :roleCd")
     List<PersonRole> findByRole(@Param("roleCd") String roleCd);
 
+    @Query("SELECT pr FROM PersonRole pr WHERE pr.role.code <> 'ACTOR'")
+    List<PersonRole> findAllCrewMembers();
+
     @Query("SELECT pr FROM PersonRole pr WHERE pr.person.name = :pName")
     List<PersonRole> findByName(@Param("pName") String name);
 

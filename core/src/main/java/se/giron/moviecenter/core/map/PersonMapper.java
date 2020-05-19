@@ -1,5 +1,10 @@
-package se.giron.moviecenter.model.map;
+package se.giron.moviecenter.core.map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import se.giron.moviecenter.core.repository.PersonRepository;
 import se.giron.moviecenter.model.entity.Person;
 import se.giron.moviecenter.model.entity.PersonRole;
 import se.giron.moviecenter.model.resource.PersonResource;
@@ -10,31 +15,35 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
 public class PersonMapper {
 
-    public static PersonResource entity2PersonResource(Person person) {
+    @Autowired
+    private PersonRepository personRepository;
+
+    public PersonResource entity2PersonResource(Person person) {
         return new PersonResource()
                 .setId(person.getId())
                 .setName(person.getName());
     }
 
     @Deprecated
-    public static List<PersonResource> entities2PersonResources(Set<Person> persons) {
+    public List<PersonResource> entities2PersonResources(Set<Person> persons) {
         if (persons == null || persons.size() == 0) {
             return null;
         }
 
-        return persons.stream().map(PersonMapper::entity2PersonResource).collect(Collectors.toList());
+        return persons.stream().map(this::entity2PersonResource).collect(Collectors.toList());
     }
 
-    public static Person resource2PersonEntity(PersonResource resource) {
+    public Person resource2PersonEntity(PersonResource resource) {
         return new Person()
                 .setId(resource.getId())
                 .setName(resource.getName());
     }
 
     @Deprecated
-    public static Set<Person> resources2PersonEntities(List<PersonResource> resources, final Set<Person> persons) {
+    public Set<Person> resources2PersonEntities(List<PersonResource> resources, final Set<Person> persons) {
         if (resources == null) {
             return persons;
         }
@@ -42,7 +51,7 @@ public class PersonMapper {
         // All new.
         if (persons.isEmpty()) {
             return resources.stream()
-                    .map(PersonMapper::resource2PersonEntity)
+                    .map(this::resource2PersonEntity)
                     .collect(Collectors.toSet());
         }
 
@@ -61,12 +70,12 @@ public class PersonMapper {
         // Add new persons.
         persons.addAll(
                 resources.stream().filter(pr -> pr.getId() == null || pr.getId() < 0)
-                        .map(PersonMapper::resource2PersonEntity).collect(Collectors.toList()));
+                        .map(this::resource2PersonEntity).collect(Collectors.toList()));
 
         return persons;
     }
 
-    public static PersonRoleResource entity2PersonRoleResource(PersonRole personRole) {
+    public PersonRoleResource entity2PersonRoleResource(PersonRole personRole) {
         return new PersonRoleResource()
                 .setId(personRole.getId())
                 .setPerson(entity2PersonResource(personRole.getPerson()))
@@ -74,23 +83,31 @@ public class PersonMapper {
     }
 
     @Deprecated
-    public static List<PersonRoleResource> entities2PersonRoleResources(Set<PersonRole> personRoles) {
+    public List<PersonRoleResource> entities2PersonRoleResources(Set<PersonRole> personRoles) {
         if (personRoles == null || personRoles.size() == 0) {
             return null;
         }
 
-        return personRoles.stream().map(PersonMapper::entity2PersonRoleResource).collect(Collectors.toList());
+        return personRoles.stream().map(this::entity2PersonRoleResource).collect(Collectors.toList());
     }
 
-    public static PersonRole resource2PersonRoleEntity(PersonRoleResource resource) {
+    public PersonRole resource2PersonRoleEntity(PersonRoleResource resource) {
+        // TODO: Find existing person (if resource has a person ID given)
+        Person person = null;
+
+        if (resource.getPerson().getId() != null) {
+            Optional<Person> oPerson = personRepository.findById(resource.getPerson().getId());
+            person = oPerson.get();
+        }
+
         return new PersonRole()
                 .setId(resource.getId())
-                .setPerson(resource2PersonEntity(resource.getPerson()))
+                .setPerson(person != null ? person : resource2PersonEntity(resource.getPerson()))
                 .setRole(resource.getRole());
     }
 
     @Deprecated
-    public static Set<PersonRole> resources2PersonRoleEntities(List<PersonRoleResource> resources, final Set<PersonRole> personRoles) {
+    public Set<PersonRole> resources2PersonRoleEntities(List<PersonRoleResource> resources, final Set<PersonRole> personRoles) {
         if (resources == null) {
             return personRoles;
         }
@@ -98,7 +115,7 @@ public class PersonMapper {
         // All new.
         if (personRoles.isEmpty()) {
             return resources.stream()
-                    .map(PersonMapper::resource2PersonRoleEntity)
+                    .map(this::resource2PersonRoleEntity)
                     .collect(Collectors.toSet());
         }
 
@@ -118,7 +135,7 @@ public class PersonMapper {
         // Add new mvps.
         personRoles.addAll(
                 resources.stream().filter(pr -> pr.getId() == null || pr.getId() < 0)
-                        .map(PersonMapper::resource2PersonRoleEntity)
+                        .map(this::resource2PersonRoleEntity)
                         .collect(Collectors.toSet()));
 
         return personRoles;

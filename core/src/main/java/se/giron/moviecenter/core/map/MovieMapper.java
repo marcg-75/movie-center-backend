@@ -1,17 +1,25 @@
-package se.giron.moviecenter.model.map;
+package se.giron.moviecenter.core.map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.giron.moviecenter.model.entity.*;
 import se.giron.moviecenter.model.enums.RoleEnum;
 import se.giron.moviecenter.model.enums.SystemEnum;
 import se.giron.moviecenter.model.resource.*;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
 public class MovieMapper {
 
-    public static MovieResource entity2resource(Movie movie) {
+    @Autowired
+    private PersonMapper personMapper;
+
+    public MovieResource entity2resource(Movie movie) {
         MovieResource resource = new MovieResource()
                 .setId(movie.getId())
                 .setTitle(movie.getTitle())
@@ -31,7 +39,7 @@ public class MovieMapper {
         return resource;
     }
 
-    private static void addCastAndCrewToResource(MovieResource resource, Set<CastAndCrew> allCac) {
+    private void addCastAndCrewToResource(MovieResource resource, Set<CastAndCrew> allCac) {
         List<CastAndCrewResource> allCacResourcesSorted = entities2CastAndCrewResources(allCac);
 
         if (allCacResourcesSorted == null) {
@@ -77,7 +85,7 @@ public class MovieMapper {
         });
     }
 
-    public static Movie resource2entity(MovieResource movieResource, Movie movie) {
+    public Movie resource2entity(MovieResource movieResource, Movie movie) {
         movie.setTitle(movieResource.getTitle())
                 .setMainGenre(movieResource.getMainGenre())
                 .setDescription(movieResource.getDescription())
@@ -97,7 +105,7 @@ public class MovieMapper {
         return movie;
     }
 
-    private static void mergeCastAndCrewToEntity(MovieResource resource, Movie movie) {
+    private void mergeCastAndCrewToEntity(MovieResource resource, Movie movie) {
         movie.getCastAndCrew().clear();
 
         resources2CastAndCrewEntities(resource.getActors(), movie.getCastAndCrew(), movie);
@@ -122,7 +130,7 @@ public class MovieMapper {
         });
     }
 
-    public static MovieInfoResource entity2infoResource(Movie movie) {
+    public MovieInfoResource entity2infoResource(Movie movie) {
         return new MovieInfoResource()
                 .setId(movie.getId())
                 .setTitle(movie.getTitle())
@@ -130,20 +138,20 @@ public class MovieMapper {
                 .setMoviePersonalInfo(entity2PersonalInfoResource(movie.getMoviePersonalInfo()));
     }
 
-    private static CastAndCrewResource entity2CastAndCrewResource(CastAndCrew cac) {
+    private CastAndCrewResource entity2CastAndCrewResource(CastAndCrew cac) {
         return new CastAndCrewResource()
                 .setId(cac.getId())
                 .setMovieTitle(cac.getMovie().getTitle())
-                .setPersonRole(PersonMapper.entity2PersonRoleResource(cac.getPersonRole()))
+                .setPersonRole(personMapper.entity2PersonRoleResource(cac.getPersonRole()))
                 .setCharacterName(cac.getCharacterName());
     }
 
-    private static List<CastAndCrewResource> entities2CastAndCrewResources(Set<CastAndCrew> cacs) {
+    private List<CastAndCrewResource> entities2CastAndCrewResources(Set<CastAndCrew> cacs) {
         if (cacs == null || cacs.size() == 0) {
             return null;
         }
 
-        return cacs.stream().map(MovieMapper::entity2CastAndCrewResource)
+        return cacs.stream().map(this::entity2CastAndCrewResource)
                 .sorted(new Comparator<CastAndCrewResource>() {
                     @Override
                     public int compare(CastAndCrewResource a, CastAndCrewResource b) {
@@ -154,16 +162,16 @@ public class MovieMapper {
                 .collect(Collectors.toList());
     }
 
-    private static CastAndCrew resource2CastAndCrewEntity(CastAndCrewResource resource, Movie movie) {
+    private CastAndCrew resource2CastAndCrewEntity(CastAndCrewResource resource, Movie movie) {
         return new CastAndCrew()
                 .setId(resource.getId())
                 .setMovie(movie)
-                .setPersonRole(PersonMapper.resource2PersonRoleEntity(resource.getPersonRole()))
+                .setPersonRole(personMapper.resource2PersonRoleEntity(resource.getPersonRole()))
                 .setCharacterName(resource.getCharacterName())
                 .setDeleted(resource.isDeleted());
     }
 
-    private static Set<CastAndCrew> resources2CastAndCrewEntities(List<CastAndCrewResource> resources, final Set<CastAndCrew> cacs, Movie movie) {
+    private Set<CastAndCrew> resources2CastAndCrewEntities(List<CastAndCrewResource> resources, final Set<CastAndCrew> cacs, Movie movie) {
         if (resources == null) {
             return cacs;
         }
@@ -215,7 +223,7 @@ public class MovieMapper {
         return cacs;
     }
 
-    private static CoverResource entity2CoverResource(Cover cover) {
+    private CoverResource entity2CoverResource(Cover cover) {
         return new CoverResource()
                 .setForeground(cover.getForeground())
                 .setBackground(cover.getBackground())
@@ -223,7 +231,7 @@ public class MovieMapper {
                 .setBackgroundUrl(cover.getBackgroundUrl());
     }
 
-    private static Cover resource2Cover(CoverResource resource, Cover cover) {
+    private Cover resource2Cover(CoverResource resource, Cover cover) {
         if (resource == null) {
             return cover;
         }
@@ -242,7 +250,7 @@ public class MovieMapper {
         return cover;
     }
 
-    private static MovieFormatInfoResource entity2MovieFormatInfoResource(MovieFormatInfo info) {
+    private MovieFormatInfoResource entity2MovieFormatInfoResource(MovieFormatInfo info) {
         if (info == null) {
             return null;
         }
@@ -258,7 +266,7 @@ public class MovieMapper {
                 .setSubtitles(info.getSubtitles() != null ? info.getSubtitles().stream().collect(Collectors.toList()) : null);
     }
 
-    private static MovieFormatInfo resource2MovieFormatInfo(MovieFormatInfoResource resource, MovieFormatInfo info) {
+    private MovieFormatInfo resource2MovieFormatInfo(MovieFormatInfoResource resource, MovieFormatInfo info) {
         if (resource == null) {
             return info;
         }
@@ -282,7 +290,7 @@ public class MovieMapper {
         return info;
     }
 
-    private static MoviePersonalInfoResource entity2PersonalInfoResource(MoviePersonalInfo moviePersonalInfo) {
+    private MoviePersonalInfoResource entity2PersonalInfoResource(MoviePersonalInfo moviePersonalInfo) {
         if (moviePersonalInfo == null) {
             return null;
         }
@@ -295,7 +303,7 @@ public class MovieMapper {
                 .setNotes(moviePersonalInfo.getNotes());
     }
 
-    private static MoviePersonalInfo resource2MoviePersonalInfo(MoviePersonalInfoResource resource, MoviePersonalInfo info) {
+    private MoviePersonalInfo resource2MoviePersonalInfo(MoviePersonalInfoResource resource, MoviePersonalInfo info) {
         if (resource == null) {
             return info;
         }

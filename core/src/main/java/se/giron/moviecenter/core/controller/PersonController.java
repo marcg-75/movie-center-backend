@@ -6,17 +6,14 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import se.giron.moviecenter.core.service.PersonService;
 import se.giron.moviecenter.model.entity.Role;
-import se.giron.moviecenter.model.map.PersonMapper;
 import se.giron.moviecenter.model.resource.PersonResource;
 import se.giron.moviecenter.model.resource.PersonRoleResource;
 import se.giron.moviecenter.model.resource.error.ErrorResponse;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -49,6 +46,18 @@ public class PersonController {
     public List<PersonRoleResource> getAllActors() {
         return personService.getAllActors();
     }
+
+    @ApiOperation(value = "Convenience method for retrieving a list of all the crew members (not actors) in the database.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = PersonResource.class, responseContainer = "List"),
+            @ApiResponse(code = 500, message = "Undefined system error", response = ErrorResponse.class)
+    })
+    @GetMapping(value = "/crew", produces = {APPLICATION_JSON_VALUE})
+    @ResponseStatus(HttpStatus.OK)
+    public List<PersonRoleResource> getAllCrewMembers() {
+        return personService.getAllCrewMembers();
+    }
+
 
     @ApiOperation(value = "Convenience method for retrieving a list of all the directors in the database.")
     @ApiResponses(value = {

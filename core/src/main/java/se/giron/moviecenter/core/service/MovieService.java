@@ -12,9 +12,10 @@ import se.giron.moviecenter.core.exception.ValidationException;
 import se.giron.moviecenter.core.repository.GenreRepository;
 import se.giron.moviecenter.core.repository.MovieFilterSpecification;
 import se.giron.moviecenter.core.repository.MovieRepository;
+import se.giron.moviecenter.core.repository.PersonRepository;
 import se.giron.moviecenter.model.entity.Genre;
 import se.giron.moviecenter.model.entity.Movie;
-import se.giron.moviecenter.model.map.MovieMapper;
+import se.giron.moviecenter.core.map.MovieMapper;
 import se.giron.moviecenter.model.resource.MovieInfoResource;
 import se.giron.moviecenter.model.resource.MovieResource;
 import se.giron.moviecenter.model.resource.filter.MovieFilter;
@@ -32,9 +33,12 @@ public class MovieService {
     @Autowired
     private GenreRepository genreRepository;
 
+    @Autowired
+    private MovieMapper movieMapper;
+
     @Transactional(readOnly = true)
     public List<MovieInfoResource> getAllMovies(MovieFilter filter, Sort sort) {
-        return getFilteredMovies(filter, sort).stream().map(MovieMapper::entity2infoResource).collect(Collectors.toList());
+        return getFilteredMovies(filter, sort).stream().map(movieMapper::entity2infoResource).collect(Collectors.toList());
     }
 
     private List<Movie> getFilteredMovies(MovieFilter filter, Sort sort) {
@@ -46,7 +50,7 @@ public class MovieService {
         Optional<Movie> movie = movieRepository.findById(id);
 
         if (movie.isPresent()) {
-            MovieResource movieResource = MovieMapper.entity2resource(movie.get());
+            MovieResource movieResource = movieMapper.entity2resource(movie.get());
             return Optional.ofNullable(movieResource);
         }
         return Optional.empty();
@@ -59,7 +63,7 @@ public class MovieService {
 
         Movie movie = persist(movieResource, new Movie());
 
-        MovieResource createdMovie = MovieMapper.entity2resource(movie);
+        MovieResource createdMovie = movieMapper.entity2resource(movie);
         return Optional.of(createdMovie).get();
     }
 
@@ -76,7 +80,7 @@ public class MovieService {
 //            });
 
             final Movie updatedMovie = persist(movieResource, movie);
-            MovieResource movieResourceUpd = MovieMapper.entity2resource(updatedMovie);
+            MovieResource movieResourceUpd = movieMapper.entity2resource(updatedMovie);
             return Optional.ofNullable(movieResourceUpd);
         }
         return Optional.empty();
@@ -97,7 +101,7 @@ public class MovieService {
     private Movie persist(MovieResource movieResource, Movie movie) {
         validateAndResolveReferences(movieResource);
 
-        Movie movieToUpdate = MovieMapper.resource2entity(movieResource, movie);
+        Movie movieToUpdate = movieMapper.resource2entity(movieResource, movie);
         return movieRepository.save(movieToUpdate);
     }
 
