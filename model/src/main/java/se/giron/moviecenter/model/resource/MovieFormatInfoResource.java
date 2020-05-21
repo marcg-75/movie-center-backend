@@ -1,18 +1,17 @@
 package se.giron.moviecenter.model.resource;
 
-import se.giron.moviecenter.model.entity.AudioLanguage;
 import se.giron.moviecenter.model.entity.Format;
-import se.giron.moviecenter.model.entity.Subtitle;
+import se.giron.moviecenter.model.entity.Language;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by marc on 2020-04-17.
  */
 public class MovieFormatInfoResource {
 
-    private CoverResource cover;
+    private CoverResource cover = new CoverResource();
 
     private Format format;
 
@@ -26,9 +25,9 @@ public class MovieFormatInfoResource {
 
     private String system;
 
-    private List<AudioLanguage> audioLanguages;
+    private List<Language> audioLanguages = new ArrayList<>();
 
-    private List<Subtitle> subtitles;
+    private List<Language> subtitles = new ArrayList<>();
 
     public CoverResource getCover() {
         return cover;
@@ -93,20 +92,20 @@ public class MovieFormatInfoResource {
         return this;
     }
 
-    public List<AudioLanguage> getAudioLanguages() {
+    public List<Language> getAudioLanguages() {
         return audioLanguages;
     }
 
-    public MovieFormatInfoResource setAudioLanguages(List<AudioLanguage> audioLanguages) {
+    public MovieFormatInfoResource setAudioLanguages(List<Language> audioLanguages) {
         this.audioLanguages = audioLanguages;
         return this;
     }
 
-    public List<Subtitle> getSubtitles() {
+    public List<Language> getSubtitles() {
         return subtitles;
     }
 
-    public MovieFormatInfoResource setSubtitles(List<Subtitle> subtitles) {
+    public MovieFormatInfoResource setSubtitles(List<Language> subtitles) {
         this.subtitles = subtitles;
         return this;
     }

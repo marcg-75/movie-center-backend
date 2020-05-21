@@ -15,8 +15,7 @@ public class MoviePersonalInfo {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    @Column(name = "grade", columnDefinition = "TINYINT")
-    private Integer grade;
+    private BigDecimal grade;
 
     private Date obtainDate;
 
@@ -46,11 +45,11 @@ public class MoviePersonalInfo {
         return this;
     }
 
-    public Integer getGrade() {
+    public BigDecimal getGrade() {
         return grade;
     }
 
-    public MoviePersonalInfo setGrade(Integer grade) {
+    public MoviePersonalInfo setGrade(BigDecimal grade) {
         this.grade = grade;
         return this;
     }

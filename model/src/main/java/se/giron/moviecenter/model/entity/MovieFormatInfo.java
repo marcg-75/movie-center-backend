@@ -37,11 +37,21 @@ public class MovieFormatInfo {
     @Enumerated(EnumType.STRING)
     private SystemEnum system;
 
-    @OneToMany(mappedBy="movieFormatInfo", fetch = FetchType.LAZY)
-    private Set<AudioLanguage> audioLanguages = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "movie_format_spoken_languages",
+            joinColumns = { @JoinColumn(name = "movie_format_id")},
+            inverseJoinColumns = { @JoinColumn(name = "language_id")}
+    )
+    private Set<Language> audioLanguages = new HashSet<>();
 
-    @OneToMany(mappedBy="movieFormatInfo", fetch = FetchType.LAZY)
-    private Set<Subtitle> subtitles = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "movie_format_subtitle_languages",
+            joinColumns = { @JoinColumn(name = "movie_format_id")},
+            inverseJoinColumns = { @JoinColumn(name = "language_id")}
+    )
+    private Set<Language> subtitles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -124,20 +134,20 @@ public class MovieFormatInfo {
         return this;
     }
 
-    public Set<AudioLanguage> getAudioLanguages() {
+    public Set<Language> getAudioLanguages() {
         return audioLanguages;
     }
 
-    public MovieFormatInfo setAudioLanguages(Set<AudioLanguage> audioLanguages) {
+    public MovieFormatInfo setAudioLanguages(Set<Language> audioLanguages) {
         this.audioLanguages = audioLanguages;
         return this;
     }
 
-    public Set<Subtitle> getSubtitles() {
+    public Set<Language> getSubtitles() {
         return subtitles;
     }
 
-    public MovieFormatInfo setSubtitles(Set<Subtitle> subtitles) {
+    public MovieFormatInfo setSubtitles(Set<Language> subtitles) {
         this.subtitles = subtitles;
         return this;
     }

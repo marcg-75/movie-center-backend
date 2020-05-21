@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class MoviePersonalInfoResource {
 
-    private Integer grade;
+    private Double grade;
 
     private Date obtainDate;
 
@@ -19,11 +19,11 @@ public class MoviePersonalInfoResource {
 
     private String notes;
 
-    public Integer getGrade() {
+    public Double getGrade() {
         return grade;
     }
 
-    public MoviePersonalInfoResource setGrade(Integer grade) {
+    public MoviePersonalInfoResource setGrade(Double grade) {
         this.grade = grade;
         return this;
     }

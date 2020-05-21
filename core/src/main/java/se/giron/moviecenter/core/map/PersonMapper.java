@@ -92,7 +92,7 @@ public class PersonMapper {
     }
 
     public PersonRole resource2PersonRoleEntity(PersonRoleResource resource) {
-        // TODO: Find existing person (if resource has a person ID given)
+        // Find existing person (if resource has a person ID given)
         Person person = null;
 
         if (resource.getPerson().getId() != null) {

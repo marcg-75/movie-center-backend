@@ -2,14 +2,9 @@ package se.giron.moviecenter.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.giron.moviecenter.core.repository.FormatRepository;
-import se.giron.moviecenter.core.repository.GenreRepository;
-import se.giron.moviecenter.core.repository.RoleRepository;
-import se.giron.moviecenter.core.repository.StudioRepository;
-import se.giron.moviecenter.model.entity.Format;
-import se.giron.moviecenter.model.entity.Genre;
-import se.giron.moviecenter.model.entity.Role;
-import se.giron.moviecenter.model.entity.Studio;
+import org.springframework.transaction.annotation.Transactional;
+import se.giron.moviecenter.core.repository.*;
+import se.giron.moviecenter.model.entity.*;
 
 import java.util.List;
 
@@ -28,6 +23,9 @@ public class BaseDataService {
     @Autowired
     private StudioRepository studioRepository;
 
+    @Autowired
+    private LanguageRepository languageRepository;
+
     public List<Genre> getAllGenres() {
         return genreRepository.findAllByOrderByNameAsc();
     }
@@ -42,5 +40,9 @@ public class BaseDataService {
 
     public List<Studio> getAllStudios() {
         return studioRepository.findAllByOrderByNameAsc();
+    }
+
+    public List<Language> getAllLanguages() {
+        return languageRepository.findAllByOrderByIdAsc();
     }
 }

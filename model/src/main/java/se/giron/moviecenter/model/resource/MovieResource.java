@@ -10,10 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @ApiModel(value = "MovieResource")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -42,7 +39,7 @@ public class MovieResource {
 
     private String ageRestriction;
 
-    private Set<Studio> studios;
+    private Set<Studio> studios = new HashSet<>();
 
     private List<CastAndCrewResource> actors = new ArrayList<>();
 

@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import se.giron.moviecenter.core.service.BaseDataService;
-import se.giron.moviecenter.model.entity.Format;
-import se.giron.moviecenter.model.entity.Genre;
-import se.giron.moviecenter.model.entity.Role;
-import se.giron.moviecenter.model.entity.Studio;
+import se.giron.moviecenter.model.entity.*;
 
 import java.util.List;
 
@@ -61,5 +58,15 @@ public class BaseDataController {
     @ResponseStatus(HttpStatus.OK)
     public List<Studio> getAllStudios() {
         return baseDataService.getAllStudios();
+    }
+
+    @ApiOperation(value = "Get languages")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Studio.class, responseContainer = "List")
+    })
+    @GetMapping("/languages")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Language> getAllLanguages() {
+        return baseDataService.getAllLanguages();
     }
 }
