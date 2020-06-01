@@ -22,6 +22,8 @@ public class MovieResource {
     @NotBlank(message = "{movie.title.notnull}")
     private String title;
 
+    private String originalTitle;
+
     @NotBlank(message = "{movie.description.notnull}")
     private String description;
 
@@ -82,6 +84,15 @@ public class MovieResource {
 
     public MovieResource setTitle(String title) {
         this.title = title;
+        return this;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public MovieResource setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
         return this;
     }
 

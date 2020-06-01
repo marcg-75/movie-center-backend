@@ -15,10 +15,10 @@
 
 	<dependencies>
 
-		<!--dependency>
+		<dependency>
 			<groupId>se.giron.moviecenter</groupId>
 			<artifactId>movie-center-schemas</artifactId>
-		</dependency-->
+		</dependency>
 		<dependency>
             <groupId>se.giron.moviecenter</groupId>
             <artifactId>movie-center-model</artifactId>

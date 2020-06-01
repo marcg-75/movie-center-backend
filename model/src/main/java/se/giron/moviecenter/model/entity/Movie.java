@@ -20,6 +20,8 @@ public class Movie {
 
     private String title;
 
+    private String originalTitle;
+
     private String description;
 
     @ManyToOne
@@ -176,6 +178,15 @@ public class Movie {
 
     public Movie setTitle(String title) {
         this.title = title;
+        return this;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public Movie setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
         return this;
     }
 

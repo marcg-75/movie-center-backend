@@ -30,11 +30,11 @@
 
     <dependencyManagement>
 		<dependencies>
-			<!--dependency>
-		    	<groupId>se.inera.sbr2</groupId>
+			<dependency>
+		    	<groupId>se.giron.moviecenter</groupId>
 				<artifactId>movie-center-schemas</artifactId>
 				<version>${project.version}</version>
-			</dependency-->
+			</dependency>
 			<dependency>
 		    	<groupId>se.giron.moviecenter</groupId>
 				<artifactId>movie-center-model</artifactId>
@@ -49,8 +49,9 @@
     </dependencyManagement>
 
     <modules>
-        <!--module>schemas</module-->
+        <module>schemas</module>
         <module>model</module>
+        <module>adapter</module>
         <!--module>eopapi</module-->
         <module>core</module>
         <module>application</module>

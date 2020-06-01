@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>movie-center-schemas</artifactId>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>se.giron.moviecenter</groupId>
+        <artifactId>movie-center-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <!-- Properties for generating code from WSDL and XML Schemas (JAX-WS +
+            JAXB) -->
+        <schema.path>${basedir}/src/main/resources/schemas</schema.path>
+        <schema.gen.src.dir>${project.build.directory}/generated-sources/cxf</schema.gen.src.dir>
+    </properties>
+
+    <dependencies>
+        <!--<dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics</artifactId>
+            <version>0.11.0</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- cxf-codegen-plugin -->
+            <!--<plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>${cxf.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <sourceRoot>${schema.gen.src.dir}</sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>${schema.path}/application.riv.sbr.biobank.sample/schemas/interactions/ProcessBiobankSampleInteraction/ProcessBiobankSampleInteraction_1.0_RIVTABP21.wsdl</wsdl>
+                                    <wsdlLocation>classpath:wsdl/ProcessBiobankSampleInteraction_1.0_RIVTABP21.wsd</wsdlLocation>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${schema.path}/natrbr/ImportFileReceiver2.wsdl</wsdl>
+                                    <wsdlLocation>classpath:wsdl/ImportFileReceiver2.wsdl</wsdlLocation>
+                                </wsdlOption>
+                                <wsdloption>
+                                    <wsdl>${schema.path}/interactions/GetPersonsForProfileInteraction/GetPersonsForProfileInteraction_3.1_RIVTABP21.wsdl</wsdl>
+                                    <wsdlLocation>classpath:wsdl/GetPersonsForProfileInteraction/GetPersonsForProfileInteraction_3.1_RIVTABP21.wsdl</wsdlLocation>
+                                </wsdloption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+
+            <!-- TODO: Change to cxf-xjc-plugin -->
+            <!--<plugin>
+                <groupId>org.jvnet.jax-ws-commons</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    &lt;!&ndash; Needed with JAXP 1.5 &ndash;&gt;
+                    <vmArgs>
+                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                    </vmArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.11.0</version>
+                <executions>
+                    <execution>
+                        <id>dvdprofiler-generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <args>
+                                <arg>-XtoString</arg>
+                                <arg>-Xequals</arg>
+                                <arg>-XhashCode</arg>
+                                <arg>-Xcopyable</arg>
+                            </args>
+                            <plugins>
+                                <plugin>
+                                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                                    <artifactId>jaxb2-basics</artifactId>
+                                    <version>0.11.0</version>
+                                </plugin>
+                            </plugins>
+                            <schemaDirectory>src/main/resources/schemas/dvd_profiler</schemaDirectory>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>-->
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.5.0</version>
+                <executions>
+                    <execution>
+                        <id>dvdprofiler-generate</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- The package of your generated sources -->
+                    <packageName>se.giron.moviecenter.dvdprofiler</packageName>
+
+                    <sources>
+                        <source>src/main/resources/schemas/dvd_profiler</source>
+                    </sources>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>

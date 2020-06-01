@@ -34,6 +34,7 @@ public class MovieMapper {
         MovieResource resource = new MovieResource()
                 .setId(movie.getId())
                 .setTitle(movie.getTitle())
+                .setOriginalTitle(movie.getOriginalTitle())
                 .setMainGenre(movie.getMainGenre())
                 .setDescription(movie.getDescription())
                 .setAdditionalGenres(movie.getAdditionalGenres() != null ? movie.getAdditionalGenres().stream().collect(Collectors.toList()) : null)
@@ -98,6 +99,7 @@ public class MovieMapper {
 
     public Movie resource2entity(MovieResource movieResource, Movie movie) {
         movie.setTitle(movieResource.getTitle())
+                .setOriginalTitle(movieResource.getOriginalTitle())
                 .setMainGenre(movieResource.getMainGenre())
                 .setDescription(movieResource.getDescription())
                 .setAdditionalGenres(movieResource.getAdditionalGenres() != null ? movieResource.getAdditionalGenres().stream().collect(Collectors.toSet()) : null)
