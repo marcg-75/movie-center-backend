@@ -380,6 +380,7 @@ public class MovieMapper {
             return new MoviePersonalInfoResource();
         }
         return new MoviePersonalInfoResource()
+                .setArchiveNumber(moviePersonalInfo.getArchiveNumber())
                 .setGrade(moviePersonalInfo.getGrade() != null ? moviePersonalInfo.getGrade().doubleValue() : null)
                 .setObtainDate(moviePersonalInfo.getObtainDate())
                 .setObtainPlace(moviePersonalInfo.getObtainPlace())
@@ -402,7 +403,8 @@ public class MovieMapper {
         }
 
         // Update info
-        info.setGrade(resource.getGrade() != null ? new BigDecimal(resource.getGrade()) : null)
+        info.setArchiveNumber(resource.getArchiveNumber())
+                .setGrade(resource.getGrade() != null ? new BigDecimal(resource.getGrade()) : null)
                 .setObtainDate(resource.getObtainDate())
                 .setObtainPlace(resource.getObtainPlace())
                 .setObtainPrice(resource.getObtainPrice() != null ? new BigDecimal(resource.getObtainPrice()) : null)

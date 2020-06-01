@@ -6,6 +6,7 @@ import se.giron.moviecenter.model.entity.*;
 import se.giron.moviecenter.model.enums.RoleEnum;
 import se.giron.moviecenter.model.resource.*;
 
+import java.math.BigInteger;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.List;
@@ -269,6 +270,10 @@ public class MovieMapperUtils {
                 .setGrade(map2Grade(movieTransfer.getReview()))
                 .setNotes(movieTransfer.getNotes());
 
+        if (StringUtils.isNotBlank(movieTransfer.getCollectionNumber())) {
+            resource.setArchiveNumber(Integer.parseInt(movieTransfer.getCollectionNumber()));
+        }
+
         return mapObtainInfo(resource, movieTransfer.getPurchaseInfo());
     }
 
@@ -293,9 +298,9 @@ public class MovieMapperUtils {
         int region = 0;
 
         if (regions != null && regions.getRegion() != null && !regions.getRegion().isEmpty()) {
-            for (Byte bRegion : regions.getRegion()) {
-                if (bRegion.intValue() == 2 || region == 0) {
-                    region = bRegion.intValue();
+            for (Integer iRegion : regions.getRegion()) {
+                if (iRegion == 2 || region == 0) {
+                    region = iRegion;
                 }
             }
         }
@@ -424,10 +429,13 @@ public class MovieMapperUtils {
         if (purchaseInfo == null) {
             return resource;
         }
+        Double obtainPrice = (purchaseInfo.getPurchasePrice() != null && purchaseInfo.getPurchasePrice().getValue() != null)
+                ? purchaseInfo.getPurchasePrice().getValue().doubleValue() : null;
+
         return resource
                 .setObtainDate(purchaseInfo.getPurchaseDate().toGregorianCalendar().getTime())
                 .setObtainPlace(purchaseInfo.getPurchasePlace())
-                .setObtainPrice(purchaseInfo.getPurchasePrice() != null ? new Byte(purchaseInfo.getPurchasePrice().getValue()).doubleValue() : null)
+                .setObtainPrice(obtainPrice)
                 .setCurrency(purchaseInfo.getPurchasePrice() != null ? purchaseInfo.getPurchasePrice().getDenominationType() : null);
     }
 }

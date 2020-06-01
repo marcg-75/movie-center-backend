@@ -15,6 +15,8 @@ public class MoviePersonalInfo {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
+    private Integer archiveNumber;
+
     private BigDecimal grade;
 
     private Date obtainDate;
@@ -42,6 +44,15 @@ public class MoviePersonalInfo {
 
     public MoviePersonalInfo setMovie(Movie movie) {
         this.movie = movie;
+        return this;
+    }
+
+    public Integer getArchiveNumber() {
+        return archiveNumber;
+    }
+
+    public MoviePersonalInfo setArchiveNumber(Integer archiveNumber) {
+        this.archiveNumber = archiveNumber;
         return this;
     }
 

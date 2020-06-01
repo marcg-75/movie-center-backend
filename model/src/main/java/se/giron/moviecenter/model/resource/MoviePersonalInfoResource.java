@@ -7,6 +7,8 @@ import java.util.Date;
  */
 public class MoviePersonalInfoResource {
 
+    private Integer archiveNumber;
+
     private Double grade;
 
     private Date obtainDate;
@@ -18,6 +20,15 @@ public class MoviePersonalInfoResource {
     private String obtainPlace;
 
     private String notes;
+
+    public Integer getArchiveNumber() {
+        return archiveNumber;
+    }
+
+    public MoviePersonalInfoResource setArchiveNumber(Integer archiveNumber) {
+        this.archiveNumber = archiveNumber;
+        return this;
+    }
 
     public Double getGrade() {
         return grade;

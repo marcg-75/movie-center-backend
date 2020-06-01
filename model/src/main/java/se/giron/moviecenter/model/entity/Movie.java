@@ -50,7 +50,7 @@ public class Movie {
             joinColumns = { @JoinColumn(name = "movie_id")},
             inverseJoinColumns = { @JoinColumn(name = "studio_id")}
     )
-    private Set<Studio> studios;
+    private Set<Studio> studios = new HashSet<>();
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     //@JoinColumn(name = "movie_id")

@@ -8,8 +8,8 @@
         <xs:element type="xs:dateTime" name="ProfileTimestamp"/>
         <xs:element type="xs:float" name="ID"/>
         <xs:element type="xs:long" name="ID_Base"/>
-        <xs:element type="xs:byte" name="ID_VariantNum"/>
-        <xs:element type="xs:byte" name="ID_LocalityID"/>
+        <xs:element type="xs:int" name="ID_VariantNum"/>
+        <xs:element type="xs:int" name="ID_LocalityID"/>
         <xs:element type="xs:string" name="ID_LocalityDesc"/>
         <xs:element type="xs:string" name="ID_Type"/>
         <xs:element name="MediaTypes">
@@ -23,7 +23,7 @@
           </xs:complexType>
         </xs:element>
         <xs:element type="xs:string" name="UPC"/>
-        <xs:element type="xs:byte" name="CollectionNumber"/>
+        <xs:element type="xs:string" name="CollectionNumber"/>
         <xs:element name="CollectionType">
           <xs:complexType>
             <xs:simpleContent>
@@ -41,11 +41,11 @@
         <xs:element type="xs:string" name="CountryOfOrigin3"/>
         <xs:element type="xs:short" name="ProductionYear"/>
         <xs:element type="xs:date" name="Released"/>
-        <xs:element type="xs:byte" name="RunningTime"/>
+        <xs:element type="xs:int" name="RunningTime"/>
         <xs:element type="xs:string" name="RatingSystem"/>
         <xs:element type="xs:string" name="Rating"/>
-        <xs:element type="xs:byte" name="RatingAge"/>
-        <xs:element type="xs:byte" name="RatingVariant"/>
+        <xs:element type="xs:int" name="RatingAge"/>
+        <xs:element type="xs:int" name="RatingVariant"/>
         <xs:element type="xs:string" name="CaseType"/>
         <xs:element name="Genres">
           <xs:complexType>
@@ -57,7 +57,7 @@
         <xs:element name="Regions">
           <xs:complexType>
             <xs:sequence>
-              <xs:element type="xs:byte" name="Region" maxOccurs="unbounded" minOccurs="0"/>
+              <xs:element type="xs:int" name="Region" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -135,7 +135,7 @@
         <xs:element name="MediaCompanies">
           <xs:complexType>
             <xs:sequence>
-              <xs:element type="xs:string" name="MediaCompany"/>
+              <xs:element type="xs:string" name="MediaCompany" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -182,7 +182,7 @@
                       <xs:attribute type="xs:string" name="FirstName" use="optional"/>
                       <xs:attribute type="xs:string" name="MiddleName" use="optional"/>
                       <xs:attribute type="xs:string" name="LastName" use="optional"/>
-                      <xs:attribute type="xs:byte" name="BirthYear" use="optional"/>
+                      <xs:attribute type="xs:int" name="BirthYear" use="optional"/>
                       <xs:attribute type="xs:string" name="Role" use="optional"/>
                       <xs:attribute type="xs:string" name="CreditedAs" use="optional"/>
                       <xs:attribute type="xs:string" name="Voice" use="optional"/>
@@ -205,7 +205,7 @@
                       <xs:attribute type="xs:string" name="FirstName" use="optional"/>
                       <xs:attribute type="xs:string" name="MiddleName" use="optional"/>
                       <xs:attribute type="xs:string" name="LastName" use="optional"/>
-                      <xs:attribute type="xs:byte" name="BirthYear" use="optional"/>
+                      <xs:attribute type="xs:int" name="BirthYear" use="optional"/>
                       <xs:attribute type="xs:string" name="CreditType" use="optional"/>
                       <xs:attribute type="xs:string" name="CreditSubtype" use="optional"/>
                       <xs:attribute type="xs:string" name="CreditedAs" use="optional"/>
@@ -243,15 +243,15 @@
         </xs:element>
         <xs:element type="xs:string" name="SortTitle"/>
         <xs:element type="xs:dateTime" name="LastEdited"/>
-        <xs:element type="xs:byte" name="WishPriority"/>
-        <xs:element type="xs:byte" name="CountAs"/>
+        <xs:element type="xs:int" name="WishPriority"/>
+        <xs:element type="xs:int" name="CountAs"/>
         <xs:element name="PurchaseInfo">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="PurchasePrice">
                 <xs:complexType>
                   <xs:simpleContent>
-                    <xs:extension base="xs:byte">
+                    <xs:extension base="xs:decimal">
                       <xs:attribute type="xs:string" name="DenominationType"/>
                       <xs:attribute type="xs:string" name="DenominationDesc"/>
                       <xs:attribute type="xs:string" name="FormattedValue"/>
@@ -281,10 +281,10 @@
           <xs:complexType>
             <xs:simpleContent>
               <xs:extension base="xs:string">
-                <xs:attribute type="xs:byte" name="Film"/>
-                <xs:attribute type="xs:byte" name="Video"/>
-                <xs:attribute type="xs:byte" name="Audio"/>
-                <xs:attribute type="xs:byte" name="Extras"/>
+                <xs:attribute type="xs:int" name="Film"/>
+                <xs:attribute type="xs:int" name="Video"/>
+                <xs:attribute type="xs:int" name="Audio"/>
+                <xs:attribute type="xs:int" name="Extras"/>
               </xs:extension>
             </xs:simpleContent>
           </xs:complexType>

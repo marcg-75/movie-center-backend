@@ -31,7 +31,7 @@ public class AdapterController implements MessageSourceAware {
 
     private MessageSourceAccessor messageSource;
 
-    @PostMapping("/movies")
+    @PostMapping("/movie")
     public ResponseEntity<AdapterResponse> createMovie(@RequestBody @Valid MovieTransferResource movieTransferResource) {
         try {
             movieService.createMovie(movieTransferResource.getMovie());
