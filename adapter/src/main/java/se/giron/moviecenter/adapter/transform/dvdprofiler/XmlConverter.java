@@ -1,4 +1,4 @@
-package se.giron.moviecenter.adapter.transform;
+package se.giron.moviecenter.adapter.transform.dvdprofiler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

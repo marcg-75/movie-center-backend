@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import se.giron.moviecenter.adapter.transform.XmlConverter;
+import se.giron.moviecenter.adapter.transform.dvdprofiler.XmlConverter;
 import se.giron.moviecenter.adapter.web.MovieWebServiceClient;
 import se.giron.moviecenter.dvdprofiler.DVD;
 import se.giron.moviecenter.model.resource.imports.MovieImportStatus;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static se.giron.moviecenter.adapter.transform.MovieMapperUtils.movie2resource;
+import static se.giron.moviecenter.adapter.transform.dvdprofiler.MovieMapperUtils.movie2resource;
 import static se.giron.moviecenter.adapter.util.MovieCenterUtil.listFiles;
 import static se.giron.moviecenter.adapter.util.MovieCenterUtil.moveFile;
 
