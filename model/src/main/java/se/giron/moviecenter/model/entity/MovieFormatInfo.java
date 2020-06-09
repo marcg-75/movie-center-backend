@@ -37,7 +37,7 @@ public class MovieFormatInfo {
     @Enumerated(EnumType.STRING)
     private SystemEnum system;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "movie_format_spoken_languages",
             joinColumns = { @JoinColumn(name = "movie_format_id")},
@@ -45,7 +45,7 @@ public class MovieFormatInfo {
     )
     private Set<Language> audioLanguages = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "movie_format_subtitle_languages",
             joinColumns = { @JoinColumn(name = "movie_format_id")},

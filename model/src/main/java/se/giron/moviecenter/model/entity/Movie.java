@@ -44,7 +44,7 @@ public class Movie {
 
     private String ageRestriction;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "movie_studio",
             joinColumns = { @JoinColumn(name = "movie_id")},

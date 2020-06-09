@@ -11,13 +11,16 @@ import java.util.List;
 public interface PersonRoleRepository extends JpaRepository<PersonRole, Long> {
 
     @Query("SELECT pr FROM PersonRole pr WHERE pr.role.code = :roleCd")
-    List<PersonRole> findByRole(@Param("roleCd") String roleCd);
+    List<PersonRole> findAllByRole(@Param("roleCd") String roleCd);
 
     @Query("SELECT pr FROM PersonRole pr WHERE pr.role.code <> 'ACTOR'")
     List<PersonRole> findAllCrewMembers();
 
     @Query("SELECT pr FROM PersonRole pr WHERE pr.person.name = :pName")
-    List<PersonRole> findByName(@Param("pName") String name);
+    List<PersonRole> findAllByName(@Param("pName") String name);
+
+    @Query("SELECT pr FROM PersonRole pr WHERE pr.person.name = :pName AND pr.role.code = :roleCd")
+    List<PersonRole> findAllByNameAndRole(@Param("pName") String name, @Param("roleCd") String roleCd);
 
     @Query("SELECT r FROM Role r LEFT OUTER JOIN PersonRole pr WHERE pr.role = r AND pr.person.id = :pId")
     List<Role> findRolesByPersonId(@Param("pId") Long personId);

@@ -22,7 +22,7 @@ public class MovieMapperUtils {
 				.setDescription(movieTransfer.getOverview())
 				.setRuntime(map2Runtime(movieTransfer.getRunningTime()))
 				.setReleaseDate(movieTransfer.getReleased() != null ? movieTransfer.getReleased().toGregorianCalendar().getTime() : null)
-				.setCountry(map2Country(movieTransfer.getIDLocalityDesc()))
+				.setCountry(map2Country(movieTransfer.getCountryOfOrigin()))
 				.setAgeRestriction(movieTransfer.getRatingAge() > 0 ? "Från " + movieTransfer.getRatingAge() + " år" : null)
 				.setStudios(map2Studios(movieTransfer.getStudios()))
 
@@ -219,13 +219,13 @@ public class MovieMapperUtils {
     private static PersonRoleResource mapActor2PersonRoleResource(DVD.Actors.Actor actor, RoleEnum role) {
         return new PersonRoleResource()
                 .setPerson(mapActor2PersonResource(actor))
-                .setRole(role != null ? new Role().setCode(role.getName()) : null);
+                .setRole(role != null ? new Role().setCode(role.name()) : null);
     }
 
     private static PersonRoleResource mapCredit2PersonRoleResource(DVD.Credits.Credit credit, RoleEnum role) {
         return new PersonRoleResource()
                 .setPerson(mapCredit2PersonResource(credit))
-                .setRole(role != null ? new Role().setCode(role.getName()) : null);
+                .setRole(role != null ? new Role().setCode(role.name()) : null);
     }
 
     private static PersonResource mapActor2PersonResource(DVD.Actors.Actor actor) {
@@ -366,6 +366,8 @@ public class MovieMapperUtils {
                 return "Danska";
             case "Finnish":
                 return "Finska";
+            case "Icelandic":
+                return "Isländska";
             case "Dutch":
                 return "Holländska";
             case "Flemish":
@@ -382,10 +384,15 @@ public class MovieMapperUtils {
                 return "Lettiska";
             case "Lithuanian":
                 return "Litauiska";
+            case "Arabic":
+                return "Arabiska";
+            case "Hebrew":
+                return "Hebreiska";
             case "Russian":
                 return "Ryska";
             default:
-                return null;
+                System.out.println("Unsupported language: " + langEng);
+                return "";
         }
     }
 

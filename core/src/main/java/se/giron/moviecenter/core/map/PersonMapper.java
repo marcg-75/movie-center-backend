@@ -1,10 +1,9 @@
 package se.giron.moviecenter.core.map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import se.giron.moviecenter.core.repository.PersonRepository;
+import se.giron.moviecenter.core.repository.PersonRoleRepository;
 import se.giron.moviecenter.model.entity.Person;
 import se.giron.moviecenter.model.entity.PersonRole;
 import se.giron.moviecenter.model.resource.PersonResource;
@@ -20,6 +19,9 @@ public class PersonMapper {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PersonRoleRepository personRoleRepository;
 
     public PersonResource entity2PersonResource(Person person) {
         return new PersonResource()
@@ -91,13 +93,26 @@ public class PersonMapper {
         return personRoles.stream().map(this::entity2PersonRoleResource).collect(Collectors.toList());
     }
 
+    /**
+     * NOTE: Two persons with the same name will be treated as the same person, if the person ID is missing.
+     */
     public PersonRole resource2PersonRoleEntity(PersonRoleResource resource) {
-        // Find existing person (if resource has a person ID given)
+        // Find existing personRole.
+        List<PersonRole> personRoles = personRoleRepository.findAllByNameAndRole(resource.getPerson().getName(), resource.getRole().getCode());
+
+        if (personRoles != null && !personRoles.isEmpty()) {
+            return personRoles.get(0);
+        }
+
+        // Find existing person (by ID or name)
         Person person = null;
 
         if (resource.getPerson().getId() != null) {
             Optional<Person> oPerson = personRepository.findById(resource.getPerson().getId());
             person = oPerson.get();
+        } else {
+            List<Person> personsWithName = personRepository.findAllByName(resource.getPerson().getName());
+            person = (personsWithName != null && !personsWithName.isEmpty()) ? personsWithName.get(0) : null;
         }
 
         return new PersonRole()

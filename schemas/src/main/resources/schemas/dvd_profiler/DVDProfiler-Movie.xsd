@@ -6,7 +6,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element type="xs:dateTime" name="ProfileTimestamp"/>
-        <xs:element type="xs:float" name="ID"/>
+        <xs:element type="xs:string" name="ID"/>
         <xs:element type="xs:long" name="ID_Base"/>
         <xs:element type="xs:int" name="ID_VariantNum"/>
         <xs:element type="xs:int" name="ID_LocalityID"/>
@@ -64,7 +64,7 @@
         <xs:element name="Format">
           <xs:complexType>
             <xs:sequence>
-              <xs:element type="xs:float" name="FormatAspectRatio"/>
+              <xs:element type="xs:string" name="FormatAspectRatio"/>
               <xs:element type="xs:string" name="FormatVideoStandard"/>
               <xs:element name="ColorFormat">
                 <xs:complexType>
@@ -147,7 +147,7 @@
                   <xs:sequence>
                     <xs:element type="xs:string" name="AudioContent"/>
                     <xs:element type="xs:string" name="AudioFormat"/>
-                    <xs:element type="xs:float" name="AudioChannels"/>
+                    <xs:element type="xs:string" name="AudioChannels"/>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>

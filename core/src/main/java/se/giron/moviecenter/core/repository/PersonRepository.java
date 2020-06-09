@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    List<Person> findByName(String name);
+    List<Person> findAllByName(String name);
 
     @Query("SELECT COUNT(p) FROM Person p")
     Integer totalCount();

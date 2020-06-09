@@ -35,7 +35,7 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllActors() {
-        return personRoleRepository.findByRole(RoleEnum.ACTOR.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.ACTOR.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
@@ -49,77 +49,77 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllDirectors() {
-        return personRoleRepository.findByRole(RoleEnum.DIRECTOR.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.DIRECTOR.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllProducers() {
-        return personRoleRepository.findByRole(RoleEnum.PRODUCER.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.PRODUCER.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllComposers() {
-        return personRoleRepository.findByRole(RoleEnum.MUSIC.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.MUSIC.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllWriters() {
-        return personRoleRepository.findByRole(RoleEnum.WRITER.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.WRITER.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllCasters() {
-        return personRoleRepository.findByRole(RoleEnum.CASTING.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.CASTING.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllEditors() {
-        return personRoleRepository.findByRole(RoleEnum.EDITOR.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.EDITOR.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllCinematoraphors() {
-        return personRoleRepository.findByRole(RoleEnum.CINEMATOGRAPHY.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.CINEMATOGRAPHY.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllSoundMakers() {
-        return personRoleRepository.findByRole(RoleEnum.SOUND.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.SOUND.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllArtPeople() {
-        return personRoleRepository.findByRole(RoleEnum.ART.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.ART.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getAllMiscPersons() {
-        return personRoleRepository.findByRole(RoleEnum.MISC.name()).stream()
+        return personRoleRepository.findAllByRole(RoleEnum.MISC.name()).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<PersonRoleResource> getPersonRolesWithName(String name) {
-        return personRoleRepository.findByName(name).stream()
+        return personRoleRepository.findAllByName(name).stream()
                 .map(personMapper::entity2PersonRoleResource)
                 .collect(Collectors.toList());
     }
@@ -131,7 +131,7 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public List<PersonResource> getPersonsWithName(String name) {
-        return personRepository.findByName(name).stream()
+        return personRepository.findAllByName(name).stream()
                 .map(personMapper::entity2PersonResource)
                 .collect(Collectors.toList());
     }
