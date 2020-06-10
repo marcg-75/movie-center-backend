@@ -5,9 +5,9 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element type="xs:dateTime" name="ProfileTimestamp"/>
+        <xs:element type="xs:string" name="ProfileTimestamp"/>
         <xs:element type="xs:string" name="ID"/>
-        <xs:element type="xs:long" name="ID_Base"/>
+        <xs:element type="xs:string" name="ID_Base"/>
         <xs:element type="xs:int" name="ID_VariantNum"/>
         <xs:element type="xs:int" name="ID_LocalityID"/>
         <xs:element type="xs:string" name="ID_LocalityDesc"/>
@@ -40,13 +40,15 @@
         <xs:element type="xs:string" name="CountryOfOrigin2"/>
         <xs:element type="xs:string" name="CountryOfOrigin3"/>
         <xs:element type="xs:short" name="ProductionYear"/>
-        <xs:element type="xs:date" name="Released"/>
+        <xs:element type="xs:date" name="Released" minOccurs="0"/>
         <xs:element type="xs:int" name="RunningTime"/>
         <xs:element type="xs:string" name="RatingSystem"/>
         <xs:element type="xs:string" name="Rating"/>
         <xs:element type="xs:int" name="RatingAge"/>
         <xs:element type="xs:int" name="RatingVariant"/>
+        <xs:element type="xs:string" name="RatingDetails" minOccurs="0"/>
         <xs:element type="xs:string" name="CaseType"/>
+        <xs:element type="xs:string" name="CaseSlipCover" minOccurs="0"/>
         <xs:element name="Genres">
           <xs:complexType>
             <xs:sequence>
@@ -57,7 +59,7 @@
         <xs:element name="Regions">
           <xs:complexType>
             <xs:sequence>
-              <xs:element type="xs:int" name="Region" maxOccurs="unbounded" minOccurs="0"/>
+              <xs:element type="xs:string" name="Region" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -164,7 +166,7 @@
         <xs:element name="SRP">
           <xs:complexType>
             <xs:simpleContent>
-              <xs:extension base="xs:short">
+              <xs:extension base="xs:decimal">
                 <xs:attribute type="xs:string" name="DenominationType"/>
                 <xs:attribute type="xs:string" name="DenominationDesc"/>
                 <xs:attribute type="xs:string" name="FormattedValue"/>
@@ -172,50 +174,8 @@
             </xs:simpleContent>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Actors">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Actor" maxOccurs="unbounded" minOccurs="0">
-                <xs:complexType>
-                  <xs:simpleContent>
-                    <xs:extension base="xs:string">
-                      <xs:attribute type="xs:string" name="FirstName" use="optional"/>
-                      <xs:attribute type="xs:string" name="MiddleName" use="optional"/>
-                      <xs:attribute type="xs:string" name="LastName" use="optional"/>
-                      <xs:attribute type="xs:int" name="BirthYear" use="optional"/>
-                      <xs:attribute type="xs:string" name="Role" use="optional"/>
-                      <xs:attribute type="xs:string" name="CreditedAs" use="optional"/>
-                      <xs:attribute type="xs:string" name="Voice" use="optional"/>
-                      <xs:attribute type="xs:string" name="Uncredited" use="optional"/>
-                      <xs:attribute type="xs:string" name="Puppeteer" use="optional"/>
-                    </xs:extension>
-                  </xs:simpleContent>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="Credits">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Credit" maxOccurs="unbounded" minOccurs="0">
-                <xs:complexType>
-                  <xs:simpleContent>
-                    <xs:extension base="xs:string">
-                      <xs:attribute type="xs:string" name="FirstName" use="optional"/>
-                      <xs:attribute type="xs:string" name="MiddleName" use="optional"/>
-                      <xs:attribute type="xs:string" name="LastName" use="optional"/>
-                      <xs:attribute type="xs:int" name="BirthYear" use="optional"/>
-                      <xs:attribute type="xs:string" name="CreditType" use="optional"/>
-                      <xs:attribute type="xs:string" name="CreditSubtype" use="optional"/>
-                      <xs:attribute type="xs:string" name="CreditedAs" use="optional"/>
-                    </xs:extension>
-                  </xs:simpleContent>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
+        <xs:element type="ActorsType" name="Actors"/>
+        <xs:element type="CreditsType" name="Credits"/>
         <xs:element type="xs:string" name="Overview"/>
         <xs:element type="xs:string" name="EasterEggs"/>
         <xs:element name="Discs">
@@ -349,4 +309,76 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+
+  <xs:complexType name="ActorsType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="ActorType" name="Actor" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="DividerType" name="Divider"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="ActorType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="FirstName" use="optional"/>
+        <xs:attribute type="xs:string" name="MiddleName" use="optional"/>
+        <xs:attribute type="xs:string" name="LastName" use="optional"/>
+        <xs:attribute type="xs:string" name="BirthYear" use="optional"/>
+        <xs:attribute type="xs:string" name="Role" use="optional"/>
+        <xs:attribute type="xs:string" name="CreditedAs" use="optional"/>
+        <xs:attribute type="xs:string" name="Voice" use="optional"/>
+        <xs:attribute type="xs:string" name="Uncredited" use="optional"/>
+        <xs:attribute type="xs:string" name="Puppeteer" use="optional"/>
+        <xs:attribute type="xs:string" name="Caption" use="optional"/>
+        <xs:attribute type="xs:string" name="Type" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="CreditsType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="CreditType" name="Credit" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="DividerType" name="Divider"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="CreditType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="FirstName" use="optional"/>
+        <xs:attribute type="xs:string" name="MiddleName" use="optional"/>
+        <xs:attribute type="xs:string" name="LastName" use="optional"/>
+        <xs:attribute type="xs:string" name="BirthYear" use="optional"/>
+        <xs:attribute type="xs:string" name="CreditType" use="optional"/>
+        <xs:attribute type="xs:string" name="CreditSubtype" use="optional"/>
+        <xs:attribute type="xs:string" name="CreditedAs" use="optional"/>
+        <xs:attribute type="xs:string" name="Caption" use="optional"/>
+        <xs:attribute type="xs:string" name="Type" use="optional"/>
+        <xs:attribute type="xs:string" name="Role" use="optional"/>
+        <xs:attribute type="xs:string" name="Voice" use="optional"/>
+        <xs:attribute type="xs:string" name="Uncredited" use="optional"/>
+        <xs:attribute type="xs:string" name="Puppeteer" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="DividerType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="Caption" use="optional"/>
+        <xs:attribute type="xs:string" name="Type" use="optional"/>
+        <xs:attribute type="xs:string" name="FirstName" use="optional"/>
+        <xs:attribute type="xs:string" name="MiddleName" use="optional"/>
+        <xs:attribute type="xs:string" name="LastName" use="optional"/>
+        <xs:attribute type="xs:string" name="BirthYear" use="optional"/>
+        <xs:attribute type="xs:string" name="Role" use="optional"/>
+        <xs:attribute type="xs:string" name="CreditedAs" use="optional"/>
+        <xs:attribute type="xs:string" name="Voice" use="optional"/>
+        <xs:attribute type="xs:string" name="Uncredited" use="optional"/>
+        <xs:attribute type="xs:string" name="Puppeteer" use="optional"/>
+        <xs:attribute type="xs:string" name="CreditType" use="optional"/>
+        <xs:attribute type="xs:string" name="CreditSubtype" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
 </xs:schema>

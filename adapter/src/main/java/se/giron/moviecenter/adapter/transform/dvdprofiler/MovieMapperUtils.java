@@ -1,7 +1,7 @@
 package se.giron.moviecenter.adapter.transform.dvdprofiler;
 
 import io.micrometer.core.instrument.util.StringUtils;
-import se.giron.moviecenter.dvdprofiler.DVD;
+import se.giron.moviecenter.dvdprofiler.*;
 import se.giron.moviecenter.model.entity.*;
 import se.giron.moviecenter.model.enums.RoleEnum;
 import se.giron.moviecenter.model.resource.*;
@@ -41,14 +41,69 @@ public class MovieMapperUtils {
         }
 
         for (int i = 0 ; i < mGenres.getGenre().size() ; i++) {
-            Genre genre = new Genre().setCode(mGenres.getGenre().get(0).toUpperCase());
+            String genreCode = mGenres.getGenre().get(i).toUpperCase();
 
-            if (i == 0) {
-                // Main genre (choose first in list).
-                movieResource.setMainGenre(genre);
-            } else {
-                movieResource.getAdditionalGenres().add(genre);
+            if (StringUtils.isNotBlank(genreCode)) {
+                String mappedGenreCode = genreCode;
+
+                // Map code.
+                if ("SUSPENSE/THRILLER".equalsIgnoreCase(genreCode)) {
+                    mappedGenreCode = "THRILLER";
+                } else if ("CHILDREN'S".equalsIgnoreCase(genreCode)) {
+                    mappedGenreCode = "CHILDREN";
+                } else if ("MUSIC".equalsIgnoreCase(genreCode)) {
+                    mappedGenreCode = "MUSICAL";
+                } else if ("MARTIAL ARTS".equalsIgnoreCase(genreCode)) {
+                    mappedGenreCode = "MARTIAL-ARTS";
+                }
+
+                isGenreSupported(mappedGenreCode);
+
+                Genre genre = new Genre().setCode(mappedGenreCode);
+
+                if (i == 0) {
+                    // Main genre (choose first in list).
+                    movieResource.setMainGenre(genre);
+
+                } else {
+                    movieResource.getAdditionalGenres().add(genre);
+                }
             }
+        }
+    }
+
+    private static boolean isGenreSupported(String genreCode) {
+        if (StringUtils.isBlank(genreCode)) {
+            System.out.println("Unsupported genre: <empty value>");
+            return false;
+        }
+        switch (genreCode) {
+            case "ACTION":
+            case "ANIMATION":
+            case "COMEDY":
+            case "CLASSIC":
+            case "CRIME":
+            case "DOCUMENTARY":
+            case "DRAMA":
+            case "DISASTER":
+            case "FAMILY":
+            case "FANTASY":
+            case "SPORTS":
+            case "HORROR":
+            case "ROMANCE":
+            case "THRILLER":
+            case "WAR":
+            case "WESTERN":
+            case "TELEVISION":
+            case "ADVENTURE":
+            case "CHILDREN":
+            case "SCIENCE-FICTION":
+            case "MUSICAL":
+            case "MARTIAL-ARTS":
+                return true;
+            default:
+                System.out.println("Unsupported genre: " + genreCode);
+                return false;
         }
     }
 
@@ -88,61 +143,67 @@ public class MovieMapperUtils {
 
     private static void mapCastAndCrew(MovieResource movieResource, DVD movieTransfer) {
         // Actors
-        movieResource.getActors().addAll(map2Actors(movieTransfer.getActors()));
+        List<CastAndCrewResource> actors = map2Actors(movieTransfer.getActors());
+        if (actors != null && !actors.isEmpty()) {
+            movieResource.getActors().addAll(actors);
+        }
 
         // Credits (Crew)
         map2Credits(movieResource, movieTransfer.getCredits());
     }
 
-    private static List<CastAndCrewResource> map2Actors(DVD.Actors actorContainer) {
-        if (actorContainer == null || actorContainer.getActor() == null || actorContainer.getActor().isEmpty()) {
+    private static List<CastAndCrewResource> map2Actors(ActorsType actorContainer) {
+        if (actorContainer == null || actorContainer.getActorOrDivider() == null || actorContainer.getActorOrDivider().isEmpty()) {
             return null;
         }
 
         // TODO: Make sure that there will be no duplicates for person or role in the db. Do this on the BE service side.
 
-        return actorContainer.getActor().stream()
-                .map(MovieMapperUtils::map2CastAndCrew)
+        return actorContainer.getActorOrDivider().stream()
+                .filter(aod -> aod instanceof ActorType)
+                .map(a -> map2CastAndCrew((ActorType) a))
                 .collect(Collectors.toList());
     }
 
-    private static void map2Credits(MovieResource movieResource, DVD.Credits creditsContainer) {
-        if (creditsContainer == null || creditsContainer.getCredit() == null || creditsContainer.getCredit().isEmpty()) {
+    private static void map2Credits(MovieResource movieResource, CreditsType creditsContainer) {
+        if (creditsContainer == null || creditsContainer.getCreditOrDivider() == null || creditsContainer.getCreditOrDivider().isEmpty()) {
             return;
         }
 
         // TODO: Make sure that there will be no duplicates for person or role in the db. Do this on the BE service side.
 
-        creditsContainer.getCredit().stream().forEach(credit -> {
-            RoleEnum role = mapCreditType2Role(credit);
+        creditsContainer.getCreditOrDivider().stream()
+                .filter(cod -> cod instanceof CreditType)
+                .forEach(credit -> {
+            RoleEnum role = mapCreditType2Role((CreditType) credit);
 
             switch (role) {
                 case DIRECTOR:
-                    movieResource.getDirectors().add(map2CastAndCrew(credit, role));
+                    movieResource.getDirectors().add(map2CastAndCrew((CreditType) credit, role));
                     break;
                 case PRODUCER:
-                    movieResource.getProducers().add(map2CastAndCrew(credit, role));
+                    movieResource.getProducers().add(map2CastAndCrew((CreditType) credit, role));
                     break;
                 case MUSIC:
-                    movieResource.getMusic().add(map2CastAndCrew(credit, role));
+                    movieResource.getMusic().add(map2CastAndCrew((CreditType) credit, role));
                     break;
                 case WRITER:
-                    movieResource.getWriters().add(map2CastAndCrew(credit, role));
+                    movieResource.getWriters().add(map2CastAndCrew((CreditType) credit, role));
                     break;
                 case EDITOR:
-                    movieResource.getEditors().add(map2CastAndCrew(credit, role));
+                    movieResource.getEditors().add(map2CastAndCrew((CreditType) credit, role));
                     break;
                 case CINEMATOGRAPHY:
-                    movieResource.getCinematography().add(map2CastAndCrew(credit, role));
+                    movieResource.getCinematography().add(map2CastAndCrew((CreditType) credit, role));
                     break;
                 case SOUND:
-                    movieResource.getSound().add(map2CastAndCrew(credit, role));
+                    movieResource.getSound().add(map2CastAndCrew((CreditType) credit, role));
                     break;
                 case ART:
-                    movieResource.getArt().add(map2CastAndCrew(credit, role));
+                    movieResource.getArt().add(map2CastAndCrew((CreditType) credit, role));
                     break;
                 case MISC:
-                    movieResource.getOtherRoles().add(map2CastAndCrew(credit, role));
+                    movieResource.getOtherRoles().add(map2CastAndCrew((CreditType) credit, role));
                     break;
             }
         });
@@ -165,7 +226,7 @@ public class MovieMapperUtils {
      * @param credit
      * @return
      */
-    private static RoleEnum mapCreditType2Role(DVD.Credits.Credit credit) {
+    private static RoleEnum mapCreditType2Role(CreditType credit) {
         if ("Direction".equalsIgnoreCase(credit.getCreditType())
                 && "Director".equalsIgnoreCase(credit.getCreditSubtype())) {
             return RoleEnum.DIRECTOR;
@@ -198,7 +259,7 @@ public class MovieMapperUtils {
         }
     }
 
-    private static CastAndCrewResource map2CastAndCrew(DVD.Actors.Actor actor) {
+    private static CastAndCrewResource map2CastAndCrew(ActorType actor) {
         if (actor == null) {
             return null;
         }
@@ -207,7 +268,7 @@ public class MovieMapperUtils {
                 .setCharacterName(actor.getRole());
     }
 
-    private static CastAndCrewResource map2CastAndCrew(DVD.Credits.Credit credit, RoleEnum role) {
+    private static CastAndCrewResource map2CastAndCrew(CreditType credit, RoleEnum role) {
         if (credit == null) {
             return null;
         }
@@ -215,19 +276,19 @@ public class MovieMapperUtils {
                 .setPersonRole(mapCredit2PersonRoleResource(credit, role));
     }
 
-    private static PersonRoleResource mapActor2PersonRoleResource(DVD.Actors.Actor actor, RoleEnum role) {
+    private static PersonRoleResource mapActor2PersonRoleResource(ActorType actor, RoleEnum role) {
         return new PersonRoleResource()
                 .setPerson(mapActor2PersonResource(actor))
                 .setRole(role != null ? new Role().setCode(role.name()) : null);
     }
 
-    private static PersonRoleResource mapCredit2PersonRoleResource(DVD.Credits.Credit credit, RoleEnum role) {
+    private static PersonRoleResource mapCredit2PersonRoleResource(CreditType credit, RoleEnum role) {
         return new PersonRoleResource()
                 .setPerson(mapCredit2PersonResource(credit))
                 .setRole(role != null ? new Role().setCode(role.name()) : null);
     }
 
-    private static PersonResource mapActor2PersonResource(DVD.Actors.Actor actor) {
+    private static PersonResource mapActor2PersonResource(ActorType actor) {
         String firstNameStr = actor.getFirstName() != null ? actor.getFirstName() + " " : "";
         String middleNameStr = actor.getMiddleName() != null ? actor.getMiddleName() + " " : "";
         String lastNameStr = actor.getLastName() != null ? actor.getLastName() : "";
@@ -236,7 +297,7 @@ public class MovieMapperUtils {
                 .setName(firstNameStr + middleNameStr + lastNameStr);
     }
 
-    private static PersonResource mapCredit2PersonResource(DVD.Credits.Credit credit) {
+    private static PersonResource mapCredit2PersonResource(CreditType credit) {
         String firstNameStr = credit.getFirstName() != null ? credit.getFirstName() + " " : "";
         String middleNameStr = credit.getMiddleName() != null ? credit.getMiddleName() + " " : "";
         String lastNameStr = credit.getLastName() != null ? credit.getLastName() : "";
@@ -253,7 +314,7 @@ public class MovieMapperUtils {
                 //.setCover(entity2CoverResource(info.getCover()))  // TODO: Implement?
                 .setFormat(map2MediaFormat(movieTransfer.getMediaTypes()))
                 .setRegion(map2Region(movieTransfer.getRegions()))
-                .setUpcId(String.valueOf(movieTransfer.getIDBase()))
+                .setUpcId(movieTransfer.getIDBase())
                 .setDiscs(map2Discs(movieTransfer.getDiscs()))
                 .setPictureFormat(String.valueOf(movieTransfer.getFormat().getFormatAspectRatio()))
                 .setSystem(movieTransfer.getFormat().getFormatVideoStandard())
@@ -294,16 +355,18 @@ public class MovieMapperUtils {
 
     private static Integer map2Region(DVD.Regions regions) {
         // If region 2 is one of them, then choose it. Otherwise, pick the first one.
-        int region = 0;
+        String region = "0";
 
         if (regions != null && regions.getRegion() != null && !regions.getRegion().isEmpty()) {
-            for (Integer iRegion : regions.getRegion()) {
-                if (iRegion == 2 || region == 0) {
+            for (String iRegion : regions.getRegion()) {
+                if (iRegion.equalsIgnoreCase("A") || iRegion.equalsIgnoreCase("B")) {
+                    region = "2";
+                } else if (iRegion.equals("2") || region.equals("0")) {
                     region = iRegion;
                 }
             }
         }
-        return region;
+        return Integer.valueOf(region);
     }
 
     private static Integer map2Discs(DVD.Discs discInfo) {
@@ -321,6 +384,7 @@ public class MovieMapperUtils {
         }
 
         return audio.getAudioTrack().stream()
+                .filter(a -> isSupportedLang(a.getAudioContent()))
                 .map(a -> new Language().setName(a.getAudioContent()).setNameSwedish(lang2Swe(a.getAudioContent())))
                 .collect(Collectors.toList());
     }
@@ -331,15 +395,22 @@ public class MovieMapperUtils {
         }
 
         return subtitles.getSubtitle().stream()
+                .filter(MovieMapperUtils::isSupportedLang)
                 .map(s -> new Language().setName(s).setNameSwedish(lang2Swe(s)))
                 .collect(Collectors.toList());
     }
 
+    private static boolean isSupportedLang(String lang) {
+        return StringUtils.isNotBlank(lang)
+                && !"Other".equalsIgnoreCase(lang)
+                && !"Commentary".equalsIgnoreCase(lang)
+                && !"Audio Descriptive".equalsIgnoreCase(lang)
+                && !"Trivia".equalsIgnoreCase(lang)
+                && !"Music Only".equalsIgnoreCase(lang);
+    }
+
     /**
      * Translates the most commonly occured languages from English to Swedish.
-     *
-     * @param langEng
-     * @return
      */
     private static String lang2Swe(String langEng) {
         if (StringUtils.isBlank(langEng)) {
@@ -375,6 +446,8 @@ public class MovieMapperUtils {
                 return "Italienska";
             case "Greek":
                 return "Grekiska";
+            case "Farsi":
+                return "Farsi";
             case "Turkish":
                 return "Turkiska";
             case "Estonian":
@@ -383,10 +456,44 @@ public class MovieMapperUtils {
                 return "Lettiska";
             case "Lithuanian":
                 return "Litauiska";
+            case "Hindi":
+                return "Hindi";
+            case "Vietnamese":
+                return "Vietnamesiska";
             case "Arabic":
                 return "Arabiska";
             case "Hebrew":
                 return "Hebreiska";
+            case "Japanese":
+                return "Japanska";
+            case "Chinese":
+                return "Kinesiska";
+            case "Mandarin":
+                return "Mandarin";
+            case "Thai":
+                return "Thailändska";
+            case "Polish":
+                return "Polska";
+            case "Czech":
+                return "Tjeckiska";
+            case "Hungarian":
+                return "Ungerska";
+            case "Romanian":
+                return "Rumänska";
+            case "Slovakian":
+                return "Slovakiska";
+            case "Slovenian":
+                return "Slovenska";
+            case "Croatian":
+                return "Kroatiska";
+            case "Bulgarian":
+                return "Bulgariska";
+            case "Catalonian":
+                return "Katalanska";
+            case "Korean":
+                return "Koreanska";
+            case "Serbian":
+                return "Serbiska";
             case "Russian":
                 return "Ryska";
             default:

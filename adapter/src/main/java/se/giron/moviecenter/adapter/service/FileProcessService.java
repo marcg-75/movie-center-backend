@@ -51,7 +51,8 @@ public class FileProcessService {
 
 	@Async("threadPoolTaskExecutor")
 	public void process( ) {
-        final String pattern = "[0-9]+[\\S\\s]*.xml";
+        //final String pattern = "[0-9]+[\\S\\s]*.xml";
+        final String pattern = "[\\S\\s]*.xml";
 
 		try {
 			LOG.info("Running processFiles ...");
