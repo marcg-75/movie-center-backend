@@ -107,14 +107,13 @@ public class MovieMapper {
                 .setReleaseDate(movieResource.getReleaseDate())
                 .setCountry(movieResource.getCountry())
                 .setAgeRestriction(movieResource.getAgeRestriction())
-                //.setStudios(movieResource.getStudios())
-                // TODO: Change to add + update additional genres, to prevent unnecessary db updates.
 
                 .setMovieFormatInfo(resource2MovieFormatInfo(movieResource.getMovieFormatInfo(), movie))
                 .setMoviePersonalInfo(resource2MoviePersonalInfo(movieResource.getMoviePersonalInfo(), movie));
 
         mergeCastAndCrewToEntity(movieResource, movie);
 
+        // Studios
         movie.getStudios().clear();
         if (movieResource.getStudios() != null && !movieResource.getStudios().isEmpty()) {
             movie.getStudios().addAll(movieResource.getStudios().stream()
@@ -217,48 +216,9 @@ public class MovieMapper {
         }
 
         // Given resources are always all the valid cacs.
-        //cacs.clear();
-
         cacs.addAll(resources.stream()
                 .map(mvp -> resource2CastAndCrewEntity(mvp, movie))
                 .collect(Collectors.toSet()));
-
-
-//        return resources.stream()
-//                .map(mvp -> resource2CastAndCrewEntity(mvp, movie))
-//                .collect(Collectors.toSet());
-
-        // All new.
-//        if (cacs.isEmpty()) {
-//            cacs.addAll(resources.stream()
-//                    .map(mvp -> resource2CastAndCrewEntity(mvp, movie))
-//                    .collect(Collectors.toSet()));
-//        }
-//
-//        // Update existing cacs.
-//        for (CastAndCrew cac : cacs) {
-//            Long id = cac.getId();
-//            Optional<CastAndCrewResource> cacr = resources.stream().filter(_cac -> id.equals(_cac.getId())).findFirst();
-//            if (cacr.isPresent()) {
-//                CastAndCrew newCac = resource2CastAndCrewEntity(cacr.get(), movie);
-//                if (!newCac.equals(cac)) {
-//                    cac.setPersonRole(newCac.getPersonRole());
-//                    cac.setCharacterName(newCac.getCharacterName());
-//                }
-//            }
-//        }
-//
-//        // Add new cacs.
-//        cacs.addAll(
-//                resources.stream().filter(pr -> pr.getId() == null || pr.getId() < 0)
-//                        .map(mvp -> resource2CastAndCrewEntity(mvp, movie)).collect(Collectors.toSet()));
-//
-//        // TODO: Remove deleted cacs.
-//        //cacs = cacs.stream().filter(_cac -> _cac.getId())
-//        for (CastAndCrewResource cacr : resources) {
-//
-//        }
-
 
         return cacs;
     }
@@ -345,10 +305,6 @@ public class MovieMapper {
                     .map(this::resource2LanguageEntity)
                     .collect(Collectors.toSet()));
         }
-
-//                .setAudioLanguages(resource.getAudioLanguages() != null ? resource.getAudioLanguages().stream().collect(Collectors.toSet()) : null)
-//                .setSubtitles(resource.getSubtitles() != null ? resource.getSubtitles().stream().collect(Collectors.toSet()) : null);
-        // TODO: Change to add + update languages, to prevent unnecessary db updates.
         return info;
     }
 

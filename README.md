@@ -89,3 +89,11 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false -Dflyway.u
 #Notes
 - No security implemented. The application is currently only intended to be hosted on a local computer.
 - Basic cover handling is implemented (urls to front- and back cover). Image file handling for cover is yet to be implemented.
+
+#TODO
+- Look at the TODO-comments in the code.
+- Implement a paged service endpoint "getPagedMovies". Default page size: 25.
+- Implement a "deleteAll" movie service endpoint.
+- Implement a "deleteAll" person service endpoint. This shall remove all personRoles and persons.
+- Move the last movies from Videoteket to DVD Profiler and export all movies again.
+- Clean up the flyway db.migration files, reset the database and re-import all movies.

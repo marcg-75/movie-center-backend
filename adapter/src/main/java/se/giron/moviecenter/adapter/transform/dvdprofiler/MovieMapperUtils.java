@@ -157,8 +157,6 @@ public class MovieMapperUtils {
             return null;
         }
 
-        // TODO: Make sure that there will be no duplicates for person or role in the db. Do this on the BE service side.
-
         return actorContainer.getActorOrDivider().stream()
                 .filter(aod -> aod instanceof ActorType)
                 .map(a -> map2CastAndCrew((ActorType) a))
@@ -169,8 +167,6 @@ public class MovieMapperUtils {
         if (creditsContainer == null || creditsContainer.getCreditOrDivider() == null || creditsContainer.getCreditOrDivider().isEmpty()) {
             return;
         }
-
-        // TODO: Make sure that there will be no duplicates for person or role in the db. Do this on the BE service side.
 
         creditsContainer.getCreditOrDivider().stream()
                 .filter(cod -> cod instanceof CreditType)
