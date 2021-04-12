@@ -2,6 +2,8 @@ package se.giron.moviecenter.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import se.giron.moviecenter.core.map.PersonMapper;
 import se.giron.moviecenter.core.repository.PersonRepository;
@@ -134,5 +136,12 @@ public class PersonService {
         return personRepository.findAllByName(name).stream()
                 .map(personMapper::entity2PersonResource)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
+    public void deleteAll() {
+        personRoleRepository.deleteAll();
+
+        personRepository.deleteAll();
     }
 }

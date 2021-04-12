@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -29,6 +30,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping({"/movie"})
 public class MovieController {
 
+    public static final int DEFAULT_MAX_PAGE_SIZE = 100;
+
     @Autowired
     private MovieService movieService;
 
@@ -38,10 +41,22 @@ public class MovieController {
             @ApiResponse(code = 200, message = "OK", response = MovieInfoResource.class, responseContainer = "List"),
             @ApiResponse(code = 500, message = "Undefined system error", response = ErrorResponse.class)
     })
-    @GetMapping(produces = {APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/all", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public List<MovieInfoResource> getAllMovies(Sort sort, MovieFilter filter) {
         return movieService.getAllMovies(filter, sort);
+    }
+
+    @ApiOperation(value = "Fetch a paged list of movies, optionally filtered by search criteria",
+            notes = "Note that only an overview of each movie is returned, to see more details about a movie, select that specific movie using the GET method")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = MovieInfoResource.class, responseContainer = "Page"),
+            @ApiResponse(code = 500, message = "Undefined system error", response = ErrorResponse.class)
+    })
+    @GetMapping(produces = {APPLICATION_JSON_VALUE})
+    @ResponseStatus(HttpStatus.OK)
+    public Page<MovieInfoResource> getAllMovies(@PageableDefault(size = DEFAULT_MAX_PAGE_SIZE) Pageable page, MovieFilter filter) {
+        return movieService.getAllMovies(filter, page);
     }
 
     @ApiOperation(value = "Fetch single movie by ID")
@@ -99,12 +114,24 @@ public class MovieController {
             @ApiResponse(code = 500, message = "Undefined system error", response = ErrorResponse.class)
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteAuthority(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
         if (movieService.existsMovieById(id)) {
             movieService.deleteMovie(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @ApiOperation(value = "Delete all movies in the database. Non-revokeable! Use only for reset purpose!")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Movies deleted"),
+            @ApiResponse(code = 403, message = "User is not allowed to delete movies"),
+            @ApiResponse(code = 500, message = "Undefined system error", response = ErrorResponse.class)
+    })
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteAll() {
+        movieService.deleteAll();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

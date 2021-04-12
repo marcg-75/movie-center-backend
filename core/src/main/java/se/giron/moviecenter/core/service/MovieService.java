@@ -2,6 +2,8 @@ package se.giron.moviecenter.core.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -41,8 +43,17 @@ public class MovieService {
         return getFilteredMovies(filter, sort).stream().map(movieMapper::entity2infoResource).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public Page<MovieInfoResource> getAllMovies(MovieFilter filter, Pageable page) {
+        return getFilteredMovies(filter, page).map(movieMapper::entity2infoResource);
+    }
+
     private List<Movie> getFilteredMovies(MovieFilter filter, Sort sort) {
         return movieRepository.findAll(new MovieFilterSpecification(filter), sort);
+    }
+
+    private Page<Movie> getFilteredMovies(MovieFilter filter, Pageable page) {
+        return movieRepository.findAll(new MovieFilterSpecification(filter), page);
     }
 
     @Transactional(readOnly = true)
@@ -58,9 +69,6 @@ public class MovieService {
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public MovieResource createMovie(MovieResource movieResource) {
-        // TODO: Save new studios first.
-        // TODO: Save new persons first.
-
         Movie movie = persist(movieResource, new Movie());
 
         MovieResource createdMovie = movieMapper.entity2resource(movie);
@@ -93,6 +101,11 @@ public class MovieService {
         movieRepository.deleteById(id);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
+    public void deleteAll() {
+        movieRepository.deleteAll();
+    }
+
     @Transactional(readOnly = true)
     public boolean existsMovieById(long movieId) {
         return movieRepository.existsById(movieId);
@@ -123,7 +136,6 @@ public class MovieService {
             movieResource.setMainGenre(genre.get());
         } else {
             throw new ValidationException("movie.genre.unknown", movieResource.getMainGenre().getCode());
-            // TODO: Add new genre if unknown?
         }
     }
 }

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.giron.moviecenter.core.service.PersonService;
 import se.giron.moviecenter.model.entity.Role;
@@ -203,5 +204,17 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     public List<PersonResource> getPersonsWithName(@PathVariable String name) {
         return personService.getPersonsWithName(name);
+    }
+
+    @ApiOperation(value = "Delete all persons and person roles in the database. Non-revokeable! Use only for reset purpose!")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Persons deleted"),
+            @ApiResponse(code = 403, message = "User is not allowed to delete persons"),
+            @ApiResponse(code = 500, message = "Undefined system error", response = ErrorResponse.class)
+    })
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteAll() {
+        personService.deleteAll();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
