@@ -82,7 +82,7 @@ Sometimes during development you might need to refresh database, for example, wh
 - Stop application
 ```
 cd application
-mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false -Dflyway.user=moviecenter -Dflyway.password=secret flyway:clean
+mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTimezone=UTC -Dflyway.user=moviecenter -Dflyway.password=secret flyway:clean
 ```
 - Start application and load data
 

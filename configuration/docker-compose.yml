@@ -29,4 +29,6 @@ services:
      MYSQL_USER: moviecenter
      MYSQL_PASSWORD: secret
      MYSQL_ROOT_HOST: 172.18.0.1
-     TZ: "Europe/Stockholm"
+     default_time_zone: Europe/Stockholm
+     serverTimezone: UTC
+     ##TZ: "Europe/Stockholm"
