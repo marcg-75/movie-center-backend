@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-- Java JDK 8 or later
+- Java JDK 8 to JDK 15
 - Maven 3.5.3 or later
 - Docker Desktop 18.06.0 or later
 

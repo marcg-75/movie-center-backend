@@ -60,6 +60,8 @@ public class FileProcessService {
             List<Path> filesList = listFiles(filePath, pattern);
 			if (filesList != null && !filesList.isEmpty()) {
 				filesList.stream().forEach(processFile);
+			} else {
+				LOG.info("No files detected in " + filePath);
 			}
 		} catch(IOException e) {
 			LOG.error("Failed to process files", e);
