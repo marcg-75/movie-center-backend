@@ -93,8 +93,11 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
 # TODO
 - Look at the TODO-comments in the code.
 - Implement a paged service endpoint "getPagedMovies". Default page size: 25. (Implemented. Test it by implementing the FE solution.)
-- Implement a "deleteAll" movie service endpoint. (Implemented, not tested.)
-- Implement a "deleteAll" person service endpoint. This shall remove all personRoles and persons. (Implemented, not tested.)
-- Use IntelliJ to generate a new movie XSD, plus manually finish it by comparing to the old one.
-- Move the last movies from Videoteket to DVD Profiler and export all movies again.
+- Implement a "deleteAll" movie service endpoint. <b>(Implemented, not tested.)</b>
+- Implement a "deleteAll" person service endpoint. This shall remove all personRoles and persons. <b>(Implemented, not tested.)</b>
+- Add support for My Movies 2 exports in the adapter
+  - Use IntelliJ to generate a new movie XSD.
+  - Export and import movies
+- Update DVDProfiler import:
+  - Use IntelliJ to generate a new movie XSD, plus manually finish it by comparing to the old one.
 - Clean up the flyway db.migration files, reset the database and re-import all movies.
