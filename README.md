@@ -23,7 +23,7 @@ You can also start tests from your development tool (Intellj or Eclipse) one by 
 
 ## How to run
 
-####Set up mysql database, redis and httpd
+#### Set up mysql database, redis and httpd
 - Add environment variable `MYSQL_DATA_PATH` to point at any directory where MySQL can store data:
 ```
 MYSQL_DATA_PATH=<any_location_on_your_computer>
@@ -34,7 +34,7 @@ cd configuration
 docker-compose up
 ```
 
-####Start backend
+#### Start backend
 - Run the backend application locally with the 'local' profile. Optionally you may also want to use the mockpu profile, which mocks calls to the PU service (used by Issues).
 ```
 cd application
@@ -51,7 +51,7 @@ Or from your development tool.
 
 - Tables in the database should be created automatically
 
-####Load basic data into the database (not needed)
+#### Load basic data into the database (not needed)
 ```
 cd configuration
 docker-compose exec -w /tmp/local -T mysql /usr/bin/mysql -umoviecenter -psecret --default-character-set=utf8 moviecenter
@@ -68,14 +68,14 @@ To quit mysql client, enter `Ctrl+C`
 
 Look at the README in movie-center-web/mono project for guidelines on how to build and run the frontend application
 
-###Explore and test API:s in swagger
+### Explore and test API:s in swagger
 - First start the frontend application (look at the README in movie-center-web for guidelines), log in to the application. 
 *NB* In order to log in to the application users have to have been added to the user table in MySQL database.
 Then you can navigate to:
 
     http://localhost:8080/api/swagger-ui.html
 
-##How to refresh database
+## How to refresh database
 
 Sometimes during development you might need to refresh database, for example, when database schema is updated in flyway by changing existing version file.
 
@@ -86,11 +86,11 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false -Dflyway.u
 ```
 - Start application and load data
 
-#Notes
+# Notes
 - No security implemented. The application is currently only intended to be hosted on a local computer.
 - Basic cover handling is implemented (urls to front- and back cover). Image file handling for cover is yet to be implemented.
 
-#TODO
+# TODO
 - Look at the TODO-comments in the code.
 - Implement a paged service endpoint "getPagedMovies". Default page size: 25. (Implemented. Test it by implementing the FE solution.)
 - Implement a "deleteAll" movie service endpoint. (Implemented, not tested.)
