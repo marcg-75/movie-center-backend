@@ -83,7 +83,7 @@ public class MovieController {
             @ApiResponse(code = 500, message = "Undefined system error", response = ErrorResponse.class)
     })
     @PostMapping(consumes = {APPLICATION_JSON_VALUE}, produces = {APPLICATION_JSON_VALUE})
-    public ResponseEntity<MovieResource> createAuthority(@RequestBody @Valid MovieResource movie) {
+    public ResponseEntity<MovieResource> createMovie(@RequestBody @Valid MovieResource movie) {
         MovieResource createdAuthority = movieService.createMovie(movie);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAuthority);
     }
