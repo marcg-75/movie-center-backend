@@ -92,7 +92,7 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
 
 # TODO
 - Look at the TODO-comments in the code.
-- Implement a paged service endpoint "getPagedMovies". Default page size: 25. (Implemented. Test it by implementing the FE solution.)
+- Implement a paged service endpoint "getPagedMovies". Default page size: 25. (Implemented. Test it by implementing the FE solution. A quick curl test in terminal looks fine. Can not be tested in Swagger, due to wrong parameter names.)
 - Implement a "deleteAll" movie service endpoint. <b>(Implemented, not tested.)</b>
 - Implement a "deleteAll" person service endpoint. This shall remove all personRoles and persons. <b>(Implemented, not tested.)</b>
 - Add support for My Movies 2 exports in the adapter
