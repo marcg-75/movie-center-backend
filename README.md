@@ -94,10 +94,13 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
 - (**Test**) Implement a "deleteAll" movie service endpoint. <b>(Implemented, not tested.)</b>
 - (**Test**) Implement a "deleteAll" person service endpoint. This shall remove all personRoles and persons. <b>(Implemented, not tested.)</b>
 - Add support for My Movies 2 exports in the adapter
-  - Use IntelliJ to generate a new movie XSD.
-  - Export and import movies (exported 231013, but might need to be redone)
-  - Export and import cover images (exported 231013, but might need to be redone)
-  - Let the import process copy the images to the "covers" folder above.
+  - (Done) Use IntelliJ to generate a new movie XSD.
+  - (Done) Export movies (exported 231013, but might need to be redone)
+  - Import movies
+  - (Done) Export and import cover images (exported 231013, but might need to be redone)
+  - (No. Done manually) Let the import process copy the images to the "covers" folder above.
+  - Test the two above, then clear the db, rerun db.migration files and then do the import.
+- Figure out how to run both jaxb executions successfully in the schema pom. Currently only the second produces any output.
 - (Deprecated since the start of My Movies 2 usage) Update DVDProfiler import:
   - Use IntelliJ to generate a new movie XSD, plus manually finish it by comparing to the old one.
 - Clean up the flyway db.migration files, reset the database and re-import all movies.

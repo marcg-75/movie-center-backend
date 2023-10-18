@@ -27,9 +27,9 @@ import static se.giron.moviecenter.adapter.util.MovieCenterUtil.listFiles;
 import static se.giron.moviecenter.adapter.util.MovieCenterUtil.moveFile;
 
 @Service
-public class FileProcessService {
+public class DvdProfilerFileProcessService {
 
-	private final Logger LOG = LoggerFactory.getLogger(FileProcessService.class);
+	private final Logger LOG = LoggerFactory.getLogger(DvdProfilerFileProcessService.class);
 
 	@Autowired
 	XmlConverter xmlConverter;
@@ -37,17 +37,17 @@ public class FileProcessService {
 	@Autowired
 	private MovieWebServiceClient movieWebServiceClient;
 
-    @Value("${adapter.directory.indata:}")
+	@Value("${adapter.directory.indata.dvdprofiler:}")
 	private String filePath;
 
-	@Value("${adapter.directory.ok:}")
+	@Value("${adapter.directory.ok.dvdprofiler:}")
 	private String okPath;
 
-	@Value("${adapter.directory.error:}")
+	@Value("${adapter.directory.error.dvdprofiler:}")
 	private String errorPath;
 
-    @Value("${adapter.directory.failed:}")
-    private String failedPath;
+	@Value("${adapter.directory.failed.dvdprofiler:}")
+	private String failedPath;
 
 	@Async("threadPoolTaskExecutor")
 	public void process( ) {

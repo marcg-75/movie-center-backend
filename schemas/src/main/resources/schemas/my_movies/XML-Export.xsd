@@ -1,0 +1,447 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.1">
+  <xs:element name="Titles" type="TitlesType"/>
+  <xs:complexType name="CoverTypeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="SlipCover" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TypeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="BluRay3D" use="optional"/>
+        <xs:attribute type="xs:string" name="MasteredIn4K" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ExtraFeaturesType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="NotPresent" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ParentalRatingType">
+    <xs:sequence>
+      <xs:element name="Value">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="5"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="-1"/>
+            <xs:enumeration value="7"/>
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="8"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="Description"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="Adult" use="optional"/>
+    <xs:attribute type="xs:string" name="TV" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="LocalTrailerType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="URL"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DiscType" mixed="true">
+    <xs:sequence>
+      <xs:element type="xs:string" name="DiscIdStored" minOccurs="0"/>
+      <xs:element name="DoubleSided" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="False"/>
+            <xs:enumeration value="True"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="Name" minOccurs="0"/>
+      <xs:element type="xs:string" name="DiscIdSideA" minOccurs="0"/>
+      <xs:element name="DiscIdSideB" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="0374B9C5-58D3F60C"/>
+            <xs:enumeration value="DD72ABE8-D0DA83D2"/>
+            <xs:enumeration value="9DFE7340-585A42BC"/>
+            <xs:enumeration value="03B0EBE9-224822FC"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="LocationSideA" minOccurs="0"/>
+      <xs:element type="xs:string" name="LocationTypeSideA" minOccurs="0"/>
+      <xs:element type="xs:string" name="LocationSideB" minOccurs="0"/>
+      <xs:element type="xs:string" name="LocationTypeSideB" minOccurs="0"/>
+      <xs:element type="xs:string" name="ChangerSlot" minOccurs="0"/>
+      <xs:element type="TitlesSideAType" name="TitlesSideA" minOccurs="0"/>
+      <xs:element type="TitlesSideBType" name="TitlesSideB" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="Name" use="optional"/>
+    <xs:attribute type="xs:string" name="TitleMode" use="optional"/>
+    <xs:attribute type="xs:string" name="HideSideA" use="optional"/>
+    <xs:attribute type="xs:string" name="HideSideB" use="optional"/>
+    <xs:attribute type="xs:string" name="BonusDisc" use="optional"/>
+    <xs:attribute type="xs:string" name="DigitalCopy" use="optional"/>
+    <xs:attribute type="xs:string" name="CreditsStartSideA" use="optional"/>
+    <xs:attribute type="xs:string" name="CreditsStartSideB" use="optional"/>
+    <xs:attribute type="xs:string" name="SecondCreditsStartSideA" use="optional"/>
+    <xs:attribute type="xs:string" name="SecondCreditsStartSideB" use="optional"/>
+    <xs:attribute type="xs:string" name="MainMovieLabelSideA" use="optional"/>
+    <xs:attribute type="xs:string" name="MainMovieLabelSideB" use="optional"/>
+    <xs:attribute type="xs:string" name="SecondMainMovieLabelSideA" use="optional"/>
+    <xs:attribute type="xs:string" name="SecondMainMovieLabelSideB" use="optional"/>
+    <xs:attribute type="xs:string" name="ChapterNamesNotIncluded" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="DiscLocationsType" mixed="true">
+    <xs:sequence>
+      <xs:element type="DiscType" name="Disc" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PersonalType">
+    <xs:sequence>
+      <xs:element type="xs:int" name="CollectionNumber"/>
+      <xs:element type="xs:string" name="Condition"/>
+      <xs:element type="xs:string" name="DunePaths"/>
+      <xs:element type="xs:string" name="PlayerPaths"/>
+      <xs:element type="xs:string" name="ExcludeMobileSoftware"/>
+      <xs:element type="xs:string" name="ExcludeOnlineCollection"/>
+      <xs:element type="xs:string" name="InvisibleToFriends"/>
+      <xs:element type="xs:string" name="LentDue"/>
+      <xs:element type="xs:string" name="LentTo"/>
+      <xs:element type="xs:string" name="Location"/>
+      <xs:element type="xs:string" name="Notes"/>
+      <xs:element name="Rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:enumeration value="-1"/>
+            <xs:enumeration value="10"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="SortTitle"/>
+      <xs:element type="xs:string" name="Title"/>
+      <xs:element name="PurchaseCurrency">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="SEK"/>
+            <xs:enumeration value="USD"/>
+            <xs:enumeration value=""/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:dateTime" name="Purchased"/>
+      <xs:element name="PurchasePlace">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="ICA Kvantum Liljeholmen"/>
+            <xs:enumeration value="CDON"/>
+            <xs:enumeration value="Buylando"/>
+            <xs:enumeration value="Inspelad"/>
+            <xs:enumeration value="Dubai Mall"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:decimal" name="PurchasePrice"/>
+      <xs:element type="xs:string" name="SuggestedPrice"/>
+      <xs:element type="xs:string" name="SuggestedPriceCurrency"/>
+      <xs:element type="xs:string" name="Tags"/>
+      <xs:element type="xs:string" name="ValuePerAmount"/>
+      <xs:element type="xs:string" name="ValuePerCurrency"/>
+      <xs:element type="xs:string" name="ValuePer"/>
+      <xs:element type="xs:string" name="Group"/>
+      <xs:element type="xs:dateTime" name="Added"/>
+      <xs:element type="DiscLocationsType" name="DiscLocations"/>
+      <xs:element name="Online">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="True"/>
+            <xs:enumeration value="False"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CoversType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Front"/>
+      <xs:element type="xs:string" name="FrontMedium"/>
+      <xs:element type="xs:string" name="Back"/>
+      <xs:element type="xs:string" name="BackMedium"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TypesType">
+    <xs:sequence>
+      <xs:element name="Type">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="DVD"/>
+            <xs:enumeration value="Blu-ray"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DigitalCopiesType" mixed="true">
+    <xs:sequence>
+      <xs:element name="DigitalCopy" maxOccurs="unbounded" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="UltraViolet"/>
+            <xs:enumeration value="Not Included"/>
+            <xs:enumeration value="Digital Copy (Code)"/>
+            <xs:enumeration value="Disney e-copy"/>
+            <xs:enumeration value="Digital HD"/>
+            <xs:enumeration value="UltraViolet HD"/>
+            <xs:enumeration value="Digital Copy (Disc)"/>
+            <xs:enumeration value="iTunes Digital Copy"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RegionCodesType">
+    <xs:sequence>
+      <xs:element name="RegionCode" maxOccurs="unbounded" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="C"/>
+            <xs:enumeration value="NoRegionCode"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="5"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GenresType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Genre" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AudioTrackType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="Language" use="optional"/>
+        <xs:attribute type="xs:string" name="Type" use="optional"/>
+        <xs:attribute type="xs:string" name="Channels" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="AudioTracksType">
+    <xs:sequence>
+      <xs:element type="AudioTrackType" name="AudioTrack" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubtitleType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="Language" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="SubtitlesType">
+    <xs:sequence>
+      <xs:element type="SubtitleType" name="Subtitle" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="NotPresent" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="StudiosType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Studio" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ChapterType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Title"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="ContainsEpisode" use="optional"/>
+    <xs:attribute type="xs:string" name="Number" use="optional"/>
+    <xs:attribute type="xs:string" name="Hours" use="optional"/>
+    <xs:attribute type="xs:string" name="Minutes" use="optional"/>
+    <xs:attribute type="xs:string" name="Seconds" use="optional"/>
+    <xs:attribute type="xs:string" name="Frames" use="optional"/>
+    <xs:attribute type="xs:string" name="FPS" use="optional"/>
+    <xs:attribute type="xs:string" name="TVSeason" use="optional"/>
+    <xs:attribute type="xs:string" name="TVEpisode" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="TitleType">
+    <xs:sequence>
+      <xs:element name="Title" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="STARGATE"/>
+            <xs:enumeration value="Selskapsresan 2"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="ChapterType" name="Chapter" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="xs:string" name="ID" minOccurs="0"/>
+      <xs:element type="xs:string" name="WebServiceID" minOccurs="0"/>
+      <xs:element type="xs:string" name="TVWebServiceID" minOccurs="0"/>
+      <xs:element name="MediaType" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Movie"/>
+            <xs:enumeration value="TV Serie"/>
+            <xs:enumeration value="Music"/>
+            <xs:enumeration value="Documentary"/>
+            <xs:enumeration value=""/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="CoverTypeType" name="CoverType" minOccurs="0"/>
+      <xs:element type="TypeType" name="Type" minOccurs="0"/>
+      <xs:element type="xs:string" name="Barcode" minOccurs="0"/>
+      <xs:element type="xs:string" name="Country" minOccurs="0"/>
+      <xs:element type="xs:string" name="LocalTitle" minOccurs="0"/>
+      <xs:element type="xs:string" name="LocalTitleDisplay" minOccurs="0"/>
+      <xs:element type="xs:string" name="OriginalTitle" minOccurs="0"/>
+      <xs:element type="xs:string" name="SortTitle" minOccurs="0"/>
+      <xs:element type="xs:string" name="SortTitleDisplay" minOccurs="0"/>
+      <xs:element type="xs:string" name="Edition" minOccurs="0"/>
+      <xs:element type="xs:string" name="IMDB" minOccurs="0"/>
+      <xs:element type="xs:string" name="Rating" minOccurs="0"/>
+      <xs:element type="xs:string" name="AspectRatio" minOccurs="0"/>
+      <xs:element name="VideoStandard" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="PAL"/>
+            <xs:enumeration value="1080p"/>
+            <xs:enumeration value="NTSC"/>
+            <xs:enumeration value="1080i"/>
+            <xs:enumeration value=""/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="ProductionYear" minOccurs="0"/>
+      <xs:element type="xs:date" name="ReleaseDate" minOccurs="0"/>
+      <xs:element type="xs:string" name="ReleaseDateDisplay" minOccurs="0"/>
+      <xs:element type="xs:int" name="RunningTime" minOccurs="0"/>
+      <xs:element type="xs:string" name="TagLine" minOccurs="0"/>
+      <xs:element type="xs:string" name="Description" minOccurs="0"/>
+      <xs:element type="ExtraFeaturesType" name="ExtraFeatures" minOccurs="0"/>
+      <xs:element type="ParentalRatingType" name="ParentalRating" minOccurs="0"/>
+      <xs:element type="xs:string" name="DataProvider" minOccurs="0"/>
+      <xs:element type="xs:string" name="DataProviderId" minOccurs="0"/>
+      <xs:element type="xs:string" name="ImportSource" minOccurs="0"/>
+      <xs:element type="xs:string" name="ImportId" minOccurs="0"/>
+      <xs:element type="LocalTrailerType" name="LocalTrailer" minOccurs="0"/>
+      <xs:element type="PersonalType" name="Personal" minOccurs="0"/>
+      <xs:element type="CoversType" name="Covers" minOccurs="0"/>
+      <xs:element type="xs:dateTime" name="DataChanged" minOccurs="0"/>
+      <xs:element type="xs:dateTime" name="CoversChanged" minOccurs="0"/>
+      <xs:element type="xs:string" name="LockData" minOccurs="0"/>
+      <xs:element type="xs:string" name="LockCovers" minOccurs="0"/>
+      <xs:element type="xs:dateTime" name="RecordChanged" minOccurs="0"/>
+      <xs:element type="xs:string" name="Categories" minOccurs="0"/>
+      <xs:element type="TypesType" name="Types" minOccurs="0"/>
+      <xs:element type="DigitalCopiesType" name="DigitalCopies" minOccurs="0"/>
+      <xs:element type="RegionCodesType" name="RegionCodes" minOccurs="0"/>
+      <xs:element type="xs:string" name="HighDynamicRanges" minOccurs="0"/>
+      <xs:element type="GenresType" name="Genres" minOccurs="0"/>
+      <xs:element type="AudioTracksType" name="AudioTracks" minOccurs="0"/>
+      <xs:element type="SubtitlesType" name="Subtitles" minOccurs="0"/>
+      <xs:element type="StudiosType" name="Studios" minOccurs="0"/>
+      <xs:element type="DiscsType" name="Discs" minOccurs="0"/>
+      <xs:element name="Episodes" minOccurs="0">
+        <xs:complexType mixed="true">
+          <xs:sequence>
+            <xs:element type="EpisodeType" name="Episode" maxOccurs="unbounded" minOccurs="0"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element type="PersonsType" name="Persons" minOccurs="0"/>
+      <xs:element type="xs:string" name="CheckSum" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="ContainsEpisode" use="optional"/>
+    <xs:attribute type="xs:string" name="MainMovie" use="optional"/>
+    <xs:attribute type="xs:string" name="Number" use="optional"/>
+    <xs:attribute type="xs:string" name="Hours" use="optional"/>
+    <xs:attribute type="xs:string" name="Minutes" use="optional"/>
+    <xs:attribute type="xs:string" name="Seconds" use="optional"/>
+    <xs:attribute type="xs:string" name="Frames" use="optional"/>
+    <xs:attribute type="xs:string" name="FPS" use="optional"/>
+    <xs:attribute type="xs:string" name="TVSeason" use="optional"/>
+    <xs:attribute type="xs:string" name="TVEpisode" use="optional"/>
+    <xs:attribute type="xs:string" name="MPLS" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="TitlesSideAType">
+    <xs:sequence>
+      <xs:element type="TitleType" name="Title" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DiscsType">
+    <xs:sequence>
+      <xs:element type="DiscType" name="Disc" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PersonType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Name"/>
+      <xs:element name="Type">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:property name="RoleType"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Actor"/>
+            <xs:enumeration value="Director"/>
+            <xs:enumeration value="Writer"/>
+            <xs:enumeration value="Music (Crew)"/>
+            <xs:enumeration value="Producer"/>
+            <xs:enumeration value="Cinematography"/>
+            <xs:enumeration value="Editor"/>
+            <xs:enumeration value="Sound"/>
+            <xs:enumeration value="Art"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="Role"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="Type" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="PersonsType">
+    <xs:sequence>
+      <xs:element type="PersonType" name="Person" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="ActorsComplete" use="optional"/>
+    <xs:attribute type="xs:string" name="Inherited" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="EpisodeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="Season" use="optional"/>
+        <xs:attribute type="xs:string" name="Episode" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="EpisodesType">
+    <xs:sequence>
+      <xs:element type="EpisodeType" name="Episode" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TitlesSideBType">
+    <xs:sequence>
+      <xs:element type="TitleType" name="Title" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TitlesType">
+    <xs:sequence>
+      <xs:element type="TitleType" name="Title" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

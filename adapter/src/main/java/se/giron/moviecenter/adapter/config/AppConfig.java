@@ -10,6 +10,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.client.RestTemplate;
 import se.giron.moviecenter.adapter.transform.dvdprofiler.XmlConverter;
+import se.giron.moviecenter.adapter.transform.mymovies.MyMoviesXmlConverter;
 
 import java.nio.charset.Charset;
 import java.util.concurrent.Executors;
@@ -29,8 +30,12 @@ public class AppConfig {
 
 	@Bean 
 	public XmlConverter xmlConverter() {
-		XmlConverter xmlConverter = new XmlConverter(jaxb2UnMarshaller());
-		return xmlConverter;
+        return new XmlConverter(jaxb2UnMarshaller());
+	}
+
+	@Bean
+	public MyMoviesXmlConverter myMoviesXmlConverter() {
+        return new MyMoviesXmlConverter(jaxb2UnMarshaller());
 	}
 			
 	@Bean

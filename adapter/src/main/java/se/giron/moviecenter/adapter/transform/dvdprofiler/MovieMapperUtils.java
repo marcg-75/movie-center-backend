@@ -1,7 +1,11 @@
 package se.giron.moviecenter.adapter.transform.dvdprofiler;
 
 import io.micrometer.core.instrument.util.StringUtils;
-import se.giron.moviecenter.dvdprofiler.*;
+import se.giron.moviecenter.dvdprofiler.ActorsType;
+import se.giron.moviecenter.dvdprofiler.ActorType;
+import se.giron.moviecenter.dvdprofiler.DVD;
+import se.giron.moviecenter.dvdprofiler.CreditsType;
+import se.giron.moviecenter.dvdprofiler.CreditType;
 import se.giron.moviecenter.model.entity.*;
 import se.giron.moviecenter.model.enums.RoleEnum;
 import se.giron.moviecenter.model.resource.*;

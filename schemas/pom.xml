@@ -60,16 +60,30 @@
                         <goals>
                             <goal>xjc</goal>
                         </goals>
+                        <configuration>
+                            <!-- The package of your generated sources -->
+                            <packageName>se.giron.moviecenter.dvdprofiler</packageName>
+
+                            <sources>
+                                <source>src/main/resources/schemas/dvd_profiler</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>mymovies-generate</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <!-- The package of your generated sources -->
+                            <packageName>se.giron.moviecenter.mymovies</packageName>
+
+                            <sources>
+                                <source>src/main/resources/schemas/my_movies</source>
+                            </sources>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <!-- The package of your generated sources -->
-                    <packageName>se.giron.moviecenter.dvdprofiler</packageName>
-
-                    <sources>
-                        <source>src/main/resources/schemas/dvd_profiler</source>
-                    </sources>
-                </configuration>
             </plugin>
         </plugins>
 
