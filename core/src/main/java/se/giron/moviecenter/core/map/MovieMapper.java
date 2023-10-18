@@ -3,7 +3,6 @@ package se.giron.moviecenter.core.map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import se.giron.moviecenter.core.repository.LanguageRepository;
 import se.giron.moviecenter.core.repository.StudioRepository;
 import se.giron.moviecenter.model.entity.*;
@@ -225,8 +224,8 @@ public class MovieMapper {
 
     private CoverResource entity2CoverResource(Cover cover) {
         return new CoverResource()
-                .setForeground(cover.getForeground())
-                .setBackground(cover.getBackground())
+                .setFgFileName(cover.getFgFileName())
+                .setBgFileName(cover.getBgFileName())
                 .setForegroundUrl(cover.getForegroundUrl())
                 .setBackgroundUrl(cover.getBackgroundUrl());
     }
@@ -245,8 +244,8 @@ public class MovieMapper {
         }
 
         // Update cover
-        cover.setForeground(resource.getForeground())
-                .setBackground(resource.getBackground())
+        cover.setFgFileName(resource.getFgFileName())
+                .setBgFileName(resource.getBgFileName())
                 .setForegroundUrl(resource.getForegroundUrl())
                 .setBackgroundUrl(resource.getBackgroundUrl());
 

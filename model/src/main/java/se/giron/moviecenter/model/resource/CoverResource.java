@@ -5,29 +5,29 @@ package se.giron.moviecenter.model.resource;
  */
 public class CoverResource {
 
-    private byte[] foreground;
+    private String fgFileName;
 
-    private byte[] background;
+    private String bgFileName;
 
     private String foregroundUrl;
 
     private String backgroundUrl;
 
-    public byte[] getForeground() {
-        return foreground;
+    public String getFgFileName() {
+        return fgFileName;
     }
 
-    public CoverResource setForeground(byte[] foreground) {
-        this.foreground = foreground;
+    public CoverResource setFgFileName(String fgFileName) {
+        this.fgFileName = fgFileName;
         return this;
     }
 
-    public byte[] getBackground() {
-        return background;
+    public String getBgFileName() {
+        return bgFileName;
     }
 
-    public CoverResource setBackground(byte[] background) {
-        this.background = background;
+    public CoverResource setBgFileName(String bgFileName) {
+        this.bgFileName = bgFileName;
         return this;
     }
 

@@ -307,7 +307,7 @@ public class MovieMapperUtils {
             return new MovieFormatInfoResource();
         }
         return new MovieFormatInfoResource()
-                //.setCover(entity2CoverResource(info.getCover()))  // TODO: Implement?
+                //.setCover(entity2CoverResource(info.getCover()))  // This info doesn't exist in the DVDProfiler export.
                 .setFormat(map2MediaFormat(movieTransfer.getMediaTypes()))
                 .setRegion(map2Region(movieTransfer.getRegions()))
                 .setUpcId(movieTransfer.getIDBase())

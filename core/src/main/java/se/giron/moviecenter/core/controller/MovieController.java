@@ -30,7 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping({"/movie"})
 public class MovieController {
 
-    public static final int DEFAULT_MAX_PAGE_SIZE = 100;
+    public static final int DEFAULT_MAX_PAGE_SIZE = 25;
 
     @Autowired
     private MovieService movieService;
@@ -53,7 +53,7 @@ public class MovieController {
             @ApiResponse(code = 200, message = "OK", response = MovieInfoResource.class, responseContainer = "Page"),
             @ApiResponse(code = 500, message = "Undefined system error", response = ErrorResponse.class)
     })
-    @GetMapping(produces = {APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/list", produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public Page<MovieInfoResource> getAllMovies(@PageableDefault(size = DEFAULT_MAX_PAGE_SIZE) Pageable page, MovieFilter filter) {
         return movieService.getAllMovies(filter, page);

@@ -13,19 +13,13 @@ public class Cover {
     @JoinColumn(name = "movie_format_id")
     private MovieFormatInfo movieFormatInfo;
 
-    @Lob
-    @Column(name = "foreground", columnDefinition = "BLOB")
-    @Deprecated
-    private byte[] foreground;
+    private String fgFileName;
 
-    @Lob
-    @Column(name = "background", columnDefinition = "BLOB")
-    @Deprecated
-    private byte[] background;
+    private String bgFileName;
 
-    private String foregroundUrl;  // TODO: Dessa ska även innehålla hela filen (se SBR2-backend)
+    private String foregroundUrl;
 
-    private String backgroundUrl;  // TODO: - '' -
+    private String backgroundUrl;
 
     public Long getId() {
         return id;
@@ -45,21 +39,21 @@ public class Cover {
         return this;
     }
 
-    public byte[] getForeground() {
-        return foreground;
+    public String getFgFileName() {
+        return fgFileName;
     }
 
-    public Cover setForeground(byte[] foreground) {
-        this.foreground = foreground;
+    public Cover setFgFileName(String fgFileName) {
+        this.fgFileName = fgFileName;
         return this;
     }
 
-    public byte[] getBackground() {
-        return background;
+    public String getBgFileName() {
+        return bgFileName;
     }
 
-    public Cover setBackground(byte[] background) {
-        this.background = background;
+    public Cover setBgFileName(String bgFileName) {
+        this.bgFileName = bgFileName;
         return this;
     }
 

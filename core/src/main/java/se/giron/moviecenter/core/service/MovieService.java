@@ -81,12 +81,6 @@ public class MovieService {
 
         if (oMovie.isPresent()) {
             Movie movie = oMovie.get();
-            // TODO: FLytta till egen funktion (ev).
-            // Innan mappern: Jämför befintliga cac med angivna. Gör delete/(remove från set) på alla cac som inte är med i resources.
-//            movie.getCastAndCrew().stream().forEach(cac -> {
-//
-//            });
-
             final Movie updatedMovie = persist(movieResource, movie);
             MovieResource movieResourceUpd = movieMapper.entity2resource(updatedMovie);
             return Optional.ofNullable(movieResourceUpd);
