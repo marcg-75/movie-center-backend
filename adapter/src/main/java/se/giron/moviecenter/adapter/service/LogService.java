@@ -13,13 +13,8 @@ public class LogService {
     @Autowired
     private MovieWebServiceClient movieWebServiceClient;
 
-//    public void logMovieMessage(Map<String, MovieTransferResource> sampleTransferResources, String message) {
-//        sampleTransferResources.forEach((s, sampleTransferResource) -> sampleTransferResource.setStatusDescription(message));
-//        movieWebServiceClient.createMovieLog(new MovieTransferWrapperResource(sampleTransferResources));
-//    }
-
-//    public void logExternalMessage(ExternalLogTransferResource externalLogTransferResource, String message) {
-//        externalLogTransferResource.setStatusDescription(message);
-//        movieWebServiceClient.createExternalLog(externalLogTransferResource);
-//    }
+    public void logMovieMessage(MovieTransferResource movieTransferResource, String message) {
+        movieTransferResource.setStatusDescription(message);
+        movieWebServiceClient.createMovieLog(movieTransferResource);
+    }
 }

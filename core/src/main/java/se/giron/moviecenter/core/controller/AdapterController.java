@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.giron.moviecenter.core.exception.ValidationException;
+import se.giron.moviecenter.core.service.ImportLogService;
 import se.giron.moviecenter.core.service.MovieService;
+import se.giron.moviecenter.model.resource.MovieResource;
 import se.giron.moviecenter.model.resource.imports.AdapterResponse;
 import se.giron.moviecenter.model.resource.imports.MovieTransferResource;
 
@@ -26,8 +28,8 @@ public class AdapterController implements MessageSourceAware {
     @Autowired
     private MovieService movieService;
 
-//    @Autowired
-//    private MovieImportLogService movieImportLogService;
+    @Autowired
+    private ImportLogService importLogService;
 
     private MessageSourceAccessor messageSource;
 
@@ -42,11 +44,11 @@ public class AdapterController implements MessageSourceAware {
         }
     }
 
-//    @PostMapping("/movie/import-logs")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    TODO: public void createLog(@RequestBody @Valid SampleTransferWrapperResource sampleTransferResources) {
-//        movieImportLogService.createLog(sampleTransferResources.getTransferResources());
-//    }
+    @PostMapping("/movie/import-log")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createLog(@RequestBody @Valid MovieTransferResource movieTransferResource) {
+        importLogService.createLog(movieTransferResource);
+    }
 
     private String getMessageByKey(String messageOrKey) {
         String message = messageOrKey;

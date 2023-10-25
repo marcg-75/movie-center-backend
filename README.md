@@ -100,13 +100,18 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
 - No security implemented. The application is currently only intended to be hosted on a local computer.
 
 # TODO
+- Rework the genre setup: Transfer the movie_subgenre table to movie_genres, add an optional column "is_main_genre" (or similar), remove the main genre column from movies, etc.
+  - The web app removes the genre column from the main list (or displays up to three genres in it), but the genre filter matches against all the movie's genres.
 - Implement import log handling.
 - Add support for My Movies 2 exports in the adapter
   - Test: Import movies
   - Test failures:
+    - All movies not imported (like Speed and Seven). These are not in the import file. => My Movies export error
     - No persons imported
-    - movie.country is mostly wrong (wrong country displayed)
-    - Main genre often wrong, since My Movies just lists all genres in a random order.
+    - Import Rating as grade.
+    - movie.country is mostly wrong (wrong country displayed). This is due to bad values for <Country> in the import file.
+    - Genre "Animerat" imported as "Anime". (Might be set that way by My Movies.)
+    - Main genre often wrong, since My Movies just lists all genres in a random order. We might have to get this info from DVD Profiler instead.
 - Figure out how to run both jaxb executions successfully in the schema pom. Currently only the second produces any output.
 - (Deprecated since the start of My Movies 2 usage) Update DVDProfiler import:
   - Use IntelliJ to generate a new movie XSD, plus manually finish it by comparing to the old one.

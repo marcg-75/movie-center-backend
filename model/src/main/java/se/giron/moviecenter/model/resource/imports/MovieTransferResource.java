@@ -21,6 +21,7 @@ public class MovieTransferResource {
 	
 	Date importDate;
 
+	Integer countMovies;
 	long newMovies;
 	long updatedMovies;
 
@@ -73,8 +74,9 @@ public class MovieTransferResource {
 		return failure;
 	}
 
-	public void setFailure(Exception failure) {
+	public MovieTransferResource setFailure(Exception failure) {
 		this.failure = failure;
+		return this;
 	}
 
 	public Date getImportDate() {
@@ -83,6 +85,15 @@ public class MovieTransferResource {
 
 	public MovieTransferResource setImportDate(Date importDate) {
 		this.importDate = importDate;
+		return this;
+	}
+
+	public Integer getCountMovies() {
+		return countMovies;
+	}
+
+	public MovieTransferResource setCountMovies(Integer countMovies) {
+		this.countMovies = countMovies;
 		return this;
 	}
 

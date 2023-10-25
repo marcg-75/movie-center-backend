@@ -4,11 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import se.giron.moviecenter.adapter.transform.mymovies.MyMoviesXmlConverter;
 import se.giron.moviecenter.adapter.web.MovieWebServiceClient;
 import se.giron.moviecenter.model.resource.MovieResource;
+import se.giron.moviecenter.model.resource.imports.AdapterResponse;
 import se.giron.moviecenter.model.resource.imports.MovieImportStatus;
 import se.giron.moviecenter.model.resource.imports.MovieTransferResource;
 import se.giron.moviecenter.mymovies.TitleType;
@@ -28,8 +30,6 @@ import static se.giron.moviecenter.adapter.transform.mymovies.MovieMapperUtils.m
 import static se.giron.moviecenter.adapter.util.MovieCenterUtil.listFiles;
 import static se.giron.moviecenter.adapter.util.MovieCenterUtil.moveFile;
 
-// TODO: Adapt this class to the outcome of the MyMovies XSD generation.
-
 @Service
 public class MyMoviesFileProcessService {
 
@@ -40,6 +40,9 @@ public class MyMoviesFileProcessService {
 
 	@Autowired
 	private MovieWebServiceClient movieWebServiceClient;
+
+	@Autowired
+	private LogService logService;
 
 	@Value("${adapter.directory.indata.mymovies:}")
 	private String filePath;
@@ -102,14 +105,27 @@ public class MyMoviesFileProcessService {
 
 				if (MovieImportStatus.FAILED.equals(movieTransferResource.getStatus())) {
 					LOG.error("Failed to process title", movieTransferResource.getFailure());
+					movieTransferResource.setCountMovies(1);
+					logService.logMovieMessage(movieTransferResource, movieTransferResource.getStatusDescription());
 					processingStatusOk = false;
-				}
+				} else {
+					try {
+						AdapterResponse response = movieWebServiceClient.createMovies(movieTransferResource);
 
-				try {
-					movieWebServiceClient.createMovies(movieTransferResource);
-				} catch (Exception e) {
-					LOG.error("Failed to create movie from parsed title", e);
-					statusImportOk = false;
+						if (response.getStatus() != HttpStatus.CREATED) {
+							LOG.error(response.getMessage());
+							movieTransferResource.setStatus(MovieImportStatus.FAILED);
+							movieTransferResource.setCountMovies(1);
+							logService.logMovieMessage(movieTransferResource, response.getMessage());
+							processingStatusOk = false;
+							statusImportOk = false;
+						} else {
+							logService.logMovieMessage(movieTransferResource, "Movie successfully imported");
+						}
+					} catch (Exception e) {
+						LOG.error("Failed to create movie from parsed title", e);
+						statusImportOk = false;
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -151,7 +167,8 @@ public class MyMoviesFileProcessService {
 			movieTransferResource
 					.setStatus(MovieImportStatus.FAILED)
 					.setStatusDescription(e.getMessage())
-					.setFailure(e);
+					.setFailure(e)
+					.setMovie(new MovieResource().setTitle(movieTransfer.getTitle()));
 		}
 
 		movieTransferResource
