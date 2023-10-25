@@ -7,6 +7,7 @@ import org.springframework.oxm.XmlMappingException;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import se.giron.moviecenter.mymovies.TitlesType;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -25,8 +26,8 @@ public class MyMoviesXmlConverter {
 	public TitlesType convertFromXMLToObject(Path xmlfile) throws IOException {
 		try (FileInputStream is = new FileInputStream(xmlfile.toFile())) {
 			final Object unmarshalled = unmarshaller.unmarshal(new StreamSource(is));
-			if (unmarshalled instanceof TitlesType) {
-				return (TitlesType) unmarshalled;
+			if (((JAXBElement<?>) unmarshalled).getValue() instanceof TitlesType) {
+				return (TitlesType) ((JAXBElement<?>) unmarshalled).getValue();
 			}
 			return null;
 		} catch (Exception e) {

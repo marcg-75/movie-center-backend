@@ -16,6 +16,8 @@ public class MovieTransferResource {
 	MovieImportStatus status;
 	
 	String statusDescription;
+
+	private Exception failure;
 	
 	Date importDate;
 
@@ -65,6 +67,14 @@ public class MovieTransferResource {
 	public MovieTransferResource setStatusDescription(String statusDescription) {
 		this.statusDescription = statusDescription;
 		return this;
+	}
+
+	public Exception getFailure() {
+		return failure;
+	}
+
+	public void setFailure(Exception failure) {
+		this.failure = failure;
 	}
 
 	public Date getImportDate() {

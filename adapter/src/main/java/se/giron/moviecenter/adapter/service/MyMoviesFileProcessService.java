@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import se.giron.moviecenter.adapter.transform.mymovies.MyMoviesXmlConverter;
 import se.giron.moviecenter.adapter.web.MovieWebServiceClient;
+import se.giron.moviecenter.model.resource.MovieResource;
 import se.giron.moviecenter.model.resource.imports.MovieImportStatus;
 import se.giron.moviecenter.model.resource.imports.MovieTransferResource;
 import se.giron.moviecenter.mymovies.TitleType;
@@ -97,21 +98,17 @@ public class MyMoviesFileProcessService {
 			allMoviesTransfer = xmlToObjects.apply(xmlFile);
 
 			for (TitleType title : allMoviesTransfer.getTitle()) {
-				try {
-					movieTransferResource = processTitle(title, fileName);
-				} catch (Exception e) {
-					LOG.error("Failed to process title", e);
-					exception = e;
+				movieTransferResource = processTitle(title, fileName);
+
+				if (MovieImportStatus.FAILED.equals(movieTransferResource.getStatus())) {
+					LOG.error("Failed to process title", movieTransferResource.getFailure());
+					processingStatusOk = false;
 				}
 
 				try {
-					if (exception != null) {
-						movieTransferResource = processTitleError(title, fileName, exception);
-					}
-
 					movieWebServiceClient.createMovies(movieTransferResource);
 				} catch (Exception e) {
-					LOG.error("Failed to create import log entry for title", e);
+					LOG.error("Failed to create movie from parsed title", e);
 					statusImportOk = false;
 				}
 			}
@@ -144,15 +141,27 @@ public class MyMoviesFileProcessService {
 	private MovieTransferResource processTitle(TitleType movieTransfer, String fileName) {
 		MovieTransferResource movieTransferResource = new MovieTransferResource();
 
+		try {
+			MovieResource movieResource = movie2resource(movieTransfer);
+
+			movieTransferResource
+					.setStatus(MovieImportStatus.SUCCESS)
+					.setMovie(movieResource);
+		} catch (Exception e) {
+			movieTransferResource
+					.setStatus(MovieImportStatus.FAILED)
+					.setStatusDescription(e.getMessage())
+					.setFailure(e);
+		}
+
 		movieTransferResource
 				.setImportDate(Date.from(Instant.now()))
-				.setStatus(MovieImportStatus.SUCCESS)
-				.setMovie(movie2resource(movieTransfer))
 				.setFileName(fileName);
 
 		return movieTransferResource;
 	}
 
+	@Deprecated
 	private MovieTransferResource processTitleError(TitleType movieTransfer, String fileName, final Exception error) {
 		MovieTransferResource movieTransferResource = new MovieTransferResource();
 

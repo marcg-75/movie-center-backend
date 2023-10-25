@@ -7,7 +7,6 @@ import se.giron.moviecenter.core.repository.LanguageRepository;
 import se.giron.moviecenter.core.repository.StudioRepository;
 import se.giron.moviecenter.model.entity.*;
 import se.giron.moviecenter.model.enums.RoleEnum;
-import se.giron.moviecenter.model.enums.SystemEnum;
 import se.giron.moviecenter.model.resource.*;
 
 import java.math.BigDecimal;
@@ -263,7 +262,7 @@ public class MovieMapper {
                 .setUpcId(info.getUpcId())
                 .setDiscs(info.getDiscs())
                 .setPictureFormat(info.getPictureFormat())
-                .setSystem(info.getSystem() != null ? info.getSystem().name() : null)
+                .setSystem(info.getSystem() != null ? info.getSystem() : null)
                 .setAudioLanguages(info.getAudioLanguages() != null ? info.getAudioLanguages().stream().collect(Collectors.toList()) : null)
                 .setSubtitles(info.getSubtitles() != null ? info.getSubtitles().stream().collect(Collectors.toList()) : null);
     }
@@ -291,7 +290,7 @@ public class MovieMapper {
                 .setUpcId(resource.getUpcId())
                 .setDiscs(resource.getDiscs())
                 .setPictureFormat(resource.getPictureFormat())
-                .setSystem(resource.getSystem() != null ? SystemEnum.valueOf(resource.getSystem()) : null);
+                .setSystem(resource.getSystem() != null ? resource.getSystem() : null);
 
         if (resource.getAudioLanguages() != null && !resource.getAudioLanguages().isEmpty()) {
             info.getAudioLanguages().addAll(resource.getAudioLanguages().stream()

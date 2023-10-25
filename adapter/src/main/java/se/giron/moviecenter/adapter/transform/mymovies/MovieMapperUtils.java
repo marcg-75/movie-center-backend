@@ -1,19 +1,24 @@
 package se.giron.moviecenter.adapter.transform.mymovies;
 
 import io.micrometer.core.instrument.util.StringUtils;
-import se.giron.moviecenter.dvdprofiler.CreditType;
 import se.giron.moviecenter.model.entity.*;
 import se.giron.moviecenter.model.enums.RoleEnum;
 import se.giron.moviecenter.model.resource.*;
 import se.giron.moviecenter.mymovies.*;
 
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class MovieMapperUtils {
 
     private static final Map<Integer, String> ageRestrictionMap = new HashMap<>();
+    private static final Map<String, String> formatMap = new HashMap<>();
+    private static final Map<String, String> languageMap = new HashMap<>();
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", Locale.ENGLISH);
 
     static {
         ageRestrictionMap.put(0, "Ej klassificerad");
@@ -25,6 +30,59 @@ public class MovieMapperUtils {
         ageRestrictionMap.put(6, "Från 15 år");
         ageRestrictionMap.put(7, "Barnförbjuden");
         ageRestrictionMap.put(8, "Barnförbjuden");
+
+        formatMap.put("Blu-ray", "BluRay");
+
+        languageMap.put("Arabic", "Arabiska");
+        languageMap.put("BrazilianPortuguese", "Brasiliansk Portugisiska");
+        languageMap.put("Bulgarian", "Bulgariska");
+        languageMap.put("Catalan", "Katalanska");
+        languageMap.put("Catalonian", "Katalanska");
+        languageMap.put("Cantonese", "Kantonesiska");
+        languageMap.put("Chinese", "Kinesiska");
+        languageMap.put("Croatian", "Kroatiska");
+        languageMap.put("Czech", "Tjeckiska");
+        languageMap.put("Danish", "Danska");
+        languageMap.put("Dutch", "Holländska");
+        languageMap.put("English", "Engelska");
+        languageMap.put("Esperanto", "Esperanto");
+        languageMap.put("Estonian", "Estniska");
+        languageMap.put("Farsi", "Farsi");
+        languageMap.put("Finnish", "Finska");
+        languageMap.put("Flemish", "Flamländska");
+        languageMap.put("French", "Franska");
+        languageMap.put("German", "Tyska");
+        languageMap.put("Greek", "Grekiska");
+        languageMap.put("Hebrew", "Hebreiska");
+        languageMap.put("Hebrew (he)", "Hebreiska");
+        languageMap.put("Hindi", "Hindi");
+        languageMap.put("Hungarian", "Ungerska");
+        languageMap.put("Icelandic", "Isländska");
+        languageMap.put("Indonesian", "Indonesiska");
+        languageMap.put("Italian", "Italienska");
+        languageMap.put("Japanese", "Japanska");
+        languageMap.put("Korean", "Koreanska");
+        languageMap.put("Latvian", "Lettiska");
+        languageMap.put("Lithuanian", "Litauiska");
+        languageMap.put("Malay", "Malaysiska");
+        languageMap.put("Mandarin", "Mandarin");
+        languageMap.put("Norwegian", "Norska");
+        languageMap.put("Polish", "Polska");
+        languageMap.put("Portuguese", "Portugisiska");
+        languageMap.put("Romanian", "Rumänska");
+        languageMap.put("Russian", "Ryska");
+        languageMap.put("Serbian", "Serbiska");
+        languageMap.put("Slovakian", "Slovakiska");
+        languageMap.put("Slovene", "Slovenska");
+        languageMap.put("Slovenian", "Slovenska");
+        languageMap.put("Spanish", "Spanska");
+        languageMap.put("Swedish", "Svenska");
+        languageMap.put("Tagalog", "Tagalog");
+        languageMap.put("Thai", "Thailändska");
+        languageMap.put("Turkish", "Turkiska");
+        languageMap.put("Ukrainian", "Ukrainska");
+        languageMap.put("Vietnamese", "Vietnamesiska");
+        languageMap.put("Music", "Musik");
     }
 
     public static MovieResource movie2resource(TitleType movieTransfer) {
@@ -33,7 +91,7 @@ public class MovieMapperUtils {
                 .setOriginalTitle(movieTransfer.getOriginalTitle())
                 .setDescription(movieTransfer.getDescription())
                 .setRuntime(map2Runtime(movieTransfer.getRunningTime()))
-                .setReleaseDate(movieTransfer.getReleaseDate() != null ? movieTransfer.getReleaseDate().toGregorianCalendar().getTime() : null)
+                .setReleaseDate(mapSimpleDate(movieTransfer.getReleaseDate()))
                 .setCountry(map2Country(movieTransfer.getCountry()))
                 .setAgeRestriction(map2AgeRestriction(movieTransfer.getParentalRating().getValue()))
                 .setStudios(map2Studios(movieTransfer.getStudios()))
@@ -48,15 +106,45 @@ public class MovieMapperUtils {
         return movieResource;
     }
 
-    private static Time map2Runtime(int runningTimeMinutes) {
-        if (runningTimeMinutes <= 0) {
+    private static Time map2Runtime(String strRunningTimeMinutes) {
+        if (strRunningTimeMinutes == null || strRunningTimeMinutes.trim().isEmpty()) {
             return null;
         }
+
+        int runningTimeMinutes = Integer.parseInt(strRunningTimeMinutes);
 
         int hours = Math.floorDiv(runningTimeMinutes, 60);
         int minutes = Math.floorMod(runningTimeMinutes, 60);
 
         return new Time(hours, minutes, 0);
+    }
+
+    /**
+     * Maps a date string of format "dd-MM-yyyy" to a Date object.
+     */
+    private static Date mapSimpleDate(String strDate) {
+        if (strDate == null || StringUtils.isBlank(strDate)) {
+            return null;
+        }
+        try {
+            return simpleDateFormat.parse(strDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    /**
+     * Maps a string of format "dd/MM/yyyy hh:mm:ss aa" to a Date object.
+     */
+    private static Date mapDateTime(String strDate) {
+        if (strDate == null || StringUtils.isBlank(strDate)) {
+            return null;
+        }
+        try {
+            return dateFormat.parse(strDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     private static String map2Country(String locality) {
@@ -92,7 +180,7 @@ public class MovieMapperUtils {
         }
         return new MovieFormatInfoResource()
                 .setCover(map2Cover(movieTransfer.getCovers()))  // This info doesn't exist in the DVDProfiler export.
-                .setFormat(map2MediaFormat(movieTransfer.getTypes()))
+                .setFormat(map2MediaFormat(movieTransfer.getType()))
                 .setRegion(map2Region(movieTransfer.getRegionCodes()))
                 .setUpcId(movieTransfer.getBarcode())
                 .setDiscs(map2Discs(movieTransfer.getDiscs()))
@@ -130,8 +218,11 @@ public class MovieMapperUtils {
                 .setBgFileName(covers.getBack());
     }
 
-    private static Format map2MediaFormat(TypesType mediaTypes) {
-        return new Format().setCode(mediaTypes.getType());
+    private static Format map2MediaFormat(TypeType mediaType) {
+        String formattedValue = formatMap.get(mediaType.getValue());
+        String code = formattedValue != null ? formattedValue : mediaType.getValue();
+
+        return new Format().setCode(code);
     }
 
     private static Integer map2Region(RegionCodesType regions) {
@@ -147,6 +238,11 @@ public class MovieMapperUtils {
                 }
             }
         }
+
+        if (region.equals("NoRegionCode")) {
+            region = "0";
+        }
+
         return Integer.valueOf(region);
     }
 
@@ -182,115 +278,40 @@ public class MovieMapperUtils {
     }
 
     private static boolean isSupportedLang(String lang) {
-        return StringUtils.isNotBlank(lang)
+        boolean isNotUnsupportedLangString =
+                StringUtils.isNotBlank(lang)
                 && !"Other".equalsIgnoreCase(lang)
                 && !"Commentary".equalsIgnoreCase(lang)
                 && !"Audio Descriptive".equalsIgnoreCase(lang)
                 && !"Trivia".equalsIgnoreCase(lang)
-                && !"Music Only".equalsIgnoreCase(lang);
+                && !"Music Only".equalsIgnoreCase(lang)
+                && !"Music".equalsIgnoreCase(lang);
+
+        // Ignore not yet supported languages.
+        if (isNotUnsupportedLangString && languageMap.get(lang) == null) {
+            System.out.println("Unsupported language (ignored): " + lang);
+            return false;
+        }
+        return isNotUnsupportedLangString;
     }
 
     private static String lang2Swe(String langEng) {
-        if (StringUtils.isBlank(langEng)) {
+        if (langEng == null || StringUtils.isBlank(langEng)) {
             return null;
         }
 
-        switch (langEng) {
-            case "English":
-                return "Engelska";
-            case "Swedish":
-                return "Svenska";
-            case "German":
-                return "Tyska";
-            case "French":
-                return "Franska";
-            case "Spanish":
-                return "Spanska";
-            case "Portuguese":
-                return "Portugisiska";
-            case "Norwegian":
-                return "Norska";
-            case "Danish":
-                return "Danska";
-            case "Finnish":
-                return "Finska";
-            case "Icelandic":
-                return "Isländska";
-            case "Dutch":
-                return "Holländska";
-            case "Flemish":
-                return "Flamländska";
-            case "Italian":
-                return "Italienska";
-            case "Greek":
-                return "Grekiska";
-            case "Farsi":
-                return "Farsi";
-            case "Turkish":
-                return "Turkiska";
-            case "Estonian":
-                return "Estniska";
-            case "Latvian":
-                return "Lettiska";
-            case "Lithuanian":
-                return "Litauiska";
-            case "Hindi":
-                return "Hindi";
-            case "Vietnamese":
-                return "Vietnamesiska";
-            case "Arabic":
-                return "Arabiska";
-            case "Hebrew":
-                return "Hebreiska";
-            case "Japanese":
-                return "Japanska";
-            case "Chinese":
-                return "Kinesiska";
-            case "Mandarin":
-                return "Mandarin";
-            case "Thai":
-                return "Thailändska";
-            case "Polish":
-                return "Polska";
-            case "Czech":
-                return "Tjeckiska";
-            case "Hungarian":
-                return "Ungerska";
-            case "Romanian":
-                return "Rumänska";
-            case "Slovakian":
-                return "Slovakiska";
-            case "Slovenian":
-                return "Slovenska";
-            case "Croatian":
-                return "Kroatiska";
-            case "Bulgarian":
-                return "Bulgariska";
-            case "Catalonian":
-                return "Katalanska";
-            case "Korean":
-                return "Koreanska";
-            case "Serbian":
-                return "Serbiska";
-            case "Russian":
-                return "Ryska";
-            default:
-                System.out.println("Unsupported language: " + langEng);
-                return "";
+        String mappedLang = languageMap.get(langEng.trim());
+
+        if (mappedLang != null) {
+            return mappedLang;
         }
+        System.out.println("Unsupported language: " + langEng);
+        return "";
     }
 
-    /**
-     * Review format: <Review Film="5" Video="0" Audio="0" Extras="0"/>
-     * Input steps: 1-9
-     * Output steps: 1-5 (ie. 1, 1.5, ..., 4, 4.5, 5)
-     *
-     * @param rating
-     * @return
-     */
     private static Double map2Grade(Integer rating) {
         if (rating == null || rating < 0) {
-            return 0D;
+            return null;
         }
         switch (rating) {
             case 1:
@@ -314,7 +335,7 @@ public class MovieMapperUtils {
             case 10:
                 return 5D;
             default:
-                return 0D;
+                return null;
         }
     }
 
@@ -326,7 +347,7 @@ public class MovieMapperUtils {
                 ? personalInfo.getPurchasePrice().doubleValue() : null;
 
         return resource
-                .setObtainDate(personalInfo.getPurchased().toGregorianCalendar().getTime())
+                .setObtainDate(mapDateTime(personalInfo.getPurchased()))
                 .setObtainPlace(personalInfo.getPurchasePlace())
                 .setObtainPrice(obtainPrice)
                 .setCurrency(personalInfo.getPurchaseCurrency());
@@ -354,16 +375,16 @@ public class MovieMapperUtils {
                     mappedGenreCode = "MARTIAL-ARTS";
                 }
 
-                isGenreSupported(mappedGenreCode);
+                if (isGenreSupported(mappedGenreCode)) {
+                    Genre genre = new Genre().setCode(mappedGenreCode);
 
-                Genre genre = new Genre().setCode(mappedGenreCode);
+                    if (i == 0) {
+                        // Main genre (choose first in list).
+                        movieResource.setMainGenre(genre);
 
-                if (i == 0) {
-                    // Main genre (choose first in list).
-                    movieResource.setMainGenre(genre);
-
-                } else {
-                    movieResource.getAdditionalGenres().add(genre);
+                    } else {
+                        movieResource.getAdditionalGenres().add(genre);
+                    }
                 }
             }
         }
@@ -371,7 +392,7 @@ public class MovieMapperUtils {
 
     private static boolean isGenreSupported(String genreCode) {
         if (StringUtils.isBlank(genreCode)) {
-            System.out.println("Unsupported genre: <empty value>");
+            System.out.println("Unsupported genre (ignored): <empty value>");
             return false;
         }
         switch (genreCode) {
@@ -397,9 +418,11 @@ public class MovieMapperUtils {
             case "SCIENCE-FICTION":
             case "MUSICAL":
             case "MARTIAL-ARTS":
+            case "MYSTERY":
+            case "ANIME":
                 return true;
             default:
-                System.out.println("Unsupported genre: " + genreCode);
+                System.out.println("Unsupported genre (ignored): " + genreCode);
                 return false;
         }
     }

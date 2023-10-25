@@ -135,7 +135,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
-      <xs:element type="xs:dateTime" name="Purchased"/>
+      <xs:element type="xs:string" name="Purchased"/>
       <xs:element name="PurchasePlace">
         <xs:simpleType>
           <xs:restriction base="xs:string">
@@ -156,7 +156,7 @@
       <xs:element type="xs:string" name="ValuePerCurrency"/>
       <xs:element type="xs:string" name="ValuePer"/>
       <xs:element type="xs:string" name="Group"/>
-      <xs:element type="xs:dateTime" name="Added"/>
+      <xs:element type="xs:string" name="Added"/>
       <xs:element type="DiscLocationsType" name="DiscLocations"/>
       <xs:element name="Online">
         <xs:simpleType>
@@ -326,9 +326,22 @@
         </xs:simpleType>
       </xs:element>
       <xs:element type="xs:string" name="ProductionYear" minOccurs="0"/>
-      <xs:element type="xs:date" name="ReleaseDate" minOccurs="0"/>
+      <xs:element type="xs:string" name="ReleaseDate" minOccurs="0"/>
       <xs:element type="xs:string" name="ReleaseDateDisplay" minOccurs="0"/>
-      <xs:element type="xs:int" name="RunningTime" minOccurs="0"/>
+      <xs:element name="RunningTime" minOccurs="0">
+        <xs:simpleType>
+          <xs:union>
+            <xs:simpleType>
+              <xs:restriction base='xs:string'>
+                <xs:length value="0"/>
+              </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType>
+              <xs:restriction base='xs:int' />
+            </xs:simpleType>
+          </xs:union>
+        </xs:simpleType>
+      </xs:element>
       <xs:element type="xs:string" name="TagLine" minOccurs="0"/>
       <xs:element type="xs:string" name="Description" minOccurs="0"/>
       <xs:element type="ExtraFeaturesType" name="ExtraFeatures" minOccurs="0"/>
@@ -340,11 +353,11 @@
       <xs:element type="LocalTrailerType" name="LocalTrailer" minOccurs="0"/>
       <xs:element type="PersonalType" name="Personal" minOccurs="0"/>
       <xs:element type="CoversType" name="Covers" minOccurs="0"/>
-      <xs:element type="xs:dateTime" name="DataChanged" minOccurs="0"/>
-      <xs:element type="xs:dateTime" name="CoversChanged" minOccurs="0"/>
+      <xs:element type="xs:string" name="DataChanged" minOccurs="0"/>
+      <xs:element type="xs:string" name="CoversChanged" minOccurs="0"/>
       <xs:element type="xs:string" name="LockData" minOccurs="0"/>
       <xs:element type="xs:string" name="LockCovers" minOccurs="0"/>
-      <xs:element type="xs:dateTime" name="RecordChanged" minOccurs="0"/>
+      <xs:element type="xs:string" name="RecordChanged" minOccurs="0"/>
       <xs:element type="xs:string" name="Categories" minOccurs="0"/>
       <xs:element type="TypesType" name="Types" minOccurs="0"/>
       <xs:element type="DigitalCopiesType" name="DigitalCopies" minOccurs="0"/>

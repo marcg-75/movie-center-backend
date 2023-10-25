@@ -44,7 +44,7 @@ public class AdapterController implements MessageSourceAware {
 
 //    @PostMapping("/movie/import-logs")
 //    @ResponseStatus(HttpStatus.CREATED)
-//    public void createLog(@RequestBody @Valid SampleTransferWrapperResource sampleTransferResources) {
+//    TODO: public void createLog(@RequestBody @Valid SampleTransferWrapperResource sampleTransferResources) {
 //        movieImportLogService.createLog(sampleTransferResources.getTransferResources());
 //    }
 

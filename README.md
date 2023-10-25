@@ -64,6 +64,16 @@ source data.sql
 ```
 To quit mysql client, enter `Ctrl+C`
 
+## Import movie data via the adapter
+
+The adapter currently supports movie data imports from DVD Profiler and My Movies 2. In order to import the data, do the following:
+1. Export the movie data from either of these applications.
+2. Put the exported files in the import folder configured in the adapter module's properties.
+3. Start the MovieCenterApplication (this sets up the database, and it's API will be used for the import).
+4. Run the adapter and monitor the logs.
+5. All successfully imported movie files will be moved to a dedicated folder. All others will be moved to a folder for failed imports.
+6. Verify the import in the database and/or frontend application.
+
 ## Start frontend
 
 Look at the README in movie-center-web/mono project for guidelines on how to build and run the frontend application
@@ -90,13 +100,13 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
 - No security implemented. The application is currently only intended to be hosted on a local computer.
 
 # TODO
+- Implement import log handling.
 - Add support for My Movies 2 exports in the adapter
-  - (Done) Use IntelliJ to generate a new movie XSD.
-  - (Done) Export movies (exported 231013, but might need to be redone)
-  - Import movies
-  - (Done) Export and import cover images (exported 231013, but might need to be redone)
-  - (No. Done manually) Let the import process copy the images to the "covers" folder above.
-  - Test the two above, then clear the db, rerun db.migration files and then do the import.
+  - Test: Import movies
+  - Test failures:
+    - No persons imported
+    - movie.country is mostly wrong (wrong country displayed)
+    - Main genre often wrong, since My Movies just lists all genres in a random order.
 - Figure out how to run both jaxb executions successfully in the schema pom. Currently only the second produces any output.
 - (Deprecated since the start of My Movies 2 usage) Update DVDProfiler import:
   - Use IntelliJ to generate a new movie XSD, plus manually finish it by comparing to the old one.

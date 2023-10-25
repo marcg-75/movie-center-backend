@@ -1,7 +1,5 @@
 package se.giron.moviecenter.model.entity;
 
-import se.giron.moviecenter.model.enums.SystemEnum;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,8 +32,7 @@ public class MovieFormatInfo {
 
     private String pictureFormat;
 
-    @Enumerated(EnumType.STRING)
-    private SystemEnum system;
+    private String system;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -125,11 +122,11 @@ public class MovieFormatInfo {
         return this;
     }
 
-    public SystemEnum getSystem() {
+    public String getSystem() {
         return system;
     }
 
-    public MovieFormatInfo setSystem(SystemEnum system) {
+    public MovieFormatInfo setSystem(String system) {
         this.system = system;
         return this;
     }
