@@ -88,11 +88,8 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
 
 # Notes
 - No security implemented. The application is currently only intended to be hosted on a local computer.
-- Basic cover handling is implemented (urls to front- and back cover). Image file handling for cover is yet to be implemented.
 
 # TODO
-- (**Test**) Implement a "deleteAll" movie service endpoint. <b>(Implemented, not tested.)</b>
-- (**Test**) Implement a "deleteAll" person service endpoint. This shall remove all personRoles and persons. <b>(Implemented, not tested.)</b>
 - Add support for My Movies 2 exports in the adapter
   - (Done) Use IntelliJ to generate a new movie XSD.
   - (Done) Export movies (exported 231013, but might need to be redone)

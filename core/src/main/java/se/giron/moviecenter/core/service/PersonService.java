@@ -6,10 +6,12 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import se.giron.moviecenter.core.map.PersonMapper;
+import se.giron.moviecenter.core.repository.CastAndCrewRepository;
 import se.giron.moviecenter.core.repository.PersonRepository;
 import se.giron.moviecenter.core.repository.PersonRoleRepository;
 import se.giron.moviecenter.model.entity.Role;
 import se.giron.moviecenter.model.enums.RoleEnum;
+import se.giron.moviecenter.model.resource.CastAndCrewResource;
 import se.giron.moviecenter.model.resource.PersonResource;
 import se.giron.moviecenter.model.resource.PersonRoleResource;
 
@@ -24,6 +26,9 @@ public class PersonService {
 
     @Autowired
     private PersonRoleRepository personRoleRepository;
+
+    @Autowired
+    private CastAndCrewRepository castAndCrewRepository;
 
     @Autowired
     private PersonMapper personMapper;
@@ -140,8 +145,8 @@ public class PersonService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public void deleteAll() {
+        castAndCrewRepository.deleteAll();
         personRoleRepository.deleteAll();
-
         personRepository.deleteAll();
     }
 }
