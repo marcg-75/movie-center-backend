@@ -494,6 +494,7 @@ public class MovieMapperUtils {
         if (person == null) {
             return null;
         }
+
         return new CastAndCrewResource()
                 .setPersonRole(map2PersonRoleResource(person))
                 .setCharacterName(person.getRole());
@@ -502,7 +503,8 @@ public class MovieMapperUtils {
     private static PersonRoleResource map2PersonRoleResource(PersonType person) {
         return new PersonRoleResource()
                 .setPerson(new PersonResource().setName(person.getName()))
-                .setRole(person.getRoleType() != null ? new Role().setCode(map2Role(person).name()) : null);
+                .setRole(createRole(person));
+//                .setRole(roleType != null ? new Role().setCode(map2Role(person).name()) : null);
     }
 
     private static RoleEnum map2Role(PersonType person) {
@@ -535,5 +537,17 @@ public class MovieMapperUtils {
         } else {
             return RoleEnum.MISC;
         }
+    }
+
+    private static Role createRole(PersonType person) {
+        String roleType = person.getRoleType();
+
+        if (StringUtils.isBlank(roleType)) {
+            return null;
+        }
+
+        RoleEnum roleEnum = map2Role(person);
+
+        return new Role().setCode(roleEnum.name()).setName(roleEnum.getName());
     }
 }

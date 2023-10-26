@@ -101,17 +101,16 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
 
 # TODO
 - Rework the genre setup: Transfer the movie_subgenre table to movie_genres, add an optional column "is_main_genre" (or similar), remove the main genre column from movies, etc.
-  - The web app removes the genre column from the main list (or displays up to three genres in it), but the genre filter matches against all the movie's genres.
-- Implement import log handling.
+  - The web app should display up to three genres in the main list genre column, but the genre filter matches against all the movie's genres.
 - Add support for My Movies 2 exports in the adapter
+  - Implement import log handling: One log for overall result, except the import log for the individual titles.
   - Test: Import movies
   - Test failures:
-    - All movies not imported (like Speed and Seven). These are not in the import file. => My Movies export error
-    - No persons imported
-    - Import Rating as grade.
-    - movie.country is mostly wrong (wrong country displayed). This is due to bad values for <Country> in the import file.
+    - (MM bug) 7 movies were not exported from My Movies (MM) and therefore not imported. They were not exported since MM could not find a physical medium for them, just the movie itself.
+    - (MM bug) Many bad values for <Country> in the MM export. Sweden often given as the country instead of the real one. The country of origin is therefore often wrong in the imported movies.
     - Genre "Animerat" imported as "Anime". (Might be set that way by My Movies.)
     - Main genre often wrong, since My Movies just lists all genres in a random order. We might have to get this info from DVD Profiler instead.
+    - Re-import leads to duplicates. Treat these as updates or ignore already existing movies, or introduce an overwrite flag in the contract.
 - Figure out how to run both jaxb executions successfully in the schema pom. Currently only the second produces any output.
 - (Deprecated since the start of My Movies 2 usage) Update DVDProfiler import:
   - Use IntelliJ to generate a new movie XSD, plus manually finish it by comparing to the old one.

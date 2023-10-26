@@ -49,7 +49,7 @@ public class Movie {
     )
     private Set<Studio> studios = new HashSet<>();
 
-    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     //@JoinColumn(name = "movie_id")
     private Set<CastAndCrew> castAndCrew = new HashSet<>();
 
