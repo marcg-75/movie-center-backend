@@ -92,8 +92,9 @@ public class MovieMapperUtils {
                 .setDescription(movieTransfer.getDescription())
                 .setRuntime(map2Runtime(movieTransfer.getRunningTime()))
                 .setReleaseDate(mapSimpleDate(movieTransfer.getReleaseDate()))
-                .setCountry(map2Country(movieTransfer.getCountry()))
+//                .setCountry(map2Country(movieTransfer.getCountry()))  // A bug in MyMovies: Has "Country of sale" instead of "Country of origin".
                 .setAgeRestriction(map2AgeRestriction(movieTransfer.getParentalRating().getValue()))
+                .setImdbId(movieTransfer.getIMDB())
                 .setStudios(map2Studios(movieTransfer.getStudios()))
 
                 .setMovieFormatInfo(map2MovieFormatInfo(movieTransfer))

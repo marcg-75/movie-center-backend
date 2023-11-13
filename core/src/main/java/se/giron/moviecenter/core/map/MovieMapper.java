@@ -40,6 +40,7 @@ public class MovieMapper {
                 .setReleaseDate(movie.getReleaseDate())
                 .setCountry(movie.getCountry())
                 .setAgeRestriction(movie.getAgeRestriction())
+                .setImdbId(movie.getImdbId())
                 .setStudios(movie.getStudios())
                 .setMovieFormatInfo(entity2MovieFormatInfoResource(movie.getMovieFormatInfo()))
                 .setMoviePersonalInfo(entity2PersonalInfoResource(movie.getMoviePersonalInfo()));
@@ -105,6 +106,7 @@ public class MovieMapper {
                 .setReleaseDate(movieResource.getReleaseDate())
                 .setCountry(movieResource.getCountry())
                 .setAgeRestriction(movieResource.getAgeRestriction())
+                .setImdbId(movieResource.getImdbId())
 
                 .setMovieFormatInfo(resource2MovieFormatInfo(movieResource.getMovieFormatInfo(), movie))
                 .setMoviePersonalInfo(resource2MoviePersonalInfo(movieResource.getMoviePersonalInfo(), movie));

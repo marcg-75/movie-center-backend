@@ -98,6 +98,13 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
 
 # Notes
 - No security implemented. The application is currently only intended to be hosted on a local computer.
+- Detected bugs in My Movies (MM) (which degrades the imported data):
+  - Value for country is _mostly_ "Country of sale" (ie. Sweden) instead of "Country of origin". => Temporarily disabled this import.
+  - Some movies are not exported from MM, due to them not having a physical medium given in MM, just the movie itself. => These movies has to be manually added (or via db script).
+  - Some movies have the genre "Animerat" exported as "Anime" by MM.
+- Incompatibility in MM with DVD Profiler (which degrades the imported data):
+  - No main genre for a movie, just a randomly ordered list of the applicable genres.
+  - Personal grade not imported from DVD Profiler and mapped to personal rating in MM. In practice, only the grades for the existing movies in DVD Profiler can be used, not for the ones added in MM.
 
 # TODO
 - Rework the genre setup: Transfer the movie_subgenre table to movie_genres, add an optional column "is_main_genre" (or similar), remove the main genre column from movies, etc.
@@ -106,12 +113,10 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
   - Implement import log handling: One log for overall result, except the import log for the individual titles.
   - Test: Import movies
   - Test failures:
-    - (MM bug) 7 movies were not exported from My Movies (MM) and therefore not imported. They were not exported since MM could not find a physical medium for them, just the movie itself.
-    - (MM bug) Many bad values for <Country> in the MM export. Sweden often given as the country instead of the real one. The country of origin is therefore often wrong in the imported movies.
-    - Genre "Animerat" imported as "Anime". (Might be set that way by My Movies.)
     - Main genre often wrong, since My Movies just lists all genres in a random order. We might have to get this info from DVD Profiler instead.
     - Re-import leads to duplicates. Treat these as updates or ignore already existing movies, or introduce an overwrite flag in the contract.
 - Figure out how to run both jaxb executions successfully in the schema pom. Currently only the second produces any output.
 - (Deprecated since the start of My Movies 2 usage) Update DVDProfiler import:
   - Use IntelliJ to generate a new movie XSD, plus manually finish it by comparing to the old one.
 - Clean up the flyway db.migration files, reset the database and re-import all movies.
+- Display an IMDB link in FE.

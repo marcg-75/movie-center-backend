@@ -41,6 +41,8 @@ public class MovieResource {
 
     private String ageRestriction;
 
+    private String imdbId;
+
     private Set<Studio> studios = new HashSet<>();
 
     private List<CastAndCrewResource> actors = new ArrayList<>();
@@ -156,6 +158,15 @@ public class MovieResource {
 
     public MovieResource setAgeRestriction(String ageRestriction) {
         this.ageRestriction = ageRestriction;
+        return this;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public MovieResource setImdbId(String imdbId) {
+        this.imdbId = imdbId;
         return this;
     }
 

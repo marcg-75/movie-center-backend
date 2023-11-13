@@ -1,5 +1,7 @@
 package se.giron.moviecenter.model.entity;
 
+import se.giron.moviecenter.model.resource.MovieResource;
+
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
@@ -40,6 +42,8 @@ public class Movie {
     private String country;
 
     private String ageRestriction;
+
+    private String imdbId;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
@@ -146,6 +150,15 @@ public class Movie {
 
     public Movie setAgeRestriction(String ageRestriction) {
         this.ageRestriction = ageRestriction;
+        return this;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public Movie setImdbId(String imdbId) {
+        this.imdbId = imdbId;
         return this;
     }
 
