@@ -9,12 +9,14 @@ import se.giron.moviecenter.core.exception.ValidationException;
 import se.giron.moviecenter.core.repository.GenreRepository;
 import se.giron.moviecenter.core.repository.MovieRepository;
 import se.giron.moviecenter.model.entity.Genre;
+import se.giron.moviecenter.model.resource.MovieGenreResource;
 import se.giron.moviecenter.model.resource.MovieResource;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
 
@@ -76,12 +78,6 @@ public class MovieServiceTest {
         assertEquals(1, violations.size());
     }
 
-    @Test
-    public void shouldFailValidationIfMainGenreIsNull() {
-        Set<ConstraintViolation<MovieResource>> violations = validator.validate(createMovieResource().setMainGenre(null));
-        assertEquals(1, violations.size());
-    }
-
 //    @Test
 //    public void shouldFailValidationIfMainGenreCodeIsNull() {
 //        MovieResource movieResource = createMovieResource();
@@ -93,35 +89,51 @@ public class MovieServiceTest {
     @Test(expected = ValidationException.class)
     public void shouldFailValidationIfEmptyTitle() {
         MovieResource movieResource = createMovieResource().setTitle("");
-        movieService.validateAndResolveReferences(movieResource);
+        movieService.validateReferences(movieResource);
     }
 
     @Test(expected = ValidationException.class)
     public void shouldFailValidationIfNoMainGenre() {
-        MovieResource movieResource = createMovieResource().setMainGenre(null);
-        movieService.validateAndResolveReferences(movieResource);
+        MovieResource movieResource = createMovieResource().setGenres(new ArrayList<>());
+        movieService.validateReferences(movieResource);
     }
 
     @Test(expected = ValidationException.class)
     public void shouldFailValidationIfEmptyMainGenreCode() {
         MovieResource movieResource = createMovieResource();
-        movieResource.getMainGenre().setCode("");
-        movieService.validateAndResolveReferences(movieResource);
+        Genre genre = new Genre().setCode("");
+        MovieGenreResource mgr = new MovieGenreResource().setGenre(genre).setMovieTitle(movieResource.getTitle());
+
+        movieResource.getGenres().clear();
+        movieResource.getGenres().add(mgr);
+
+        movieService.validateReferences(movieResource);
     }
 
     @Test(expected = ValidationException.class)
     public void shouldFailValidationIfMainGenreUnknown() {
-        MovieResource movieResource = createMovieResource();
         String genreCode = "genre-code-unknown";
-        movieResource.getMainGenre().setCode(genreCode);
+        MovieResource movieResource = createMovieResource();
+        Genre genre = new Genre().setCode(genreCode);
+        MovieGenreResource mgr = new MovieGenreResource().setGenre(genre).setMovieTitle(movieResource.getTitle());
+
+        movieResource.getGenres().clear();
+        movieResource.getGenres().add(mgr);
+
         when(genreRepository.findById(eq(genreCode))).thenReturn(Optional.empty());
-        movieService.validateAndResolveReferences(movieResource);
+        movieService.validateReferences(movieResource);
     }
 
     private MovieResource createMovieResource() {
-        return new MovieResource()
+        MovieResource movieResource = new MovieResource()
                 .setTitle(MOVIE_TITLE)
-                .setDescription(MOVIE_DESCRIPTION)
-                .setMainGenre(new Genre().setCode(GENRE_CODE));
+                .setDescription(MOVIE_DESCRIPTION);
+
+        Genre genre = new Genre().setCode(GENRE_CODE);
+        MovieGenreResource mgr = new MovieGenreResource().setGenre(genre).setMovieTitle(movieResource.getTitle());
+
+        movieResource.getGenres().add(mgr);
+
+        return movieResource;
     }
 }

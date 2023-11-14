@@ -1,7 +1,5 @@
 package se.giron.moviecenter.model.entity;
 
-import se.giron.moviecenter.model.resource.MovieResource;
-
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
@@ -23,17 +21,8 @@ public class Movie {
 
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name="main_genre_cd")
-    private Genre mainGenre;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "movie_subgenre",
-            joinColumns = { @JoinColumn(name = "movie_id")},
-            inverseJoinColumns = { @JoinColumn(name = "genre_cd")}
-    )
-    private Set<Genre> additionalGenres = new HashSet<>();
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MovieGenre> genres = new HashSet<>();
 
     private Time runtime;
 
@@ -99,21 +88,12 @@ public class Movie {
         return this;
     }
 
-    public Genre getMainGenre() {
-        return mainGenre;
+    public Set<MovieGenre> getGenres() {
+        return genres;
     }
 
-    public Movie setMainGenre(Genre mainGenre) {
-        this.mainGenre = mainGenre;
-        return this;
-    }
-
-    public Set<Genre> getAdditionalGenres() {
-        return additionalGenres;
-    }
-
-    public Movie setAdditionalGenres(Set<Genre> additionalGenres) {
-        this.additionalGenres = additionalGenres;
+    public Movie setGenres(Set<MovieGenre> movieGenres) {
+        this.genres = movieGenres;
         return this;
     }
 

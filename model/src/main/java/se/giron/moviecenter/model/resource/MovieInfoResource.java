@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import se.giron.moviecenter.model.entity.Genre;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ApiModel(value = "MovieInfoResource")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MovieInfoResource {
@@ -14,7 +17,7 @@ public class MovieInfoResource {
 
     private String title;
 
-    private Genre mainGenre;
+    private List<MovieGenreResource> genres = new ArrayList<>();
 
     private MoviePersonalInfoResource moviePersonalInfo;
 
@@ -36,12 +39,12 @@ public class MovieInfoResource {
         return this;
     }
 
-    public Genre getMainGenre() {
-        return mainGenre;
+    public List<MovieGenreResource> getGenres() {
+        return genres;
     }
 
-    public MovieInfoResource setMainGenre(Genre mainGenre) {
-        this.mainGenre = mainGenre;
+    public MovieInfoResource setGenres(List<MovieGenreResource> genres) {
+        this.genres = genres;
         return this;
     }
 

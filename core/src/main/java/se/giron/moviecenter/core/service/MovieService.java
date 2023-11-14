@@ -105,30 +105,33 @@ public class MovieService {
     }
 
     private Movie persist(MovieResource movieResource, Movie movie) {
-        validateAndResolveReferences(movieResource);
+        validateReferences(movieResource);
 
         Movie movieToUpdate = movieMapper.resource2entity(movieResource, movie);
         return movieRepository.save(movieToUpdate);
     }
 
-    protected void validateAndResolveReferences(MovieResource movieResource) {
+    protected void validateReferences(MovieResource movieResource) {
         if (StringUtils.isEmpty(movieResource.getTitle())) {
             throw new ValidationException("movie.title.notnull");
         }
-        validateAndResolveMainGenre(movieResource);
+        validateGenres(movieResource);
     }
 
-    private void validateAndResolveMainGenre(MovieResource movieResource) {
-        if (movieResource.getMainGenre() == null || StringUtils.isEmpty(movieResource.getMainGenre().getCode())) {
+    private void validateGenres(MovieResource movieResource) {
+        if (movieResource.getGenres() == null || movieResource.getGenres().isEmpty()) {
             throw new ValidationException("movie.genre.notnull");
         }
 
-        Optional<Genre> genre = genreRepository.findById(movieResource.getMainGenre().getCode());
+        try {
+            Genre firstGenre = movieResource.getGenres().get(0).getGenre();
+            Optional<Genre> genre = genreRepository.findById(firstGenre.getCode());
 
-        if (genre.isPresent()) {
-            movieResource.setMainGenre(genre.get());
-        } else {
-            throw new ValidationException("movie.genre.unknown", movieResource.getMainGenre().getCode());
+            if (!genre.isPresent()) {
+                throw new ValidationException("movie.genre.unknown", firstGenre.getCode());
+            }
+        } catch (Exception e) {
+            throw new ValidationException("movie.genre.notnull");
         }
     }
 }

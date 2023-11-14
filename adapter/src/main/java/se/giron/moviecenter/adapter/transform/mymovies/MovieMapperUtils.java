@@ -370,22 +370,12 @@ public class MovieMapperUtils {
                     mappedGenreCode = "THRILLER";
                 } else if ("CHILDREN'S".equalsIgnoreCase(genreCode)) {
                     mappedGenreCode = "CHILDREN";
-                } else if ("MUSIC".equalsIgnoreCase(genreCode)) {
-                    mappedGenreCode = "MUSICAL";
                 } else if ("MARTIAL ARTS".equalsIgnoreCase(genreCode)) {
                     mappedGenreCode = "MARTIAL-ARTS";
                 }
 
                 if (isGenreSupported(mappedGenreCode)) {
-                    Genre genre = new Genre().setCode(mappedGenreCode);
-
-                    if (i == 0) {
-                        // Main genre (choose first in list).
-                        movieResource.setMainGenre(genre);
-
-                    } else {
-                        movieResource.getAdditionalGenres().add(genre);
-                    }
+                    movieResource.getGenres().add(map2MovieGenreResource(movieResource, mappedGenreCode));
                 }
             }
         }
@@ -418,6 +408,7 @@ public class MovieMapperUtils {
             case "CHILDREN":
             case "SCIENCE-FICTION":
             case "MUSICAL":
+            case "MUSIC":
             case "MARTIAL-ARTS":
             case "MYSTERY":
             case "ANIME":
@@ -426,6 +417,12 @@ public class MovieMapperUtils {
                 System.out.println("Unsupported genre (ignored): " + genreCode);
                 return false;
         }
+    }
+
+    private static MovieGenreResource map2MovieGenreResource(MovieResource movieResource, String genreCode) {
+        return new MovieGenreResource()
+                .setMovieTitle(movieResource.getTitle())
+                .setGenre(new Genre().setCode(genreCode));
     }
 
     private static void mapCastAndCrew(MovieResource movieResource, TitleType movieTransfer) {

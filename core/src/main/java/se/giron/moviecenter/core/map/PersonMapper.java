@@ -98,10 +98,25 @@ public class PersonMapper {
      */
     public PersonRole resource2PersonRoleEntity(PersonRoleResource resource) {
         // Find existing personRole.
-        List<PersonRole> personRoles = personRoleRepository.findAllByNameAndRole(resource.getPerson().getName(), resource.getRole().getCode());
+        PersonRole personRole = null;
 
-        if (personRoles != null && !personRoles.isEmpty()) {
-            return personRoles.get(0);
+        if (resource.getId() != null) {
+            Optional<PersonRole> oPersonRole = personRoleRepository.findById(resource.getId());
+            if (oPersonRole.isPresent()) {
+                personRole = oPersonRole.get();
+            }
+        }
+
+        if (personRole == null) {
+            List<PersonRole> personRoles = personRoleRepository.findAllByNameAndRole(resource.getPerson().getName(), resource.getRole().getCode());
+
+            if (personRoles != null && !personRoles.isEmpty()) {
+                personRole = personRoles.get(0);
+            }
+        }
+
+        if (personRole != null) {
+            return personRole;
         }
 
         // Find existing person (by ID or name)

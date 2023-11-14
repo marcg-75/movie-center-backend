@@ -63,15 +63,8 @@ public class MovieMapperUtils {
 
                 isGenreSupported(mappedGenreCode);
 
-                Genre genre = new Genre().setCode(mappedGenreCode);
-
-                if (i == 0) {
-                    // Main genre (choose first in list).
-                    movieResource.setMainGenre(genre);
-
-                } else {
-                    movieResource.getAdditionalGenres().add(genre);
-                }
+                // Main genre is the first in the list.
+                movieResource.getGenres().add(map2MovieGenreResource(movieResource, mappedGenreCode, i == 0));
             }
         }
     }
@@ -109,6 +102,13 @@ public class MovieMapperUtils {
                 System.out.println("Unsupported genre: " + genreCode);
                 return false;
         }
+    }
+
+    private static MovieGenreResource map2MovieGenreResource(MovieResource movieResource, String genreCode, boolean isMainGenre) {
+        return new MovieGenreResource()
+                .setMovieTitle(movieResource.getTitle())
+                .setGenre(new Genre().setCode(genreCode))
+                .setMainGenre(isMainGenre);
     }
 
     private static Time map2Runtime(int runningTimeMinutes) {

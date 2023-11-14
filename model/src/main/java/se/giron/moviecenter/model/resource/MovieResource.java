@@ -27,11 +27,7 @@ public class MovieResource {
     @NotBlank(message = "{movie.description.notnull}")
     private String description;
 
-    @NotNull(message = "{movie.mainGenre.notnull}")
-    @Valid
-    private Genre mainGenre;
-
-    private List<Genre> additionalGenres = new ArrayList<>();
+    private List<MovieGenreResource> genres = new ArrayList<>();
 
     private Time runtime;
 
@@ -107,21 +103,12 @@ public class MovieResource {
         return this;
     }
 
-    public Genre getMainGenre() {
-        return mainGenre;
+    public List<MovieGenreResource> getGenres() {
+        return genres;
     }
 
-    public MovieResource setMainGenre(Genre mainGenre) {
-        this.mainGenre = mainGenre;
-        return this;
-    }
-
-    public List<Genre> getAdditionalGenres() {
-        return additionalGenres;
-    }
-
-    public MovieResource setAdditionalGenres(List<Genre> additionalGenres) {
-        this.additionalGenres = additionalGenres;
+    public MovieResource setGenres(List<MovieGenreResource> genres) {
+        this.genres = genres;
         return this;
     }
 
