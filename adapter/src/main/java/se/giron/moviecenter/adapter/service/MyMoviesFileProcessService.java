@@ -56,17 +56,26 @@ public class MyMoviesFileProcessService {
 	@Value("${adapter.directory.failed.mymovies:}")
 	private String failedPath;
 
+	@Value("${clearDbBeforeImport:}")
+	private Boolean clearDbBeforeImport;
+
 	@Async("threadPoolTaskExecutor")
 	public void process( ) {
         //final String pattern = "[0-9]+[\\S\\s]*.xml";
         final String pattern = "[\\S\\s]*.xml";
+
+		if (this.clearDbBeforeImport) {
+			LOG.info("Clearing movie database ...");
+			movieWebServiceClient.clearDatabase();
+			LOG.info("Clearing movie database done");
+		}
 
 		try {
 			LOG.info("Running processFiles ...");
 
             List<Path> filesList = listFiles(filePath, pattern);
 			if (!filesList.isEmpty()) {
-				filesList.stream().forEach(processFile);
+				filesList.forEach(processFile);
 			} else {
 				LOG.info("No files detected in " + filePath);
 			}
@@ -95,10 +104,17 @@ public class MyMoviesFileProcessService {
 		Exception exception = null;
 		final TitlesType allMoviesTransfer;
 		final String fileName = xmlFile.getFileName().toString();
+		MovieTransferResource overallMovieTransferResource = initOverallImportLog(fileName);
+
+		int nSuccessfulMovies = 0;
+		int nFailedMovies = 0;
+
+		LOG.info("Importing movies from file " + fileName);
 
 		try {
 			// Read the file
 			allMoviesTransfer = xmlToObjects.apply(xmlFile);
+			overallMovieTransferResource.setCountMovies(allMoviesTransfer.getTitle().size());
 
 			for (TitleType title : allMoviesTransfer.getTitle()) {
 				movieTransferResource = processTitle(title, fileName);
@@ -107,6 +123,7 @@ public class MyMoviesFileProcessService {
 					LOG.error("Failed to process title", movieTransferResource.getFailure());
 					movieTransferResource.setCountMovies(1);
 					logService.logMovieMessage(movieTransferResource, movieTransferResource.getStatusDescription());
+					nFailedMovies++;
 					processingStatusOk = false;
 				} else {
 					try {
@@ -117,21 +134,28 @@ public class MyMoviesFileProcessService {
 							movieTransferResource.setStatus(MovieImportStatus.FAILED);
 							movieTransferResource.setCountMovies(1);
 							logService.logMovieMessage(movieTransferResource, response.getMessage());
+							nFailedMovies++;
 							processingStatusOk = false;
 							statusImportOk = false;
 						} else {
-							logService.logMovieMessage(movieTransferResource, "Movie successfully imported");
+							nSuccessfulMovies++;
 						}
 					} catch (Exception e) {
 						LOG.error("Failed to create movie from parsed title", e);
+						nFailedMovies++;
 						statusImportOk = false;
 					}
 				}
 			}
 		} catch (Exception e) {
 			LOG.error("Failed to process file {}", xmlFile, e);
+			nFailedMovies = overallMovieTransferResource.getCountMovies() - nSuccessfulMovies;
 			processingStatusOk = false;
 		}
+
+		overallMovieTransferResource.setCountFailedMovies(nFailedMovies);
+		overallMovieTransferResource.setStatus(processingStatusOk && statusImportOk ? MovieImportStatus.SUCCESS : MovieImportStatus.FAILED);
+		logService.logMovieMessage(overallMovieTransferResource, "Movie import execution done");
 
 		archiveFile(xmlFile, processingStatusOk, statusImportOk);
 	};
@@ -167,13 +191,15 @@ public class MyMoviesFileProcessService {
 			movieTransferResource
 					.setStatus(MovieImportStatus.FAILED)
 					.setStatusDescription(e.getMessage())
+					.setCountFailedMovies(1)
 					.setFailure(e)
 					.setMovie(new MovieResource().setTitle(movieTransfer.getTitle()));
 		}
 
 		movieTransferResource
 				.setImportDate(Date.from(Instant.now()))
-				.setFileName(fileName);
+				.setFileName(fileName)
+				.setCountMovies(1);
 
 		return movieTransferResource;
 	}
@@ -190,5 +216,11 @@ public class MyMoviesFileProcessService {
 				.setFileName(fileName);
 
 		return movieTransferResource;
+	}
+
+	private MovieTransferResource initOverallImportLog(String fileName) {
+		return new MovieTransferResource()
+				.setImportDate(Date.from(Instant.now()))
+				.setFileName(fileName);
 	}
 }

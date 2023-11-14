@@ -49,17 +49,26 @@ public class DvdProfilerFileProcessService {
 	@Value("${adapter.directory.failed.dvdprofiler:}")
 	private String failedPath;
 
+	@Value("${clearDbBeforeImport:}")
+	private Boolean clearDbBeforeImport;
+
 	@Async("threadPoolTaskExecutor")
 	public void process( ) {
         //final String pattern = "[0-9]+[\\S\\s]*.xml";
         final String pattern = "[\\S\\s]*.xml";
 
+		if (this.clearDbBeforeImport) {
+			LOG.info("Clearing movie database ...");
+			movieWebServiceClient.clearDatabase();
+			LOG.info("Clearing movie database done");
+		}
+
 		try {
 			LOG.info("Running processFiles ...");
 
             List<Path> filesList = listFiles(filePath, pattern);
-			if (filesList != null && !filesList.isEmpty()) {
-				filesList.stream().forEach(processFile);
+			if (!filesList.isEmpty()) {
+				filesList.forEach(processFile);
 			} else {
 				LOG.info("No files detected in " + filePath);
 			}

@@ -24,6 +24,7 @@ public class MovieTransferResource {
 	Integer countMovies;
 	long newMovies;
 	long updatedMovies;
+	Integer countFailedMovies;
 
 	public MovieResource getMovie() {
 		return movie;
@@ -112,6 +113,16 @@ public class MovieTransferResource {
 
 	public MovieTransferResource setUpdatedMovies(long updatedMovies) {
 		this.updatedMovies = updatedMovies;
+		return this;
+	}
+
+
+	public Integer getCountFailedMovies() {
+		return countFailedMovies;
+	}
+
+	public MovieTransferResource setCountFailedMovies(Integer countFailedMovies) {
+		this.countFailedMovies = countFailedMovies;
 		return this;
 	}
 

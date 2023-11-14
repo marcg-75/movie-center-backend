@@ -31,6 +31,12 @@ public class MovieWebServiceClient {
 		restTemplate.postForEntity(URL_CREATE_MOVIE + "/import-log", new HttpEntity<>(movieTransferResource, headers), Object.class);
 	}
 
+	public void clearDatabase() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		restTemplate.delete(URL_CREATE_MOVIE, new HttpEntity<>(headers));
+	}
+
 	public String getURL() {
 		return URL_CREATE_MOVIE;
 	}

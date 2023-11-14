@@ -41,16 +41,16 @@ public class ImportLogService {
         }
 
         return new MovieImportLog()
-                .setMovieTitle(movieTransferResource.getMovie().getTitle())
+                .setMovieTitle(movieTransferResource.getMovie() != null ? movieTransferResource.getMovie().getTitle() : null)
                 .setImportStartTimestamp(movieTransferResource.getImportDate())
                 .setImportEndTimestamp(importEndTimestamp)
                 .setImportDuration(importDuration)
                 .setStatus(movieTransferResource.getStatus())
                 .setStatusDescription(movieTransferResource.getStatusDescription())
                 .setFilename(movieTransferResource.getFileName())
-                .setCountMovies(Optional.ofNullable(movieTransferResource.getCountMovies()).orElse(movieTransferResource.getMovie().getTitle() != null ? 1 : 0))
+                .setCountMovies(movieTransferResource.getCountMovies())
                 .setCountNewMovies(Long.valueOf(movieTransferResource.getNewMovies()).intValue())
                 .setCountUpdatedMovies(Long.valueOf(movieTransferResource.getUpdatedMovies()).intValue())
-                .setCountFailedMovies(movieTransferResource.getStatus() == MovieImportStatus.FAILED && movieTransferResource.getCountMovies() != null ? movieTransferResource.getCountMovies() : 0);
+                .setCountFailedMovies(movieTransferResource.getCountFailedMovies());
     }
 }
