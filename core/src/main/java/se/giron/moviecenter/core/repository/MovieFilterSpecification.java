@@ -2,9 +2,7 @@ package se.giron.moviecenter.core.repository;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
-import se.giron.moviecenter.model.entity.Format;
-import se.giron.moviecenter.model.entity.Genre;
-import se.giron.moviecenter.model.entity.Movie;
+import se.giron.moviecenter.model.entity.*;
 import se.giron.moviecenter.model.resource.filter.MovieFilter;
 
 import javax.persistence.criteria.*;
@@ -27,9 +25,10 @@ public class MovieFilterSpecification extends AbstractFilterSpecification<Movie>
             predicate = criteriaBuilder.and(predicate, likePredicate(root, criteriaBuilder, "title", filter.getTitle()));
         }
 
-        if (!StringUtils.isEmpty(filter.getMainGenre())) {
-            Predicate mainGenrePredicate = criteriaBuilder.equal(root.get("mainGenre"), new Genre().setCode(filter.getMainGenre()));
-            predicate = criteriaBuilder.and(predicate, mainGenrePredicate);
+        if (!StringUtils.isEmpty(filter.getGenre())) {
+            final SetJoin<Movie, MovieGenre> genreJoin = root.join(Movie_.genres, JoinType.LEFT);
+            final Predicate genrePredicate = criteriaBuilder.equal(genreJoin.get(MovieGenre_.genre), new Genre().setCode(filter.getGenre()));
+            predicate = criteriaBuilder.and(predicate, genrePredicate);
         }
 
         if (!StringUtils.isEmpty(filter.getFormat())) {

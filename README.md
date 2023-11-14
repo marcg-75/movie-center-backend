@@ -107,13 +107,9 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
   - Personal grade not imported from DVD Profiler and mapped to personal rating in MM. In practice, only the grades for the existing movies in DVD Profiler can be used, not for the ones added in MM.
 
 # TODO
-- Rework the genre setup: Transfer the movie_subgenre table to movie_genres, add an optional column "is_main_genre" (or similar), remove the main genre column from movies, etc.
-  - The web app should display up to three genres in the main list genre column, but the genre filter matches against all the movie's genres.
 - Add support for My Movies 2 exports in the adapter
-  - Implement import log handling: One log for overall result, except the import log for the individual titles.
-  - Test: Import movies
+  - Implement import log handling: One log for overall result and one log entry for each failed movie import.
   - Test failures:
-    - Main genre often wrong, since My Movies just lists all genres in a random order. We might have to get this info from DVD Profiler instead.
     - Re-import leads to duplicates. Treat these as updates or ignore already existing movies, or introduce an overwrite flag in the contract.
 - Figure out how to run both jaxb executions successfully in the schema pom. Currently only the second produces any output.
 - (Deprecated since the start of My Movies 2 usage) Update DVDProfiler import:

@@ -9,8 +9,8 @@ public class MovieFilter {
     @ApiModelProperty(notes = "Movie title")
     private String title;
 
-    @ApiModelProperty(notes = "Main genre")
-    private String mainGenre;
+    @ApiModelProperty(notes = "Genre Code")
+    private String genre;
 
     @ApiModelProperty(notes = "Format")
     private String format;
@@ -31,12 +31,12 @@ public class MovieFilter {
         return this;
     }
 
-    public String getMainGenre() {
-        return mainGenre;
+    public String getGenre() {
+        return genre;
     }
 
-    public MovieFilter setMainGenre(String mainGenre) {
-        this.mainGenre = mainGenre;
+    public MovieFilter setGenre(String genre) {
+        this.genre = genre;
         return this;
     }
 
