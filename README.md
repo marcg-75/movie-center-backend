@@ -107,12 +107,9 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
   - Personal grade not imported from DVD Profiler and mapped to personal rating in MM. In practice, only the grades for the existing movies in DVD Profiler can be used, not for the ones added in MM.
 
 # TODO
-- Add support for My Movies 2 exports in the adapter
-  - Implement import log handling: One log for overall result and one log entry for each failed movie import.
-  - Test failures:
-    - Re-import leads to duplicates. Treat these as updates or ignore already existing movies, or introduce an overwrite flag in the contract.
 - Figure out how to run both jaxb executions successfully in the schema pom. Currently only the second produces any output.
 - (Deprecated since the start of My Movies 2 usage) Update DVDProfiler import:
+  - Implement the same/similar overall import logging for the DVD Profiler import, plus only log failed individual movie imports (not successful).
   - Use IntelliJ to generate a new movie XSD, plus manually finish it by comparing to the old one.
 - Clean up the flyway db.migration files, reset the database and re-import all movies.
 - Display an IMDB link in FE.

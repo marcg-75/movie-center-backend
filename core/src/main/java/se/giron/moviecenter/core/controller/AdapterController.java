@@ -16,11 +16,14 @@ import se.giron.moviecenter.core.exception.ValidationException;
 import se.giron.moviecenter.core.service.ImportLogService;
 import se.giron.moviecenter.core.service.MovieService;
 import se.giron.moviecenter.core.service.PersonService;
+import se.giron.moviecenter.model.resource.MovieResource;
 import se.giron.moviecenter.model.resource.error.ErrorResponse;
 import se.giron.moviecenter.model.resource.imports.AdapterResponse;
 import se.giron.moviecenter.model.resource.imports.MovieTransferResource;
 
 import javax.validation.Valid;
+
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -40,11 +43,14 @@ public class AdapterController implements MessageSourceAware {
     private MessageSourceAccessor messageSource;
 
     @PostMapping("/movie")
-    public ResponseEntity<AdapterResponse> createMovie(@RequestBody @Valid MovieTransferResource movieTransferResource) {
+    public ResponseEntity<AdapterResponse> importMovie(@RequestBody @Valid MovieTransferResource movieTransferResource) {
         try {
-            movieService.createMovie(movieTransferResource.getMovie());
+            Optional<MovieResource> oMovieResource = movieService.addMovie(movieTransferResource.getMovie());
 
-            return new ResponseEntity<>(new AdapterResponse("Success", CREATED, null), CREATED);
+            if (oMovieResource.isPresent()) {
+                return new ResponseEntity<>(new AdapterResponse("Success", CREATED, null), CREATED);
+            }
+            return new ResponseEntity<>(new AdapterResponse("Already added", ALREADY_REPORTED, null), ALREADY_REPORTED);
         } catch (ValidationException e) {
             return new ResponseEntity<>(new AdapterResponse(getMessageByKey(e.getMessageCode()), BAD_REQUEST, e.getMessage()), OK);
         }

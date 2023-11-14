@@ -93,7 +93,7 @@ public class DvdProfilerFileProcessService {
 			if (exception != null) {
 				movieTransferResource = processError(xmlFile, exception);
 			}
-			movieWebServiceClient.createMovies(movieTransferResource);
+			movieWebServiceClient.importMovie(movieTransferResource);
 		} catch (Exception e) {
 			LOG.error("Failed to create import log entry for file {}", xmlFile, e);
             statusImportOk = false;

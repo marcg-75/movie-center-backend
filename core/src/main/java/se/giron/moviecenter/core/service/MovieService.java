@@ -70,8 +70,7 @@ public class MovieService {
     public MovieResource createMovie(MovieResource movieResource) {
         Movie movie = persist(movieResource, new Movie());
 
-        MovieResource createdMovie = movieMapper.entity2resource(movie);
-        return Optional.of(createdMovie).get();
+        return movieMapper.entity2resource(movie);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
@@ -83,6 +82,31 @@ public class MovieService {
             final Movie updatedMovie = persist(movieResource, movie);
             MovieResource movieResourceUpd = movieMapper.entity2resource(updatedMovie);
             return Optional.ofNullable(movieResourceUpd);
+        }
+        return Optional.empty();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+    public Optional<MovieResource> addMovie(MovieResource movieResource) {
+        // Ignore already existing movies.
+
+        // Find by id (will not be present for imports).
+        if (movieResource.getId() != null) {
+            Optional<Movie> oMovie = movieRepository.findById(movieResource.getId());
+
+            if (!oMovie.isPresent()) {
+                return Optional.of(this.createMovie(movieResource));
+            }
+            return Optional.empty();
+        }
+
+        // Find by UPC ID or archive number.
+        String upcId = movieResource.getMovieFormatInfo().getUpcId();
+        Integer archiveNumber = movieResource.getMoviePersonalInfo().getArchiveNumber();
+
+        List<Movie> movies = movieRepository.findAllByUpcIdOrArchiveNumber(upcId, archiveNumber);
+        if (movies == null || movies.isEmpty()) {
+            return Optional.of(this.createMovie(movieResource));
         }
         return Optional.empty();
     }

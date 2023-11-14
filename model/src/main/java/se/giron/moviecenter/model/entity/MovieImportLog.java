@@ -27,13 +27,13 @@ public class MovieImportLog {
 
     private String filename;
 
-    private Integer countMovies;
+    private Integer countTotal;
 
-    private Integer countNewMovies;
+    private Integer countSuccessful;
 
-    private Integer countUpdatedMovies;
+    private Integer countIgnored;
 
-    private Integer countFailedMovies;
+    private Integer countFailed;
 
     public Long getId() {
         return id;
@@ -107,39 +107,39 @@ public class MovieImportLog {
         return this;
     }
 
-    public Integer getCountMovies() {
-        return countMovies;
+    public Integer getCountTotal() {
+        return countTotal;
     }
 
-    public MovieImportLog setCountMovies(Integer countMovies) {
-        this.countMovies = countMovies;
+    public MovieImportLog setCountTotal(Integer countTotal) {
+        this.countTotal = countTotal;
         return this;
     }
 
-    public Integer getCountNewMovies() {
-        return countNewMovies;
+    public Integer getCountSuccessful() {
+        return countSuccessful;
     }
 
-    public MovieImportLog setCountNewMovies(Integer countNewMovies) {
-        this.countNewMovies = countNewMovies;
+    public MovieImportLog setCountSuccessful(Integer countSuccessful) {
+        this.countSuccessful = countSuccessful;
         return this;
     }
 
-    public Integer getCountUpdatedMovies() {
-        return countUpdatedMovies;
+    public Integer getCountIgnored() {
+        return countIgnored;
     }
 
-    public MovieImportLog setCountUpdatedMovies(Integer countUpdatedMovies) {
-        this.countUpdatedMovies = countUpdatedMovies;
+    public MovieImportLog setCountIgnored(Integer countIgnored) {
+        this.countIgnored = countIgnored;
         return this;
     }
 
-    public Integer getCountFailedMovies() {
-        return countFailedMovies;
+    public Integer getCountFailed() {
+        return countFailed;
     }
 
-    public MovieImportLog setCountFailedMovies(Integer countFailedMovies) {
-        this.countFailedMovies = countFailedMovies;
+    public MovieImportLog setCountFailed(Integer countFailed) {
+        this.countFailed = countFailed;
         return this;
     }
 }

@@ -10,12 +10,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import se.giron.moviecenter.core.repository.ImportLogRepository;
 import se.giron.moviecenter.model.entity.MovieImportLog;
-import se.giron.moviecenter.model.resource.imports.MovieImportStatus;
 import se.giron.moviecenter.model.resource.imports.MovieTransferResource;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class ImportLogService {
@@ -48,9 +46,9 @@ public class ImportLogService {
                 .setStatus(movieTransferResource.getStatus())
                 .setStatusDescription(movieTransferResource.getStatusDescription())
                 .setFilename(movieTransferResource.getFileName())
-                .setCountMovies(movieTransferResource.getCountMovies())
-                .setCountNewMovies(Long.valueOf(movieTransferResource.getNewMovies()).intValue())
-                .setCountUpdatedMovies(Long.valueOf(movieTransferResource.getUpdatedMovies()).intValue())
-                .setCountFailedMovies(movieTransferResource.getCountFailedMovies());
+                .setCountTotal(movieTransferResource.getCountTotal())
+                .setCountSuccessful(movieTransferResource.getCountSuccessful())
+                .setCountIgnored(movieTransferResource.getCountIgnored())
+                .setCountFailed(movieTransferResource.getCountFailed());
     }
 }

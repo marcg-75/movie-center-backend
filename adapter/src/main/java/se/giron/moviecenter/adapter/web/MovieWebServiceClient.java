@@ -19,7 +19,7 @@ public class MovieWebServiceClient {
 	@Value("${moviecenter.backend.url}")
 	String URL_CREATE_MOVIE;
 
-	public AdapterResponse createMovies(MovieTransferResource movieTransferResource) {
+	public AdapterResponse importMovie(MovieTransferResource movieTransferResource) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		return restTemplate.postForEntity(URL_CREATE_MOVIE, new HttpEntity<>(movieTransferResource, headers), AdapterResponse.class).getBody();

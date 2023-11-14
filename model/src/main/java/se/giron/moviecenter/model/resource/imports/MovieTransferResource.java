@@ -21,10 +21,10 @@ public class MovieTransferResource {
 	
 	Date importDate;
 
-	Integer countMovies;
-	long newMovies;
-	long updatedMovies;
-	Integer countFailedMovies;
+	Integer countTotal;
+	Integer countSuccessful;
+	Integer countIgnored;
+	Integer countFailed;
 
 	public MovieResource getMovie() {
 		return movie;
@@ -89,40 +89,40 @@ public class MovieTransferResource {
 		return this;
 	}
 
-	public Integer getCountMovies() {
-		return countMovies;
+	public Integer getCountTotal() {
+		return countTotal;
 	}
 
-	public MovieTransferResource setCountMovies(Integer countMovies) {
-		this.countMovies = countMovies;
+	public MovieTransferResource setCountTotal(Integer countTotal) {
+		this.countTotal = countTotal;
 		return this;
 	}
 
-    public long getNewMovies() {
-		return newMovies;
+    public Integer getCountSuccessful() {
+		return countSuccessful;
 	}
 
-	public MovieTransferResource setNewMovies(long newMovies) {
-		this.newMovies = newMovies;
+	public MovieTransferResource setCountSuccessful(Integer countSuccessful) {
+		this.countSuccessful = countSuccessful;
 		return this;
 	}
 
-	public long getUpdatedMovies() {
-		return updatedMovies;
+	public Integer getCountIgnored() {
+		return countIgnored;
 	}
 
-	public MovieTransferResource setUpdatedMovies(long updatedMovies) {
-		this.updatedMovies = updatedMovies;
+	public MovieTransferResource setCountIgnored(Integer countIgnored) {
+		this.countIgnored = countIgnored;
 		return this;
 	}
 
 
-	public Integer getCountFailedMovies() {
-		return countFailedMovies;
+	public Integer getCountFailed() {
+		return countFailed;
 	}
 
-	public MovieTransferResource setCountFailedMovies(Integer countFailedMovies) {
-		this.countFailedMovies = countFailedMovies;
+	public MovieTransferResource setCountFailed(Integer countFailed) {
+		this.countFailed = countFailed;
 		return this;
 	}
 
@@ -131,8 +131,8 @@ public class MovieTransferResource {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		MovieTransferResource that = (MovieTransferResource) o;
-		return getNewMovies() == that.getNewMovies() &&
-				getUpdatedMovies() == that.getUpdatedMovies() &&
+		return getCountSuccessful() == that.getCountSuccessful() &&
+				getCountIgnored() == that.getCountIgnored() &&
 				Objects.equals(getMovie(), that.getMovie()) &&
 				Objects.equals(getFileName(), that.getFileName()) &&
 				Objects.equals(getFiledate(), that.getFiledate()) &&
@@ -143,6 +143,6 @@ public class MovieTransferResource {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getMovie(), getFileName(), getFiledate(), getStatus(), getStatusDescription(), getImportDate(), getNewMovies(), getUpdatedMovies());
+		return Objects.hash(getMovie(), getFileName(), getFiledate(), getStatus(), getStatusDescription(), getImportDate(), getCountSuccessful(), getCountIgnored());
 	}
 }
