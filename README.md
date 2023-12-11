@@ -112,4 +112,3 @@ mvn -Dflyway.url=jdbc:mysql://localhost:3366/moviecenter?useSSL=false&serverTime
   - Implement the same/similar overall import logging for the DVD Profiler import, plus only log failed individual movie imports (not successful).
   - Use IntelliJ to generate a new movie XSD, plus manually finish it by comparing to the old one.
 - Clean up the flyway db.migration files, reset the database and re-import all movies.
-- Display an IMDB link in FE.
