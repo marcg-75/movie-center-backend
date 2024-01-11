@@ -18,7 +18,7 @@ public class MovieMapperUtils {
     private static final Map<String, String> formatMap = new HashMap<>();
     private static final Map<String, String> languageMap = new HashMap<>();
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", Locale.ENGLISH);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.ENGLISH);
 
     static {
         ageRestrictionMap.put(0, "Ej klassificerad");
@@ -31,7 +31,7 @@ public class MovieMapperUtils {
         ageRestrictionMap.put(7, "Barnförbjuden");
         ageRestrictionMap.put(8, "Barnförbjuden");
 
-        formatMap.put("Blu-ray", "BluRay");
+        formatMap.put("Blu-ray", "BLURAY");
 
         languageMap.put("Arabic", "Arabiska");
         languageMap.put("BrazilianPortuguese", "Brasiliansk Portugisiska");
