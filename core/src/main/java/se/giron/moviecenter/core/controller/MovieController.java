@@ -114,10 +114,10 @@ public class MovieController {
             @ApiResponse(code = 500, message = "Undefined system error", response = ErrorResponse.class)
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
+    public ResponseEntity<Boolean> deleteMovie(@PathVariable Long id) {
         if (movieService.existsMovieById(id)) {
             movieService.deleteMovie(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.ok(true);
         } else {
             return ResponseEntity.notFound().build();
         }
